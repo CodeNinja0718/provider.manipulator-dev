@@ -1,0 +1,52 @@
+definitions:
+  steps:
+    - step: &build
+        name: auto_build
+        image: public.ecr.aws/e2s7v1k5/auto-build-image
+        services:
+          - docker
+        caches:
+          - docker
+        script:
+          - auto_build aws_configure
+          - auto_build docker_login
+          - auto_build
+    - step: &deploy
+        image: public.ecr.aws/e2s7v1k5/auto-deploy-image
+        services:
+          - docker
+        script:
+          - auto_deploy kubernetes
+  services:
+    docker:
+      memory: 3072
+
+pipelines:
+  branches:
+    develop:
+      - step:
+          name: build
+          <<: *build
+      - step:
+          <<: *deploy
+          name: development
+          deployment: Development
+          image: public.ecr.aws/e2s7v1k5/auto-deploy-image:next
+    uat:
+      - step:
+          name: build
+          <<: *build
+      - step:
+          <<: *deploy
+          name: uat
+          deployment: Uat
+          image: public.ecr.aws/e2s7v1k5/auto-deploy-image:next
+    main:
+      - step:
+          name: build
+          <<: *build
+      - step:
+          <<: *deploy
+          name: PROD
+          deployment: Production
+          image: public.ecr.aws/e2s7v1k5/auto-deploy-image:next
