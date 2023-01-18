@@ -1,0 +1,7 @@
+node_modules
+out
+next.config.js
+lint-staged.config.js
+i18n.js
+.vscode
+.next

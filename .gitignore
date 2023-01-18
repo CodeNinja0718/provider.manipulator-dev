@@ -48,3 +48,12 @@ Thumbs.db
 *.mov
 *.wmv
 
+# Next.js build output
+.next
+out
+
+# Husky
+.husky
+
+# Dotenv local files
+.env

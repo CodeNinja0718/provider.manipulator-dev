@@ -1,0 +1,28 @@
+<svg width="94" height="94" viewBox="0 0 94 94" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <filter x="-4.9%" y="-3.7%" width="109.7%" height="109.7%" filterUnits="objectBoundingBox" id="okynsbo8ea">
+            <feMorphology radius=".776" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"/>
+            <feOffset dy="1" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+            <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0" in="shadowBlurOuter1"/>
+        </filter>
+        <filter x="-8.6%" y="-14.8%" width="117.2%" height="123%" filterUnits="objectBoundingBox" id="pjq5g5ok7c">
+            <feOffset dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+            <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" in="shadowBlurOuter1"/>
+        </filter>
+        <circle id="baygldsvkb" cx="44" cy="44" r="44"/>
+        <path id="eyhlmx5vrd" d="m49.453 29.521 20.308 30.462H29.145z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g fill="#000" transform="translate(3 2)">
+            <use filter="url(#okynsbo8ea)" xlink:href="#baygldsvkb"/>
+            <use stroke="#FFF" stroke-width="1.551" fill-opacity=".1" xlink:href="#baygldsvkb"/>
+        </g>
+        <g transform="rotate(90 49.953 47.252)">
+            <use fill="#000" filter="url(#pjq5g5ok7c)" xlink:href="#eyhlmx5vrd"/>
+            <use fill="#FFF" xlink:href="#eyhlmx5vrd"/>
+        </g>
+    </g>
+</svg>
