@@ -19,6 +19,7 @@ definitions:
         script:
           - apk add --no-cache git && apk add --no-cache openssh
           - yarn install
+          - unset CI        # Temporary fix for https://bitbucket.org/hidesignsJP/theplace-admin/addon/pipelines/home#!/results/5/steps/%7Be524c125-04b3-46c3-bd65-cf11d4788032%7D
           - yarn run lint
         size: 2x
         caches:
