@@ -1,45 +1,44 @@
-image: node:16-alpine
 definitions:
   steps:
+    - step: &prepare
+        name: prepare
+        image: alpine
+        artifacts:
+          - .env.local
     - step: &build
         name: build
-        script:
-          - apk add --no-cache git && apk add --no-cache openssh
-          - yarn install
-          - unset CI        # Temporary fix for https://bitbucket.org/hidesignsJP/theplace-admin/addon/pipelines/home#!/results/5/steps/%7Be524c125-04b3-46c3-bd65-cf11d4788032%7D
-          - export NODE_OPTIONS=--max-old-space-size=6144
-          - yarn build
-        size: 2x
+        image: public.ecr.aws/e2s7v1k5/auto-build-image
+        services:
+          - docker
         caches:
-          - node
-        artifacts:
-          - build/**
-    - step: &lint
-        name: lint
+          - docker
         script:
-          - apk add --no-cache git && apk add --no-cache openssh
-          - yarn install
-          - unset CI        # Temporary fix for https://bitbucket.org/hidesignsJP/theplace-admin/addon/pipelines/home#!/results/5/steps/%7Be524c125-04b3-46c3-bd65-cf11d4788032%7D
-          - yarn run lint
-        size: 2x
-        caches:
-          - node
+          - env > .env.local
+          - auto_build aws_configure
+          - auto_build docker_login
+          - cat .env.local
+          - auto_build
     - step: &deploy
         name: deploy
-        image: public.ecr.aws/e2s7v1k5/auto-deploy-image:next
+        image: public.ecr.aws/e2s7v1k5/auto-deploy-image
+        services:
+          - docker
         script:
-          - apk add curl
-          - auto_deploy cloudfront
+          - auto_deploy kubernetes
+  services:
+    docker:
+      memory: 3072
+
 pipelines:
   branches:
-    master:
+    develop:
       - step:
           <<: *build
-          deployment: BuildProduction
+          deployment: BuildDevelopment
       - step:
           <<: *deploy
-          deployment: Production
-          trigger: manual
+          deployment: Development
+          image: public.ecr.aws/e2s7v1k5/auto-deploy-image:next
     uat:
       - step:
           <<: *build
@@ -47,14 +46,10 @@ pipelines:
       - step:
           <<: *deploy
           deployment: UAT
-          trigger: manual
-    develop:
-      - parallel:
-        - step:
-            <<: *build
-            deployment: BuildDevelopment
-        - step: *lint
+    master:
+      - step:
+          <<: *build
+          deployment: BuildProduction
       - step:
           <<: *deploy
-          deployment: Development
-          trigger: manual
+          deployment: Production
