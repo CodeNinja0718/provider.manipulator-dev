@@ -1,6 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import type { ReactNode } from 'react';
 
+import styles from './styles';
+
 interface LabelProps {
   label: string;
   required?: boolean;
@@ -44,14 +46,8 @@ const Label = ({ label, required, size = 'medium', className }: LabelProps) => {
         >
           {label}
           {required && (
-            <Typography
-              component="span"
-              sx={requiredStyle[size]}
-              fontSize={15}
-              lineHeight={2.33}
-              color="primary"
-            >
-              （必須）
+            <Typography component="span" sx={styles.required}>
+              必須
             </Typography>
           )}
         </Typography>

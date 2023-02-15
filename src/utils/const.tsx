@@ -80,6 +80,11 @@ export const PROVIDER_NAVIGATION: {
     icon: <FavSvg />,
   },
   {
+    href: '/my-page/profile',
+    label: '整体師一覧',
+    icon: <MembershipSvg />,
+  },
+  {
     href: '/my-page/member',
     label: '会員情報',
     icon: <MembershipSvg />,

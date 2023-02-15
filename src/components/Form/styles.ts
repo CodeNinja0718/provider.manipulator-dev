@@ -25,20 +25,15 @@ const styles = {
     },
   },
 
-  required: (theme: Theme) => ({
-    border: `solid 1px ${theme.palette.error.main}`,
-    p: { xs: '0px 3px', tablet: '1px 7px 2px' },
-    width: 'fit-content',
-    minWidth: { xs: 30, tablet: 38 },
-    borderRadius: '4px',
-    color: 'error.main',
-    ml: 1,
+  required: {
+    backgroundColor: 'primary.main',
+    color: 'white',
+    padding: '0 6px',
+    fontSize: 14,
     fontWeight: 500,
-    fontSize: '10px',
-    [theme.breakpoints.down('tablet')]: {
-      p: '0px 4px 1px',
-    },
-  }),
+    borderRadius: '5px',
+    ml: 8,
+  },
 
   placeholder: {
     color: 'placeholder',
