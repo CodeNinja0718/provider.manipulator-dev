@@ -26,7 +26,6 @@ import type {
 } from 'react-hook-form';
 import { useController } from 'react-hook-form';
 import { DateFormat } from 'utils/const';
-import t from 'utils/translator';
 
 import HelperText from '../HelperText';
 import Label from '../Label';
@@ -163,7 +162,7 @@ const DatePicker = <TFormValues extends FieldValues>({
         open={open}
         aria-labelledby="timepicker-modal-title"
         aria-describedby="timepicker-modal-description"
-        maxWidth="card"
+        // maxWidth="card"
       >
         <DialogContent sx={{ p: 2 }}>
           <Box>
@@ -223,7 +222,7 @@ const DatePicker = <TFormValues extends FieldValues>({
               onClick={() => setOpen(false)}
               sx={{ width: 112 }}
             >
-              {t('global.cancel')}
+              Cancel
             </Button>
             <Button
               variant="contained"
@@ -234,7 +233,7 @@ const DatePicker = <TFormValues extends FieldValues>({
               disabled={!time?.isValid() || !dateValue?.isValid()}
               sx={{ width: 112, svg: { color: 'white' } }}
             >
-              {t('global.settle')}
+              Confirm
             </Button>
           </Stack>
         </DialogActions>

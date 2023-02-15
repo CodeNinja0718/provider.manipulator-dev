@@ -1,28 +1,30 @@
 import { ArrowUpward } from '@mui/icons-material';
-import { Box, IconButton } from '@mui/material';
+import { Box, Card, IconButton, Stack } from '@mui/material';
 import { useScroll } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
-import { tabletDown } from 'styles/theme';
 
+import Header from './Header';
 import styles from './styles';
 
-const Header = dynamic(() => import('./Header'));
 const Footer = dynamic(() => import('./Footer'));
+const SideMenu = dynamic(() => import('./SideMenu'));
+const Drawer = dynamic(() => import('./CommonDrawer'));
 
 export default function Layout({
   children,
-  showFooter = true,
+  isCardLayout = false,
+  withSideMenu = false,
 }: {
   children: ReactNode;
-  showFooter?: boolean;
+  isCardLayout?: boolean;
+  withSideMenu?: boolean;
 }) {
   const pageHeight =
     typeof document !== 'undefined' ? document.body.scrollHeight : 0;
 
   const [opacity, setOpacity] = useState(0);
-  const [bottom] = useState(24);
   const { scrollY } = useScroll({
     offset: ['0px start', `${pageHeight - 67}px end`],
   });
@@ -35,40 +37,42 @@ export default function Layout({
     });
   }, [scrollY]);
 
-  return (
-    <div style={{ position: 'relative' }}>
-      <Header />
-      <Box
-        component="main"
-        sx={{
-          ...styles.main,
-          minHeight: {
-            xs: `calc(100vh - 136px)`,
-            tablet: showFooter ? `calc(100vh - 273px)` : `calc(100vh - 77px)`,
-          },
-          [tabletDown]: {
-            minHeight: showFooter
-              ? `calc(100vh - 273px)`
-              : `calc(100vh - 77px)`,
-          },
-        }}
-      >
-        {children}
-      </Box>
+  const renderMainLayout = (content: ReactNode) => {
+    if (isCardLayout && withSideMenu) {
+      return (
+        <Card sx={styles.cardLayout}>
+          <Stack direction="row" sx={styles.sideMenuLayoutWrapper}>
+            <SideMenu />
+            {content}
+          </Stack>
+        </Card>
+      );
+    }
+    if (isCardLayout) {
+      return <Card sx={styles.cardLayout}>{content}</Card>;
+    }
+    return content;
+  };
 
+  return (
+    <Box sx={styles.layoutContainer}>
+      <Header isCardLayout={isCardLayout} />
+      <Box component="main" sx={styles.mainContent} data-card={isCardLayout}>
+        {renderMainLayout(children)}
+      </Box>
+      <Footer />
+      <Drawer />
       <IconButton
-        sx={
-          [
-            styles.fabButton,
-            {
-              opacity,
-              pointerEvents: opacity === 1 ? 'normal' : 'none',
-              bottom,
-              transform: `scale(${opacity ? 1 : 0})`,
-            },
-          ] as never
-        }
-        color="primary"
+        sx={[
+          ...(Array.isArray(styles.fabButton)
+            ? styles.fabButton
+            : [styles.fabButton]),
+          {
+            opacity,
+            pointerEvents: opacity === 1 ? 'normal' : 'none',
+            transform: `scale(${opacity ? 1 : 0})`,
+          },
+        ]}
         onClick={() =>
           window.scrollTo({
             top: 0,
@@ -78,7 +82,6 @@ export default function Layout({
       >
         <ArrowUpward />
       </IconButton>
-      {showFooter && <Footer />}
-    </div>
+    </Box>
   );
 }

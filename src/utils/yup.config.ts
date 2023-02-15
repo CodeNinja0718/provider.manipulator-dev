@@ -1,11 +1,9 @@
 import * as yup from 'yup';
 import type { LocaleObject } from 'yup/lib/locale';
 
-import t from './translator';
-
 export const customLocale: LocaleObject = {
   mixed: {
-    required: () => t('validation.requiredField'),
+    required: () => 'この項目は入力必須です。',
   },
 };
 

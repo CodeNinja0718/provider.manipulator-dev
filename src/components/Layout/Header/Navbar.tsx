@@ -1,113 +1,79 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable unused-imports/no-unused-vars */
-import { Box, Drawer, Stack, Typography } from '@mui/material';
-import { useUser } from 'hooks';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { Link as ScrollLink } from 'react-scroll';
+import HomeSvg from '@icons/icon_home.svg';
+import LoginSvg from '@icons/icon_login.svg';
+import LogoutSvg from '@icons/icon_logout.svg';
+import RegisterSvg from '@icons/icon_profile.svg';
+import { Stack, SvgIcon, Typography } from '@mui/material';
+import Link from 'components/Link';
+import useLogout from 'models/auth/useLogout';
+import React from 'react';
+import Helper from 'utils/helpers';
 
-import SidebarMobile from './SidebarMobile';
 import styles from './styles';
 
-const navbar: any[] = [];
+interface NavbarProps {
+  isCardLayout?: boolean;
+}
 
-const Navbar = ({ isMobile = false }: { isMobile?: boolean }) => {
-  useUser({ enabled: false });
-  const { pathname } = useRouter();
-  const [isOpenSidebar, setIsOpenSidebar] = useState(false);
-  const handleCloseSidebar = () => {
-    setIsOpenSidebar(false);
-  };
+const Navbar: React.FC<NavbarProps> = ({ isCardLayout }) => {
+  const { logout } = useLogout();
+  const webCookie = Helper.getWebCookie();
+
+  const token = webCookie?.accessToken;
 
   return (
-    <Box display="flex">
-      <Stack
-        direction="row"
-        spacing="38px"
-        flex={1}
-        sx={
-          isMobile ? styles.navbarMobileContainer : styles.navbarTabletContainer
-        }
-      >
-        {navbar.map((section) =>
-          pathname === '/' ? (
-            <>
-              {section?.isDirectLink ? (
-                <Link
-                  key={section.href}
-                  href={section.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Typography
-                    fontWeight={500}
-                    color="#443b38"
-                    sx={styles.navbarItem}
-                  >
-                    {section.label}
-                  </Typography>
-                </Link>
-              ) : (
-                <ScrollLink
-                  to={section.href}
-                  smooth
-                  offset={-96}
-                  key={section.href}
-                >
-                  <Typography
-                    fontWeight={500}
-                    color="#443b38"
-                    sx={styles.navbarItem}
-                  >
-                    {section.label}
-                  </Typography>
-                </ScrollLink>
-              )}
-            </>
-          ) : (
-            <>
-              {section?.isDirectLink ? (
-                <Link
-                  key={section.href}
-                  href={section.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Typography
-                    fontWeight={500}
-                    color="#443b38"
-                    sx={styles.navbarItem}
-                  >
-                    {section.label}
-                  </Typography>
-                </Link>
-              ) : (
-                <Link key={section.href} href={`/#${section.href}`}>
-                  <Typography
-                    fontWeight={500}
-                    color="#443b38"
-                    sx={styles.navbarItem}
-                  >
-                    {section.label}
-                  </Typography>
-                </Link>
-              )}
-            </>
-          ),
-        )}
-      </Stack>
-      <Drawer
-        anchor="right"
-        open={isOpenSidebar}
-        onClose={() => setIsOpenSidebar(false)}
-        sx={{
-          display: { sl: 'none', xs: 'block' },
-        }}
-      >
-        <SidebarMobile onCloseSidebar={handleCloseSidebar} />
-      </Drawer>
-    </Box>
+    <Stack direction="row" sx={styles.navBarMenus}>
+      <Link href="/" sx={styles.navBarMenuItem} data-card={isCardLayout}>
+        <SvgIcon component={HomeSvg} inheritViewBox />
+        ホーム
+      </Link>
+      {token ? (
+        <>
+          <Link
+            href="/my-page/profile"
+            sx={styles.navBarMenuItem}
+            data-card={isCardLayout}
+          >
+            <SvgIcon component={RegisterSvg} inheritViewBox />
+            マイページ
+          </Link>
+          <Typography
+            sx={styles.navBarMenuItem}
+            data-card={isCardLayout}
+            onClick={logout}
+          >
+            <SvgIcon component={LogoutSvg} inheritViewBox />
+            ログアウト
+          </Typography>
+        </>
+      ) : (
+        <>
+          <Link
+            href="/register"
+            sx={styles.navBarMenuItem}
+            data-card={isCardLayout}
+          >
+            <SvgIcon component={RegisterSvg} inheritViewBox />
+            {isCardLayout ? (
+              <>
+                初めてのご利用の方へ
+                <br />
+                新規会員登録
+              </>
+            ) : (
+              '新規会員登録'
+            )}
+          </Link>
+          <Link
+            href="/login"
+            sx={styles.navBarMenuItem}
+            data-card={isCardLayout}
+          >
+            <SvgIcon component={LoginSvg} inheritViewBox />
+            ログイン
+          </Link>
+        </>
+      )}
+    </Stack>
   );
 };
 

@@ -5,7 +5,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "next dev",
+    "dev": "test -f .husky/commit-msg && next dev || yarn generate-config-commit && next dev",
     "build": "next build",
     "start": "next start",
     "build-stats": "cross-env ANALYZE=true npm run build",
@@ -17,7 +17,8 @@
     "lint:fix": "next lint --fix",
     "test": "jest --watch",
     "prepare": "husky install",
-    "convert-svg": "npx @svgr/cli --out-dir dist --ignore-existing -- icons    "
+    "convert-svg": "npx @svgr/cli --out-dir dist --ignore-existing -- icons",
+    "generate-config-commit": "yarn husky add .husky/commit-msg \"yarn commitlint --edit $1\""
   },
   "lint-staged": {
     "*.{js,jsx,.ts,.tsx}": [
@@ -29,7 +30,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.5",
-    "@hookform/resolvers": "@2.9.10",
+    "@hookform/resolvers": "^2.9.10",
     "@mui/icons-material": "^5.11.0",
     "@mui/lab": "^5.0.0-alpha.113",
     "@mui/material": "^5.11.1",

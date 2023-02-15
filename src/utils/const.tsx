@@ -1,3 +1,17 @@
+import FacebookIcon from '@icons/facebook_icon.svg';
+import CouponSvg from '@icons/icon_coupon.svg';
+import FavSvg from '@icons/icon_fav.svg';
+import GuideSvg from '@icons/icon_guide.svg';
+import ListSvg from '@icons/icon_list.svg';
+import MembershipSvg from '@icons/icon_membership.svg';
+import PaymentSvg from '@icons/icon_payment.svg';
+import ReservationSvg from '@icons/icon_reservation.svg';
+import TicketSvg from '@icons/icon_ticket.svg';
+import InstagramIcon from '@icons/instagram_icon.svg';
+import TwitterIcon from '@icons/twitter_icon.svg';
+
+import type { INavigation } from './type';
+
 export const Regex = {
   PASSWORD_POLICY:
     // eslint-disable-next-line no-useless-escape
@@ -38,3 +52,88 @@ export const GENDER_TEXT = {
   FEMALE: '男性',
   UNANSWERED: '未回答',
 };
+
+export const PROVIDER_NAVIGATION: {
+  href: string;
+  label: string;
+  icon: React.ReactNode;
+  children?: INavigation[];
+}[] = [
+  {
+    href: '/my-page/reservation-history',
+    label: '予約履歴',
+    icon: <ReservationSvg />,
+  },
+  {
+    href: '/my-page/ticket',
+    label: '回数券',
+    icon: <TicketSvg />,
+  },
+  {
+    href: '/my-page/discount',
+    label: 'クーポン',
+    icon: <CouponSvg />,
+  },
+  {
+    href: '/my-page/favorite',
+    label: 'お気に入り',
+    icon: <FavSvg />,
+  },
+  {
+    href: '/my-page/member',
+    label: '会員情報',
+    icon: <MembershipSvg />,
+  },
+  {
+    href: '/my-page/cards',
+    label: 'クレジットカード情報',
+    icon: <PaymentSvg />,
+  },
+  {
+    href: '/my-page/guide',
+    label: 'ご利用ガイド',
+    icon: <GuideSvg />,
+  },
+  {
+    href: '/my-page/list',
+    label: 'その他',
+    icon: <ListSvg />,
+  },
+];
+
+export const FOOTER_ITEMS = [
+  {
+    label: '利用規約',
+    href: 'terms-of-service',
+  },
+  {
+    label: 'プライバシーポリシー',
+    href: 'privacy-policy',
+  },
+  {
+    label: '運営会社',
+    href: 'operating-company',
+  },
+  {
+    label: 'お問い合わせ',
+    href: 'inquiry',
+  },
+];
+
+export const SOCIAL_MEDIA: {
+  href: string;
+  icon: React.ReactNode;
+}[] = [
+  {
+    href: '/instagram',
+    icon: <InstagramIcon />,
+  },
+  {
+    href: '/twitter',
+    icon: <TwitterIcon />,
+  },
+  {
+    href: '/facebook',
+    icon: <FacebookIcon />,
+  },
+];

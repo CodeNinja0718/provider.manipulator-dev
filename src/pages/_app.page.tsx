@@ -1,6 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css';
-import '../styles/global.css';
 import 'utils/yup.config';
+import 'dayjs/locale/ja';
 
 import type { EmotionCache } from '@emotion/react';
 import { CacheProvider } from '@emotion/react';
@@ -14,16 +14,15 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import ConfirmModal from 'components/ConfirmModal';
 import DataProvider from 'components/DataProvider';
 import NextNProgress from 'components/ProgressBar';
-import jaLocale from 'locales/ja/index.json';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { NextIntlProvider } from 'next-intl';
 import type { ReactElement, ReactNode } from 'react';
 import { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
-import createEmotionCache from 'styles/createEmotionCache';
-import theme from 'styles/theme';
+import theme from 'theme';
+import createEmotionCache from 'theme/createEmotionCache';
 import queryClient from 'utils/queryClient';
 
 type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -42,7 +41,9 @@ type AppPropsWithLayout<P = {}> = {
 const clientSideEmotionCache = createEmotionCache();
 
 function MyApp(
-  props: AppPropsWithLayout<{ dehydratedState: DehydratedState }>,
+  props: AppPropsWithLayout<{
+    dehydratedState: DehydratedState;
+  }>,
 ) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -60,7 +61,7 @@ function MyApp(
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             <ToastContainer
-              position="top-right"
+              position="bottom-right"
               autoClose={3000}
               hideProgressBar
               theme="colored"
@@ -68,24 +69,10 @@ function MyApp(
             />
             <DataProvider />
             <NextNProgress />
-            <NextIntlProvider messages={jaLocale}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                {/* <AnimatePresence mode="wait"> */}
-                {getLayout(
-                  // <motion.div
-                  //   key={router.route}
-                  //   initial="in"
-                  //   animate="inactive"
-                  //   exit="out"
-                  //   variants={variants}
-                  // >
-                  <Component {...pageProps} />,
-                  // </motion.div>,
-                )}
-                {/* </AnimatePresence> */}
-                <ConfirmModal />
-              </LocalizationProvider>
-            </NextIntlProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
+              {getLayout(<Component {...pageProps} />)}
+              <ConfirmModal />
+            </LocalizationProvider>
           </Hydrate>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
@@ -94,4 +81,6 @@ function MyApp(
   );
 }
 
-export default MyApp;
+export default dynamic(() => Promise.resolve(MyApp), {
+  ssr: false,
+});

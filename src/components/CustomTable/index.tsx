@@ -10,7 +10,6 @@ import type {
 import MaterialReactTable from 'material-react-table';
 import { useRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
-import t from 'utils/translator';
 
 export interface CustomTableProps extends MaterialReactTableProps {
   isLoading?: boolean;
@@ -76,7 +75,7 @@ const CustomTable = ({
           sorting,
         }}
         localization={{
-          noRecordsToDisplay: t('global.noData'),
+          noRecordsToDisplay: 'No data',
         }}
         enablePinning
         enableColumnActions={false}

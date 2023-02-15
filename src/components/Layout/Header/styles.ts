@@ -1,132 +1,117 @@
 import type { SxProps, Theme } from '@mui/material/styles';
 
-const styles = {
-  appBar: {
+const styles: Record<string, SxProps<Theme>> = {
+  layoutHeader: (theme) => ({
+    flexDirection: 'row',
+    padding: '0 20px',
     boxShadow: 'none',
-  },
-  logoContainer: {
-    display: 'flex',
-    width: 134,
-    height: 51,
-    ml: 5,
-  },
-  navbarItem: {
-    transition: 'all 0.3s cubic-bezier(0.33, 1, 0.68, 1)',
-    '&:hover': {
-      bgcolor: 'primary.main',
-      p: '4px 8px',
-      m: '-4px -8px',
-      color: 'white',
-      borderRadius: 1,
-    },
-    fontSize: {
-      xs: 12,
-      lg: 20,
-      tablet: 20,
-    },
-  },
-  whiteButton: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    borderRadius: 0,
-    minWidth: 165,
-    py: '17.5px',
-  },
-  blueButton: {
-    borderRadius: 0,
-    fontSize: 24,
-    fontWeight: 'bold',
-    minWidth: 165,
-    py: '17.5px',
-  },
-  navbarMobileContainer: {
     alignItems: 'center',
-    spacing: '38px',
-    justifyContent: { xs: 'flex-start', mw: 'center' },
-    display: {
-      xs: 'flex',
-      lg: 'none',
+    background: theme.palette.headerGradient,
+    position: 'fixed',
+    top: 0,
+    transition: 'transform 0.5s ease',
+    justifyContent: {
+      xs: 'space-between',
+      tablet: 'end',
     },
-    p: 2,
-    overflowX: 'scroll',
-    '& a': {
-      flexShrink: 0,
+    height: {
+      xs: 67,
+      tablet: 57,
     },
+    transform: {
+      xs: 'translateY(-67px)',
+      tablet: 'translateY(0)',
+    },
+    '&[data-scroll=true]': {
+      transform: 'translateY(0)',
+    },
+  }),
+
+  cardLayoutHeader: {
+    top: 0,
+    boxShadow: 'none',
+    padding: '0 15px 0 24px',
+    zIndex: 1,
+    justifyContent: {
+      xs: 'center',
+      tablet: 'flex-end',
+    },
+    pb: {
+      xs: 0,
+      tablet: 22,
+    },
+    height: {
+      xs: 67,
+      tablet: 106,
+    },
+    position: {
+      xs: 'fixed',
+      tablet: 'relative',
+    },
+    background: (theme) => ({
+      xs: theme.palette.headerGradient,
+      tablet: 'transparent',
+    }),
   },
-  navbarTabletContainer: {
+  cardHeaderContent: {
+    justifyContent: 'space-between',
     alignItems: 'center',
-    spacing: '38px',
-    mr: 5,
-    justifyContent: 'center',
-    display: {
-      xs: 'none',
-      lg: 'flex',
-    },
-  },
-  sideMenu: {
-    flex: '1 0 auto',
     width: '100%',
-    height: '100vh',
-    bgcolor: '#7d90b0',
-    mr: { tablet: 2 },
+    maxWidth: 950,
+    margin: '0 auto',
   },
-  userName: {
-    color: 'white',
-    fontSize: 25,
-    lineHeight: '1.75',
-  },
-  listSidebar: {
-    p: 0,
-    a: {
-      '> div': {
-        borderTop: '1px solid white',
+  logo: {
+    color: {
+      xs: 'white',
+      tablet: 'secondary.main',
+    },
+    svg: {
+      width: {
+        xs: 115,
+        tablet: 159,
       },
-      '&:last-child': {
-        '> div': {
-          borderBottom: '1px solid white',
-        },
+      height: {
+        xs: 25,
+        tablet: 34,
       },
     },
   },
-  listItemButton: {
-    px: 5.4,
-    py: 2.5,
-    '& svg': {
-      color: 'white',
-      mr: 1.4,
-    },
-    '&.MuiListItemButton-root': {
-      color: 'white',
-    },
-    '&.Mui-selected': {
-      backgroundColor: 'secondary.main',
-      color: 'heading',
-      '& svg': {
-        color: 'heading',
-      },
-      '&:hover': {
-        bgcolor: 'secondary.main',
-      },
-    },
-    '& .MuiListItemText-root': {
-      '& .MuiListItemText-primary': {
-        fontSize: 20,
-        fontWeight: 400,
-      },
-    },
+  navBarMenus: {
+    gap: 40,
   },
-  closeButton: {
-    display: 'flex',
-    width: 36,
-    height: 36,
-    backgroundColor: '#a8b5c6',
-    borderRadius: '50%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 'auto',
-    mr: 2,
+  navBarMenuItem: {
     cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 16,
+    textDecoration: 'none',
+    fontSize: 16,
+    color: 'white',
+    fontWeight: 'bold',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+    svg: {
+      fontSize: '20px !important',
+      color: 'white',
+    },
+    '&[data-card=true]': {
+      color: 'black',
+      svg: {
+        color: 'secondary.main',
+      },
+    },
   },
-} as Record<string, SxProps<Theme>>;
+  hamburgerBtn: {
+    p: 0,
+    margin: 0,
+    color: 'white',
+    width: 50,
+    height: 50,
+    svg: {
+      fontSize: 40,
+    },
+  },
+};
 
 export default styles;

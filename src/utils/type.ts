@@ -1,6 +1,12 @@
 import type { FetchQueryOptions } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
 
+export interface INavigation {
+  href: string;
+  label?: string;
+  icon?: React.ReactNode;
+}
+
 export interface FetchDetailOptions
   extends FetchQueryOptions<any, unknown, any, string[]> {
   queryKey: string[];

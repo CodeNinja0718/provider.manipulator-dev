@@ -10,7 +10,6 @@ import type {
   UnPackAsyncDefaultValues,
 } from 'react-hook-form';
 import { useController } from 'react-hook-form';
-import t from 'utils/translator';
 
 import HelperText from '../HelperText';
 import Label from '../Label';
@@ -73,7 +72,7 @@ const CheckBox = <TFormValues extends FieldValues>({
                     checked={value.length === data.length}
                   />
                 }
-                label={t('global.selectAll')}
+                label="Select all"
                 onChange={(_, checked) => {
                   if (checked) {
                     onChange(allIds);
