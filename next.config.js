@@ -74,10 +74,6 @@ const nextConfig = {
     });
     return config;
   },
-  i18n: {
-    locales: ['ja'],
-    defaultLocale: 'ja',
-  },
 };
 
 module.exports = withBundleAnalyzer(nextConfig);

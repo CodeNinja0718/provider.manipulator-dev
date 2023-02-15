@@ -1,6 +1,30 @@
 import type { Theme } from '@mui/material/styles';
 
 const styles = {
+  formControlWrapper: {
+    '.form-label': {
+      position: 'relative',
+      fontSize: 16,
+      color: 'black',
+      fontWeight: 'bold',
+      transform: 'translate(0, 0) scale(1)',
+      mb: 6,
+    },
+    '.required-mark': {
+      fontSize: 14,
+      borderRadius: '5px',
+      padding: '1px 6px',
+      backgroundColor: 'chamoisee',
+      color: 'white',
+      ml: 12,
+    },
+    '.form-error': {
+      fontSize: 14,
+      minHeight: 20,
+      margin: 0,
+    },
+  },
+
   required: (theme: Theme) => ({
     border: `solid 1px ${theme.palette.error.main}`,
     p: { xs: '0px 3px', tablet: '1px 7px 2px' },

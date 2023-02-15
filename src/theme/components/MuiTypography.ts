@@ -21,11 +21,11 @@ const MuiTypography = {
       },
       style: {
         position: 'relative',
-        color: '#eb6600',
+        color: '#333333',
         fontSize: 24,
         '&::after': {
           content: '""',
-          background: 'linear-gradient(to right, #ff9a4d, #eb6600)',
+          background: 'linear-gradient(to right, #a2cb30, #5f993c)',
           position: 'absolute',
           bottom: -9,
           left: 0,

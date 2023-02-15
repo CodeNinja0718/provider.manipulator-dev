@@ -53,15 +53,7 @@ const Navbar: React.FC<NavbarProps> = ({ isCardLayout }) => {
             data-card={isCardLayout}
           >
             <SvgIcon component={RegisterSvg} inheritViewBox />
-            {isCardLayout ? (
-              <>
-                初めてのご利用の方へ
-                <br />
-                新規会員登録
-              </>
-            ) : (
-              '新規会員登録'
-            )}
+            新規会員登録
           </Link>
           <Link
             href="/login"

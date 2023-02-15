@@ -46,7 +46,7 @@ const useMutate = <TData = unknown, TVariables = unknown>(
     {
       onSuccess: () => {
         if (defaultToast || successMessage) {
-          Helper.toast(successMessage || 'Completed', {
+          Helper.toast(successMessage || '完了しました。', {
             type: 'success',
           });
         }

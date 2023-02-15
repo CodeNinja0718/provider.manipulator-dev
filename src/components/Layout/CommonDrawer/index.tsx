@@ -16,7 +16,7 @@ import Link from 'components/Link';
 import useGlobalState from 'hooks/useGlobalState';
 import useLogout from 'models/auth/useLogout';
 import { useRouter } from 'next/router';
-import { CUSTOMER_NAVIGATION, SOCIAL_MEDIA } from 'utils/const';
+import { PROVIDER_NAVIGATION, SOCIAL_MEDIA } from 'utils/const';
 import Helper from 'utils/helpers';
 
 import styles from './styles';
@@ -50,7 +50,7 @@ const CommonDrawer: React.FC = () => {
                 <ListItemText>マイページ</ListItemText>
               </ListItemButton>
             </Link>
-            {CUSTOMER_NAVIGATION.map((nav) => {
+            {PROVIDER_NAVIGATION.map((nav) => {
               return (
                 <Link key={nav.href} href={nav.href}>
                   <ListItemButton

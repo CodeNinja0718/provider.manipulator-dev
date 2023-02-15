@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { Box, Container } from '@mui/material';
 import { TextField } from 'components/Form';
+import Layout from 'components/Layout';
 import { useMutate, useUser } from 'hooks';
 import type { LoginResponse } from 'models/auth/interface';
 import authQuery from 'models/auth/query';
@@ -65,6 +66,10 @@ const LoginPage = () => {
       </Container>
     </Box>
   );
+};
+
+LoginPage.getLayout = (page: React.ReactNode) => {
+  return <Layout isCardLayout>{page}</Layout>;
 };
 
 export default LoginPage;

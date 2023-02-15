@@ -1,6 +1,7 @@
 const MuiOutlinedInput = {
   styleOverrides: {
     root: {
+      padding: 0,
       borderRadius: 5,
       backgroundColor: 'transparent',
       '&:not(.Mui-error):not(.Mui-disabled)': {

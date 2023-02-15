@@ -1,10 +1,12 @@
 import VisibleIcon from '@icons/visible.svg';
 import VisibleOffIcon from '@icons/visible-off.svg';
-import type { OutlinedInputProps } from '@mui/material';
+import type { FormControlProps, OutlinedInputProps } from '@mui/material';
 import {
   FormControl,
+  FormHelperText,
   IconButton,
   InputAdornment,
+  InputLabel,
   OutlinedInput,
   SvgIcon,
 } from '@mui/material';
@@ -18,8 +20,6 @@ import type {
 } from 'react-hook-form';
 import { useController } from 'react-hook-form';
 
-import HelperText from '../HelperText';
-import Label from '../Label';
 import styles from '../styles';
 
 interface TextInputProps<TFormValues extends FieldValues>
@@ -34,6 +34,7 @@ interface TextInputProps<TFormValues extends FieldValues>
   fixedHelperText?: boolean;
   extraLabel?: string | ReactNode;
   helperText?: string;
+  formControlProps?: FormControlProps;
 }
 
 const TextField = <TFormValues extends FieldValues>({
@@ -42,10 +43,8 @@ const TextField = <TFormValues extends FieldValues>({
   required,
   control,
   name,
-  extraLabel,
-  helperText,
-  fixedHelperText,
   type,
+  formControlProps,
   ...props
 }: TextInputProps<TFormValues>) => {
   const {
@@ -87,18 +86,27 @@ const TextField = <TFormValues extends FieldValues>({
     return props.endAdornment;
   };
   return (
-    <FormControl fullWidth>
+    <FormControl
+      fullWidth
+      variant="standard"
+      sx={styles.formControlWrapper}
+      error={!!error}
+      {...formControlProps}
+    >
       {label && (
-        <Label
-          label={label}
-          required={required}
-          extraLabel={extraLabel}
-          size={props.size}
-          className="textFieldLabel"
-        />
+        <InputLabel
+          className="form-label"
+          htmlFor={name}
+          variant="standard"
+          shrink
+        >
+          {label}
+          {required && <span className="required-mark">必須</span>}
+        </InputLabel>
       )}
 
       <OutlinedInput
+        id={name}
         className="tabletStyle"
         sx={styles.input}
         {...props}
@@ -113,13 +121,9 @@ const TextField = <TFormValues extends FieldValues>({
         endAdornment={renderEndAdornment()}
       />
 
-      <HelperText
-        error={error?.message}
-        value={value}
-        maxLength={maxLength}
-        helperText={helperText}
-        fixedHelperText={fixedHelperText}
-      />
+      <FormHelperText className="form-error" variant="standard">
+        {error?.message}
+      </FormHelperText>
     </FormControl>
   );
 };
