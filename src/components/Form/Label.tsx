@@ -24,16 +24,6 @@ const labelStyle = {
   small: {},
 };
 
-const requiredStyle = {
-  large: {
-    fontSize: 16,
-  },
-  medium: {
-    fontSize: 12,
-    lineHeight: 2.19,
-  },
-  small: {},
-};
 const Label = ({ label, required, size = 'medium', className }: LabelProps) => {
   return (
     <Box display="flex" justifyContent="space-between">
