@@ -31,11 +31,11 @@ const Helper = {
       path: '/',
       ...(remember
         ? {
-            maxAge: process.env.SESSION_TIME
-              ? Number(process.env.SESSION_TIME)
-              : 7776000,
+            maxAge: 7776000,
           }
-        : {}),
+        : {
+            maxAge: 86400,
+          }),
     }),
   removeWebCookie: (): void =>
     deleteCookie(`${process.env.PROJECT_NAME}-web-cookie`, { path: '/' }),

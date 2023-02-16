@@ -1,53 +1,52 @@
 import type { SxProps, Theme } from '@mui/material/styles';
 
-const styles = {
+const styles: Record<string, SxProps<Theme>> = {
   paper: {
-    borderRadius: 2,
-    p: { xs: 2, tablet: 4 },
+    width: 'calc(100% - 50px)',
+    maxHeight: 'calc(100% - 50px)',
+    borderRadius: '10px',
+    margin: 25,
+    maxWidth: 325,
   },
   title: {
+    position: 'relative',
     fontWeight: 'bold',
-    textAlign: 'center',
-    color: 'heading',
-    fontSize: { xs: 18, tablet: 24 },
-    mb: { xs: '12px', tablet: 3 },
-  },
-  icon: (theme) => ({
-    mb: 2,
-    svg: { width: 96, height: 96 },
+    fontSize: 18,
+    backgroundColor: 'secondary.main',
+    color: 'white',
+    height: 42,
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'center',
-    [theme.breakpoints.down('tablet')]: {
-      mb: 1,
-      svg: {
-        width: 80,
-        height: 80,
-      },
-    },
-  }),
-  actionWrapper: (theme) => ({
-    justifyContent: 'center',
-    p: 0,
-    mt: { xs: 4, tablet: 5 },
+    padding: 0,
+  },
+  closeIcon: {
+    position: 'absolute',
+    right: 8,
+    top: 1,
+    color: 'white',
+  },
+  contentWrapper: {
+    padding: '20px !important',
+  },
+  contentTextOnly: {
+    whiteSpace: 'pre-line',
+  },
+  actionWrapper: {
+    padding: 20,
+    flexDirection: 'column',
+    gap: 12,
     '>:not(:first-of-type)': {
-      ml: 3,
+      margin: 0,
     },
-    [theme.breakpoints.down('tablet')]: {
-      '>:not(:first-of-type)': {
-        ml: 1,
-      },
-      '&.vertical-button': {
-        flexDirection: 'column-reverse',
-        '& .MuiButtonBase-root': {
-          fontSize: 14,
-          '&:last-child': {
-            ml: 0,
-            mb: 1,
-          },
-        },
-      },
+    '.action-btn': {
+      maxWidth: 226,
+      gap: 10,
     },
-  }),
-} as Record<string, SxProps<Theme>>;
+    '.cancel-btn': {
+      color: 'graySolid',
+    },
+  },
+};
 
 export default styles;

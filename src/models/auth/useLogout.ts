@@ -9,20 +9,22 @@ import authQuery from './query';
 const useLogout = () => {
   const { replace, pathname } = useRouter();
   const { setConfirmModal } = useGlobalState();
-  const { mutateAsync: handleLogout } = useMutate(authQuery.logout);
-  const logout = async () => {
-    handleLogout(null);
-    setTimeout(() => Helper.removeWebCookie());
-    await queryClient.invalidateQueries(['currentUser'], {
-      refetchType: 'none',
-    });
-    // setTimeout(() =>
-    //   queryClient.resetQueries(['currentUser'], undefined, {
-    //     cancelRefetch: true,
-    //   }),
-    // );
-    if (pathname.startsWith('/customer')) {
-      replace('/');
+  const { mutateAsync: handleLogout } = useMutate<{ refreshToken: string }>(
+    authQuery.logout,
+  );
+  const logout = () => {
+    const webCookie = Helper.getWebCookie();
+    try {
+      handleLogout({ refreshToken: webCookie?.refreshToken || '' });
+    } finally {
+      setTimeout(() => Helper.removeWebCookie());
+      queryClient
+        .getQueryCache()
+        .findAll(['currentUser'])
+        .forEach((query) => query.setData(undefined));
+      if (pathname.startsWith('/my-page')) {
+        replace('/login');
+      }
     }
   };
 

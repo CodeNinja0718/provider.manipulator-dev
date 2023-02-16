@@ -7,7 +7,6 @@ import Layout from 'components/Layout';
 import Link from 'components/Link';
 import { useMutate } from 'hooks';
 import authQuery from 'models/auth/query';
-import { useRouter } from 'next/router';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
@@ -16,9 +15,12 @@ import schema from './schema';
 import styles from './styles';
 
 const RegisterPage = () => {
-  const router = useRouter();
-  const { mutateAsync: handeSendEmail, isLoading } =
-    useMutate<RegisterFormValues>(authQuery.sendVerifyEmail);
+  const {
+    mutateAsync: handeSendEmail,
+    isLoading,
+    isSuccess,
+    reset,
+  } = useMutate<RegisterFormValues>(authQuery.sendVerifyEmail);
 
   const { control, handleSubmit } = useForm<RegisterFormValues>({
     resolver: yupResolver(schema),
@@ -28,12 +30,43 @@ const RegisterPage = () => {
   const handleOnSubmit: SubmitHandler<RegisterFormValues> = (
     values: RegisterFormValues,
   ) => {
-    handeSendEmail(values, {
-      onSuccess: () => {
-        router.push('/');
-      },
-    });
+    handeSendEmail(values);
   };
+
+  const handleOnBack = () => {
+    reset();
+  };
+
+  if (isSuccess) {
+    return (
+      <Stack sx={styles.registerFormWrapper} alignItems="center">
+        <Typography variant="title" fontSize={24}>
+          新規登録メール送信完了
+        </Typography>
+        <Typography
+          fontSize={18}
+          fontWeight="bold"
+          textAlign="center"
+          mb={56}
+          mt={66}
+        >
+          メールに記載のURLから
+          <br />
+          新規登録を続けてください
+        </Typography>
+        <Typography
+          color="primary"
+          sx={{
+            cursor: 'pointer',
+            textDecoration: 'underline',
+          }}
+          onClick={handleOnBack}
+        >
+          {'< メールアドレスを再入力する'}
+        </Typography>
+      </Stack>
+    );
+  }
 
   return (
     <Stack

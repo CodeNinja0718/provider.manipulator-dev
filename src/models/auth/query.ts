@@ -1,13 +1,14 @@
 const authQuery = {
   login: {
-    apiUrl: '/account/provider/login',
+    apiUrl: '/auth/manipulator/login',
+    metod: 'post',
   },
   currentUser: {
     queryKey: ['currentUser'],
-    apiUrl: '/account/consumer/me',
+    apiUrl: '/account/manipulator/profile',
   },
   logout: {
-    apiUrl: `/account/consumter/logout`,
+    apiUrl: '/auth/logout',
     method: 'delete',
   },
   sendVerifyEmail: {
