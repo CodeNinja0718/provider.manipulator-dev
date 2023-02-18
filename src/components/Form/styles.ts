@@ -137,7 +137,6 @@ const styles = {
       },
     },
   },
-
   adornmentPassword: {
     mr: '4px',
   },

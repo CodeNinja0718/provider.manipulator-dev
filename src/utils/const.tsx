@@ -1,12 +1,5 @@
 import FacebookIcon from '@icons/facebook_icon.svg';
-import CouponSvg from '@icons/icon_coupon.svg';
-import FavSvg from '@icons/icon_fav.svg';
-import GuideSvg from '@icons/icon_guide.svg';
 import ListSvg from '@icons/icon_list.svg';
-import MembershipSvg from '@icons/icon_membership.svg';
-import PaymentSvg from '@icons/icon_payment.svg';
-import ReservationSvg from '@icons/icon_reservation.svg';
-import TicketSvg from '@icons/icon_ticket.svg';
 import InstagramIcon from '@icons/instagram_icon.svg';
 import TwitterIcon from '@icons/twitter_icon.svg';
 
@@ -63,48 +56,8 @@ export const PROVIDER_NAVIGATION: {
   children?: INavigation[];
 }[] = [
   {
-    href: '/my-page/reservation-history',
-    label: '予約履歴',
-    icon: <ReservationSvg />,
-  },
-  {
-    href: '/my-page/ticket',
-    label: '回数券',
-    icon: <TicketSvg />,
-  },
-  {
-    href: '/my-page/discount',
-    label: 'クーポン',
-    icon: <CouponSvg />,
-  },
-  {
-    href: '/my-page/favorite',
-    label: 'お気に入り',
-    icon: <FavSvg />,
-  },
-  {
-    href: '/my-page/profile',
-    label: '整体師一覧',
-    icon: <MembershipSvg />,
-  },
-  {
-    href: '/my-page/member',
-    label: '会員情報',
-    icon: <MembershipSvg />,
-  },
-  {
-    href: '/my-page/cards',
-    label: 'クレジットカード情報',
-    icon: <PaymentSvg />,
-  },
-  {
-    href: '/my-page/guide',
-    label: 'ご利用ガイド',
-    icon: <GuideSvg />,
-  },
-  {
-    href: '/my-page/list',
-    label: 'その他',
+    href: '/my-page/menu',
+    label: 'メニュー管理',
     icon: <ListSvg />,
   },
 ];
@@ -201,3 +154,36 @@ export const WORK_TIMES: string[] = [
   '23:00',
   '23:30',
 ];
+export const MENU_STATUS = {
+  PRIVATE: 'private',
+  PUBLIC: 'public',
+};
+export const MENU_STATUS_LIST = [
+  {
+    id: 'public',
+    name: '掲載する',
+  },
+  {
+    id: 'private',
+    name: '掲載しない',
+  },
+];
+export const MENU_TYPE = [
+  {
+    id: 'one_time',
+    name: '単発',
+  },
+  {
+    id: 'coupon',
+    name: '回数券',
+  },
+];
+export const AVAILABEL_STAFF = [
+  { id: '1', name: '整体師 太郎' },
+  { id: '2', name: 'スタッフ2' },
+  { id: '3', name: 'スタッフ3' },
+  { id: '4', name: 'スタッフ4' },
+];
+export const CURRENCY = {
+  JPY: 'JPY',
+};

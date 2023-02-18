@@ -29,6 +29,7 @@ declare module '@mui/material/styles' {
     grullo: string;
     headerGradient: string;
     chamoisee: string;
+    nyanza: string;
   }
 
   interface PaletteOptions {
@@ -49,6 +50,7 @@ declare module '@mui/material/styles' {
     grullo?: string;
     headerGradient?: string;
     chamoisee?: string;
+    nyanza?: string;
   }
 
   interface TypographyVariants {
@@ -123,6 +125,7 @@ const palette: MuiPaletteOptions = {
   backgroundColor: '#f4f2f1',
   grullo: '#ac9b93',
   chamoisee: '#9c795e',
+  nyanza: '#e3f5d6',
   action: {
     hoverOpacity: 0.04,
     disabledBackground: '#cccccc',
