@@ -75,6 +75,7 @@ const Radio = <TFormValues extends FieldValues>({
                     color="primary"
                     component={RadioActive}
                     className="tabletStyle"
+                    inheritViewBox
                   />
                 }
                 icon={
@@ -82,11 +83,13 @@ const Radio = <TFormValues extends FieldValues>({
                     color="primary"
                     component={RadioDefault}
                     className="tabletStyle"
+                    inheritViewBox
                   />
                 }
               />
             }
             label={item.name}
+            className={`${item.id === value ? 'active' : {}}`}
           />
         ))}
       </RadioGroup>

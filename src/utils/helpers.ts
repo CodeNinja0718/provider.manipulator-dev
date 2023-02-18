@@ -2,7 +2,7 @@
 
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import type { IListItem } from 'hooks/types';
-import { get } from 'lodash';
+import { get, map } from 'lodash';
 import type { IProvider } from 'models/auth/interface';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import process from 'process';
@@ -143,6 +143,16 @@ const Helper = {
       ascii += String.fromCharCode(c);
     }
     return ascii;
+  },
+  parseURLByParams: (params: object, url: string) => {
+    const convertParamsToString: string[] = [];
+    map(params, (value, key) =>
+      convertParamsToString.push(
+        `${key}=${encodeURIComponent(value as string)}`,
+      ),
+    );
+    const newURL = `${url}?${convertParamsToString.join('&')}`;
+    return newURL;
   },
 };
 

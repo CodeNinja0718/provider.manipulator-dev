@@ -4,7 +4,7 @@ const styles: Record<string, SxProps<Theme>> = {
   sideMenuContainer: {
     padding: '30px 0 30px 20px',
     width: { xs: '100%', tablet: '260px' },
-    background: 'linear-gradient(to bottom, #ff9a4d, #eb6600)',
+    background: 'linear-gradient(to bottom, #a3cc30, #5e983c)',
     height: '100%',
   },
   sideMenuWrapper: {
@@ -44,6 +44,11 @@ const styles: Record<string, SxProps<Theme>> = {
       color: 'secondary.main',
       width: 20,
       height: 20,
+    },
+
+    '&.menuGreyBtn': {
+      color: 'graySolid',
+      '& svg': { color: 'graySolid' },
     },
   },
 };
