@@ -67,12 +67,12 @@ const ImageCrop = ({
 
   return (
     <Modal
-      maxWidth="sm"
+      title="プロフィール画像を調整"
       open={!!image}
       onCancel={handleClose}
       onConfirm={handleSave}
       content={
-        <Box p={3}>
+        <Box>
           <Box display="flex" justifyContent="center">
             <AvatarEditor
               ref={editor}
@@ -90,14 +90,18 @@ const ImageCrop = ({
             justifyContent="center"
             alignItems="center"
             marginTop="16px"
-            className="zoom-container"
+            paddingRight={8}
           >
             <Typography>ズーム</Typography>
             <Slider
               color="secondary"
               name="scale"
-              sx={{ flex: 1, ml: 2 }}
-              onChange={(_, value) => setScale(value as number)}
+              sx={{ flex: 1, ml: 20 }}
+              onChange={(_, value) => {
+                if (typeof value === 'number') {
+                  setScale(value);
+                }
+              }}
               min={1}
               max={2}
               step={0.01}

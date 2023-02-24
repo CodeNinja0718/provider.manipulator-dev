@@ -6,7 +6,7 @@ import Helper from 'utils/helpers';
 
 interface Options<TData, TVariables>
   extends Omit<UseMutationOptions<TVariables, unknown, TData>, 'mutationFn'> {
-  apiUrl: string | ((params?: TData) => string);
+  apiUrl: string | ((params: TData) => string);
   method?: string;
   defaultToast?: boolean;
   successMessage?: string;
@@ -25,7 +25,7 @@ const useMutate = <TData = unknown, TVariables = unknown>(
     ...otherOptions
   } = options;
   return useMutation(
-    async (params?: TData) => {
+    async (params: TData) => {
       const url = typeof apiUrl === 'string' ? apiUrl : apiUrl(params);
       switch (method) {
         case 'put': {
@@ -41,6 +41,10 @@ const useMutate = <TData = unknown, TVariables = unknown>(
         }
         case 'patch': {
           const { data } = await api.patch(url, params);
+          return data;
+        }
+        case 'get': {
+          const { data } = await api.get(url, { params });
           return data;
         }
         default: {

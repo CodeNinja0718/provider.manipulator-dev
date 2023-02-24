@@ -21,6 +21,7 @@ declare module '@mui/material/styles' {
     grownText: string;
     gray: string;
     graySolid: string;
+    brightGraySolid: string;
     pink: string;
     cream: string;
     placeholder: string;
@@ -40,6 +41,7 @@ declare module '@mui/material/styles' {
     heading: string;
     gray?: string;
     graySolid?: string;
+    brightGraySolid?: string;
     pink?: string;
     cream?: string;
     placeholder?: string;
@@ -51,13 +53,13 @@ declare module '@mui/material/styles' {
 
   interface TypographyVariants {
     title: React.CSSProperties;
-    titleWhite: React.CSSProperties;
+    section: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
     title?: React.CSSProperties;
-    titleWhite?: React.CSSProperties;
+    section?: React.CSSProperties;
   }
 }
 
@@ -79,28 +81,14 @@ declare module '@mui/material/styles' {
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     title: true;
-    titleWhite: true;
+    section: true;
   }
 }
 
 declare module '@mui/material/Button' {
   interface ButtonPropsSizeOverrides {
     xs: true;
-  }
-  interface ButtonPropsColorOverrides {
-    orange: true;
-  }
-}
-
-declare module '@mui/material/SvgIcon' {
-  interface SvgIconPropsColorOverrides {
-    orange: true;
-  }
-}
-
-declare module '@mui/material/Pagination' {
-  interface PaginationPropsColorOverrides {
-    orange: true;
+    icon: true;
   }
 }
 
@@ -124,6 +112,7 @@ const palette: MuiPaletteOptions = {
   gray: '#707070',
   graySolid: '#666666',
   grayText: '#6b6b6b',
+  brightGraySolid: '#efefef',
   pink: '#efe6df',
   heading: '#5a524f',
   grown: '#413732',
@@ -150,7 +139,7 @@ const theme = createTheme({
       wordBreak: 'break-word',
       lineHeight: 'normal',
     },
-    fontFamily: `HiraginoKakuGothicPro,${noto.style.fontFamily}`,
+    fontFamily: `Hiragino Kaku Gothic Pro, ${noto.style.fontFamily}`,
   },
   breakpoints: {
     values: {

@@ -1,15 +1,11 @@
-import type { Theme } from '@mui/material/styles';
-
 const styles = {
-  formControlWrapper: {
-    '.form-label': {
-      position: 'relative',
-      fontSize: 16,
-      color: 'black',
-      fontWeight: 'bold',
-      transform: 'translate(0, 0) scale(1)',
-      mb: 6,
-    },
+  formControlWrapper: {},
+
+  formLabel: {
+    fontSize: 16,
+    color: 'black',
+    fontWeight: 'bold',
+    mb: 6,
     '.required-mark': {
       fontSize: 14,
       borderRadius: '5px',
@@ -18,10 +14,87 @@ const styles = {
       color: 'white',
       ml: 12,
     },
-    '.form-error': {
-      fontSize: 14,
-      minHeight: 20,
-      margin: 0,
+  },
+
+  formHelper: {
+    fontSize: 14,
+    margin: 0,
+    '&[data-fixed=true]': {
+      minHeight: 24,
+    },
+  },
+
+  selectInput: {
+    backgroundColor: 'white',
+    input: {
+      height: '100%',
+    },
+    '.MuiSelect-select': {
+      padding: '15px 14px',
+    },
+    '.MuiSelect-icon': {
+      top: 'calc(50% - 14px)',
+      right: 9,
+      padding: 4,
+      width: 28,
+      height: 28,
+      svg: {
+        width: 18,
+        height: 18,
+      },
+    },
+  },
+
+  autocompleteInput: {
+    borderRadius: '5px',
+    '&[data-disabled=true]': {
+      backgroundColor: 'action.disabledBackground',
+    },
+    '.MuiAutocomplete-popupIndicator': {
+      padding: 4,
+      width: 28,
+      height: 28,
+      svg: {
+        width: 18,
+        height: 18,
+      },
+    },
+    input: {
+      '&::placeholder': {
+        color: 'placeholder',
+        opacity: 1,
+      },
+    },
+  },
+
+  imageUpload: {
+    backgroundColor: 'brightGraySolid',
+    padding: '20px 18px',
+    '.image-preview-item': {
+      overflow: 'hidden',
+      paddingTop: 'calc(9 / 16 * 100%)',
+      width: '100%',
+      position: 'relative',
+      backgroundColor: 'white',
+    },
+    '.delete-btn': {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      backgroundColor: 'white',
+      borderRadius: '0 0 0 10px',
+      width: 40,
+      height: 40,
+    },
+    '.upload-btn': {
+      backgroundColor: 'white',
+      maxWidth: 226,
+      width: '100%',
+      gap: 8,
+      svg: {
+        width: 18,
+        height: 18,
+      },
     },
   },
 
@@ -47,6 +120,7 @@ const styles = {
       },
     },
     textarea: {
+      padding: 15,
       '&::placeholder': {
         color: 'placeholder',
         opacity: 1,
@@ -63,116 +137,9 @@ const styles = {
       },
     },
   },
-  imageContainerCycle: {
-    width: 136,
-    borderRadius: '50%',
-    position: 'relative',
-    aspectRatio: '1 / 1',
-    '&:hover': {
-      '.overlay': {
-        opacity: 0.8,
-        bgcolor: 'white',
-      },
-      button: {
-        opacity: 1,
-      },
-    },
-  },
-  imageContainer: {
-    width: 136,
-    position: 'relative',
-    aspectRatio: '1 / 1',
-    '&:hover': {
-      '.overlay': {
-        opacity: 0.8,
-        bgcolor: 'white',
-      },
-      button: {
-        opacity: 1,
-      },
-    },
-  },
-  overlayContainer: {
-    position: 'absolute',
-    height: '100%',
-    width: '100%',
-    transition: '.3s ease',
-    '.overlay': {
-      height: '100%',
-      opacity: 0,
-      transition: '.3s ease',
-      borderRadius: '4px',
-      border: (theme: Theme) => `2px dashed ${theme.palette.primary.main}`,
-    },
-    '.delete-btn': {
-      position: 'absolute',
-      transform: 'translate(-50%, -50%)',
-      bgcolor: 'white',
-      top: '50%',
-      left: '50%',
-      transition: '.3s ease',
-      opacity: 0,
-      svg: {
-        width: 24,
-        height: 24,
-        color: 'primary.main',
-      },
-    },
-  },
-  overlayContainerCycle: {
-    position: 'absolute',
-    height: '100%',
-    width: '100%',
-    transition: '.3s ease',
-    '.overlay': {
-      height: '100%',
-      opacity: 0,
-      transition: '.3s ease',
-      borderRadius: '50%',
-      border: (theme: Theme) => `2px dashed ${theme.palette.primary.main}`,
-    },
-    '.delete-btn': {
-      position: 'absolute',
-      transform: 'translate(-50%, -50%)',
-      bgcolor: 'primary',
-      top: '50%',
-      left: '50%',
-      transition: '.3s ease',
-      opacity: 0,
-      svg: {
-        width: 32,
-        height: 32,
-        color: 'primary.main',
-      },
-    },
-  },
+
   adornmentPassword: {
     mr: '4px',
-  },
-  errorContainer: (theme: Theme) => ({
-    alignItems: 'center',
-    flex: 1,
-    svg: {
-      width: 20,
-      height: 20,
-    },
-    [theme.breakpoints.down('tablet')]: {
-      svg: {
-        width: 16,
-        height: 16,
-      },
-    },
-  }),
-  clearButton: {
-    position: 'absolute',
-    transform: 'translate(0%, 0%)',
-    right: 0,
-    p: { xs: '10px', tablet: '12px' },
-    svg: {
-      color: 'primary.main',
-      width: { xs: 20, tablet: 24 },
-      height: { xs: 20, tablet: 24 },
-    },
   },
 } as const;
 

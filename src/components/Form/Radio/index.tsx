@@ -8,13 +8,7 @@ import {
 } from '@mui/material';
 import type { RadioGroupProps } from '@mui/material/RadioGroup';
 import type { IListItem } from 'hooks/types';
-import type { ReactNode } from 'react';
-import type {
-  Control,
-  FieldValues,
-  Path,
-  UnPackAsyncDefaultValues,
-} from 'react-hook-form';
+import type { Control, FieldValues, Path } from 'react-hook-form';
 import { useController } from 'react-hook-form';
 
 import HelperText from '../HelperText';
@@ -24,14 +18,12 @@ interface RadioFieldProps<TFormValues extends FieldValues>
   extends RadioGroupProps {
   label?: string;
   required?: boolean;
-  name: Path<UnPackAsyncDefaultValues<TFormValues>>;
+  name: Path<TFormValues>;
   control: Control<TFormValues>;
   data: IListItem[];
   labelCol?: number;
   columns?: number;
-  helperText?: string;
   viewMode?: boolean;
-  extraLabel?: string | ReactNode;
 }
 
 const Radio = <TFormValues extends FieldValues>({
@@ -40,8 +32,6 @@ const Radio = <TFormValues extends FieldValues>({
   control,
   name,
   data,
-  helperText,
-  extraLabel,
   ...props
 }: RadioFieldProps<TFormValues>) => {
   const {
@@ -54,9 +44,7 @@ const Radio = <TFormValues extends FieldValues>({
 
   return (
     <div>
-      {label && (
-        <Label label={label} required={required} extraLabel={extraLabel} />
-      )}
+      {label && <Label label={label} required={required} />}
 
       <RadioGroup
         aria-labelledby="radio-buttons-group"
@@ -103,7 +91,7 @@ const Radio = <TFormValues extends FieldValues>({
         ))}
       </RadioGroup>
 
-      <HelperText error={error?.message} helperText={helperText} />
+      <HelperText error={error?.message} />
     </div>
   );
 };

@@ -113,6 +113,19 @@ const Helper = {
   },
   addComma: (value: string | number) =>
     value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+  toASCII: (chars: any) => {
+    let ascii = '';
+    for (let i = 0, l = chars.length; i < l; i += 1) {
+      let c = chars[i].charCodeAt(0);
+      // make sure we only convert half-full width char
+      if (c >= 0xff00 && c <= 0xffef) {
+        // eslint-disable-next-line no-bitwise
+        c = 0xff & (c + 0x20);
+      }
+      ascii += String.fromCharCode(c);
+    }
+    return ascii;
+  },
 };
 
 export default Helper;

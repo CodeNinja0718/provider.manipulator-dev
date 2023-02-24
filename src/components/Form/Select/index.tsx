@@ -1,16 +1,12 @@
+import ArrowDownSvg from '@icons/arrow-down.svg';
 import CloseIcon from '@icons/close.svg';
+import type { FormControlProps } from '@mui/material';
 import { Box, FormControl, IconButton } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
-import type { SelectProps } from '@mui/material/Select';
+import type { SelectChangeEvent, SelectProps } from '@mui/material/Select';
 import MuiSelect from '@mui/material/Select';
 import { isEmpty } from 'lodash';
-import type { ReactNode } from 'react';
-import type {
-  Control,
-  FieldValues,
-  Path,
-  UnPackAsyncDefaultValues,
-} from 'react-hook-form';
+import type { Control, FieldValues, Path } from 'react-hook-form';
 import { useController } from 'react-hook-form';
 
 import HelperText from '../HelperText';
@@ -21,15 +17,15 @@ interface SelectFieldProps<TFormValues extends FieldValues>
   extends SelectProps {
   label?: string;
   required?: boolean;
-  name: Path<UnPackAsyncDefaultValues<TFormValues>>;
+  name: Path<TFormValues>;
   control: Control<TFormValues>;
   maxLength?: number;
   data: { id: string | number; name: string | number }[];
-  labelCol?: number;
-  columns?: number;
-  viewMode?: boolean;
-  extraLabel?: string | ReactNode;
+  clearable?: boolean;
+  showError?: boolean;
+  formControlProps?: FormControlProps;
   fixedHelperText?: boolean;
+  handleChange?: (e?: SelectChangeEvent) => void;
 }
 
 const Select = <TFormValues extends FieldValues>({
@@ -41,12 +37,15 @@ const Select = <TFormValues extends FieldValues>({
   name,
   placeholder,
   multiple,
-  extraLabel,
-  fixedHelperText,
+  clearable = true,
+  formControlProps,
+  showError = true,
+  fixedHelperText = true,
+  handleChange,
   ...props
 }: SelectFieldProps<TFormValues>) => {
   const {
-    field: { value = multiple ? [] : '', ...otherField },
+    field: { value = multiple ? [] : '', onChange, ...otherField },
     fieldState: { error },
   } = useController({
     name,
@@ -54,23 +53,25 @@ const Select = <TFormValues extends FieldValues>({
   });
 
   return (
-    <FormControl fullWidth className="selectFieldCustom">
-      {label && (
-        <Label
-          label={label}
-          required={required}
-          extraLabel={extraLabel}
-          className="selectLabel"
-        />
-      )}
+    <FormControl
+      fullWidth
+      variant="standard"
+      sx={styles.formControlWrapper}
+      error={!!error}
+      {...formControlProps}
+    >
+      {label && <Label label={label} required={required} htmlFor={name} />}
 
       <MuiSelect
-        className="tabletStyle"
-        sx={styles.input}
+        variant="outlined"
+        sx={styles.selectInput}
         {...props}
         {...otherField}
+        onChange={(e) => {
+          if (handleChange) handleChange();
+          onChange(e);
+        }}
         value={value}
-        error={!!error}
         displayEmpty
         inputProps={{ maxLength }}
         renderValue={
@@ -81,26 +82,28 @@ const Select = <TFormValues extends FieldValues>({
         MenuProps={{
           PaperProps: {
             sx: {
+              maxHeight: 300,
               px: 1,
             },
           },
         }}
         IconComponent={(iconProps) => {
-          if (isEmpty(value?.toString())) {
+          if (clearable && !isEmpty(value?.toString())) {
             return (
-              <img
+              <IconButton
                 {...iconProps}
-                alt="arrow-down"
-                src="/icons/arrow-down.svg"
-              />
+                style={{
+                  pointerEvents: 'auto',
+                }}
+                onClick={() => onChange(null)}
+              >
+                <CloseIcon />
+              </IconButton>
             );
           }
           return (
-            <IconButton
-              sx={styles.clearButton}
-              onClick={() => otherField.onChange('')}
-            >
-              <CloseIcon />
+            <IconButton {...iconProps}>
+              <ArrowDownSvg />
             </IconButton>
           );
         }}
@@ -115,7 +118,9 @@ const Select = <TFormValues extends FieldValues>({
         ))}
       </MuiSelect>
 
-      <HelperText error={error?.message} fixedHelperText={fixedHelperText} />
+      {showError && (
+        <HelperText error={error?.message} fixed={fixedHelperText} />
+      )}
     </FormControl>
   );
 };

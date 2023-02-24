@@ -6,6 +6,9 @@ const MuiButton = {
       '&.MuiButton-contained, &.MuiButton-outlined': {
         boxShadow: '0 3px 6px 0 rgba(0, 0, 0, 0.16)',
       },
+      '&.MuiButton-outlined': {
+        backgroundColor: 'white',
+      },
     },
     endIcon: {
       position: 'absolute',

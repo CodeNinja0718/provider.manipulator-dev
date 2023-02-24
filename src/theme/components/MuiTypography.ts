@@ -10,8 +10,10 @@ const MuiTypography = {
       h6: 'h6',
       body1: 'p',
       body2: 'span',
-      title: 'h1',
       subtitle1: 'h3',
+      subtitle2: 'h4',
+      title: 'h1',
+      section: 'h3',
     },
   },
   variants: [
@@ -38,32 +40,16 @@ const MuiTypography = {
     },
     {
       props: {
-        variant: 'titleWhite',
+        variant: 'section',
       },
       style: {
         position: 'relative',
         color: 'white',
-        fontSize: 24,
-        '&::after': {
-          content: '""',
-          background: 'white',
-          position: 'absolute',
-          bottom: -9,
-          left: 0,
-          height: 6,
-          width: '100%',
-          borderRadius: 3,
-          transform: 'translateY(50%)',
-        },
-      },
-    },
-    {
-      props: {
-        variant: 'subtitle1',
-      },
-      style: {
-        color: '#eb6600',
+        backgroundColor: '#659d3b',
         fontSize: 18,
+        width: '100%',
+        padding: '14px 0',
+        textAlign: 'center',
       },
     },
   ],

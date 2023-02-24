@@ -13,7 +13,7 @@ export interface Options<TQueryFnData = unknown, TData = TQueryFnData>
   customParams?: Record<string, unknown>;
 }
 
-const useDetail = <TQueryFnData = unknown, TData = TQueryFnData>(
+const useFetch = <TQueryFnData = unknown, TData = TQueryFnData>(
   options: Options<TQueryFnData, TData>,
 ) => {
   const { isReady } = useRouter();
@@ -32,4 +32,4 @@ const useDetail = <TQueryFnData = unknown, TData = TQueryFnData>(
   });
 };
 
-export default useDetail;
+export default useFetch;

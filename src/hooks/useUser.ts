@@ -1,5 +1,5 @@
 import type { QueryKey, UseQueryOptions } from '@tanstack/react-query';
-import useDetail from 'hooks/useDetail';
+import useFetch from 'hooks/useFetch';
 import type { ICustomer } from 'models/auth/interface';
 import authQuery from 'models/auth/query';
 import Helper from 'utils/helpers';
@@ -16,7 +16,7 @@ const useUser = (options?: Options<ICustomer>) => {
   const { enabled = true, ...otherOptions } = options || {};
   const webCookie = Helper.getWebCookie();
 
-  return useDetail<ICustomer>({
+  return useFetch<ICustomer>({
     ...authQuery.currentUser,
     enabled: enabled && !!webCookie,
     staleTime: Infinity,

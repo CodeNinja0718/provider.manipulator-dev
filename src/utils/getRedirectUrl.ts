@@ -1,14 +1,18 @@
-import type { ROLES } from './type';
+export const NON_LOGIN_ROUTE = ['/login', '/register'];
 
 const getRedirecttUrl = ({
-  role,
   nextUrl,
+  token,
 }: {
-  role?: ROLES;
   nextUrl: string;
+  token: string | undefined;
 }): string | undefined => {
-  if (role && nextUrl) {
-    // return redirect url
+  if (token) {
+    if (NON_LOGIN_ROUTE.includes(nextUrl)) {
+      return '/';
+    }
+  } else if (nextUrl.startsWith('/my-page')) {
+    return '/login';
   }
   return undefined;
 };

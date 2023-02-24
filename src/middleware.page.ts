@@ -5,19 +5,21 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import getRedirecttUrl from 'utils/getRedirectUrl';
-import type { ROLES } from 'utils/type';
 
 export function middleware(req: NextRequest) {
   const webCookie = JSON.parse(
-    (req.cookies.get(`${process.env.PROJECT_NAME}-web-cookie`)?.value ||
-      null) as string,
+    req.cookies.get(`${process.env.PROJECT_NAME}-web-cookie`)?.value || '{}',
   );
   const nextUrl = req.nextUrl.pathname;
-  const role = webCookie?.role as ROLES;
+  const token = webCookie?.accessToken;
 
-  const redirectUrl = getRedirecttUrl({ role, nextUrl });
+  const redirectUrl = getRedirecttUrl({ nextUrl, token });
   if (redirectUrl) {
     return NextResponse.redirect(new URL(redirectUrl, req.url));
   }
   return NextResponse.next();
 }
+
+export const config = {
+  matcher: ['/login', '/register', '/complete-profile', '/my-page/:path*'],
+};

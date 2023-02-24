@@ -1,34 +1,33 @@
-import { FormControlLabel, FormGroup, Grid, Typography } from '@mui/material';
+import type { FormControlProps } from '@mui/material';
+import {
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  Typography,
+} from '@mui/material';
 import type { RadioGroupProps } from '@mui/material/RadioGroup';
 import type { IListItem } from 'hooks/types';
 import { isEmpty } from 'lodash';
-import type { ReactNode } from 'react';
-import type {
-  Control,
-  FieldValues,
-  Path,
-  UnPackAsyncDefaultValues,
-} from 'react-hook-form';
+import type { Control, FieldValues, Path } from 'react-hook-form';
 import { useController } from 'react-hook-form';
 
 import HelperText from '../HelperText';
 import Label from '../Label';
+import styles from '../styles';
 import CheckboxBase from './CheckboxBase';
 
 interface CheckBoxFieldProps<TFormValues extends FieldValues>
   extends RadioGroupProps {
   label?: string;
   required?: boolean;
-  name: Path<UnPackAsyncDefaultValues<TFormValues>>;
+  name: Path<TFormValues>;
   control: Control<TFormValues>;
   data: IListItem[];
-  labelCol?: number;
   columns?: number;
-  helperText?: string;
   showSelectAll?: boolean;
   layout?: 'vertical' | 'horizontal';
-  extraLabel?: string | ReactNode;
-  iconClassName?: string;
+  formControlProps?: FormControlProps;
   fixedHelperText?: boolean;
 }
 
@@ -38,12 +37,10 @@ const CheckBox = <TFormValues extends FieldValues>({
   control,
   name,
   data = [],
-  helperText,
   showSelectAll,
   layout = 'vertical',
-  extraLabel,
-  iconClassName = 'tabletStyle',
-  fixedHelperText = false,
+  columns,
+  formControlProps,
 }: CheckBoxFieldProps<TFormValues>) => {
   const {
     field: { value = [], onChange },
@@ -54,11 +51,14 @@ const CheckBox = <TFormValues extends FieldValues>({
   });
   const allIds = data.map((item) => item.id);
   return (
-    <div>
-      {label && (
-        <Label label={label} required={required} extraLabel={extraLabel} />
-      )}
-
+    <FormControl
+      fullWidth
+      variant="standard"
+      sx={styles.formControlWrapper}
+      error={!!error}
+      {...formControlProps}
+    >
+      {label && <Label label={label} required={required} />}
       <FormGroup>
         <Grid container>
           {showSelectAll && !isEmpty(data) && (
@@ -67,8 +67,7 @@ const CheckBox = <TFormValues extends FieldValues>({
                 sx={{ whiteSpace: 'pre-line' }}
                 control={
                   <CheckboxBase
-                    sx={{ p: { xs: '10px', tablet: 1 } }}
-                    iconClassName={iconClassName}
+                    sx={{ p: 0, pt: 4, pr: 8 }}
                     checked={value.length === data.length}
                   />
                 }
@@ -85,21 +84,25 @@ const CheckBox = <TFormValues extends FieldValues>({
           )}
           {data.map((option) => {
             return (
-              <Grid item xs={layout === 'vertical' ? 12 : 6} key={option.id}>
+              <Grid
+                item
+                key={option.id}
+                xs={columns || (layout === 'vertical' ? 12 : 6)}
+              >
                 <FormControlLabel
-                  sx={{ whiteSpace: 'pre-line' }}
+                  sx={{
+                    whiteSpace: 'pre-line',
+                    m: 0,
+                    alignItems: 'flex-start',
+                  }}
                   control={
                     <CheckboxBase
-                      sx={{ p: { xs: '10px', tablet: 1 } }}
-                      iconClassName={iconClassName}
                       checked={value.includes(option.id as never)}
+                      sx={{ p: 0, pt: 4, pr: 8 }}
                     />
                   }
                   label={
-                    <Typography
-                      color="heading"
-                      fontSize={{ xs: 14, tablet: 16 }}
-                    >
+                    <Typography color="black" fontSize={16}>
                       {option.name}
                     </Typography>
                   }
@@ -116,14 +119,8 @@ const CheckBox = <TFormValues extends FieldValues>({
           })}
         </Grid>
       </FormGroup>
-
-      <HelperText
-        error={error?.message}
-        value={value}
-        helperText={helperText}
-        fixedHelperText={fixedHelperText}
-      />
-    </div>
+      <HelperText error={error?.message} />
+    </FormControl>
   );
 };
 
