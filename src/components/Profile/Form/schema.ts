@@ -16,15 +16,10 @@ const schema = object({
   nameKana: string()
     .trim()
     .required()
-    .matches(Regex.KATAKANA, 'Katakana invalid'),
-  email: string().required().matches(Regex.EMAIL, 'Email invalid'),
-  phone: string()
-    .trim()
-    .required()
-    .matches(Regex.PHONE, 'Phone number is not valid'),
-  zipcode: string()
-    .required()
-    .matches(Regex.JP_ZIPCODE, 'Zip code is not valid'),
+    .matches(Regex.KATAKANA, '無効な形式です。'),
+  email: string().required().matches(Regex.EMAIL, '無効な形式です。'),
+  phone: string().trim().required().matches(Regex.PHONE, '無効な形式です。'),
+  zipcode: string().required().matches(Regex.JP_ZIPCODE, '無効な形式です。'),
   prefecture: string().required(),
   address: string().trim().required(),
   city: string().trim().required(),
@@ -39,12 +34,15 @@ const schema = object({
   photos: array(),
   description: string(),
   areaId: string().required(),
-  stationIds: array().min(1).required(),
+  stationSelected: string(),
+  stationIds: array().min(1, 'この項目は入力必須です。').required(),
   bank: object().nullable(true).required(),
   branch: object().nullable(true).required(),
   bankInfo: object({
     transferType: string().required(),
-    accountNumber: string().required(),
+    accountNumber: string()
+      .required()
+      .matches(/^[0-9]*$/, '無効な形式です。'),
     accountName: string().required(),
   }),
   businessHours: array()
@@ -63,7 +61,7 @@ const schema = object({
                   endTime: string()
                     .test(
                       'is-end-time-after-start',
-                      'End time must be after start time',
+                      '無効な形式です。',
                       (value, context) => {
                         const { parent } = context;
                         if (!value || !parent.startTime) {

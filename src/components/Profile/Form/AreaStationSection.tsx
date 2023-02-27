@@ -8,7 +8,7 @@ import Label from 'components/Form/Label';
 import { useFetch } from 'hooks';
 import type { IStationItem, ISymptomItem } from 'models/resource/interface';
 import resourceQuery from 'models/resource/query';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import type {
   Control,
   FieldErrors,
@@ -35,9 +35,8 @@ const AreaStationSection: React.FC<AreaStationSectionProps> = ({
   errors,
   trigger,
 }) => {
-  const [selectedStation, setSelectedStation] = useState<number>();
-
   const watchStationIds = watch('stationIds', []);
+  const watchStationSelected = watch('stationSelected', '');
 
   const { data: symptoms } = useFetch<{ result: ISymptomItem[] }>(
     resourceQuery.symptoms,
@@ -49,9 +48,9 @@ const AreaStationSection: React.FC<AreaStationSectionProps> = ({
     result: IStationItem[];
   }>({
     ...resourceQuery.stationLines({
-      _id: selectedStation,
+      _id: watchStationSelected,
     }),
-    enabled: !!selectedStation,
+    enabled: !!watchStationSelected,
   });
 
   const areaOptions = useMemo(
@@ -95,11 +94,11 @@ const AreaStationSection: React.FC<AreaStationSectionProps> = ({
           <Label label="駅" required />
           <Stack sx={styles.stationCheckboxWrapper} direction="row">
             <Box sx={styles.checkboxSideContent}>
-              {!!selectedStation && (
+              {!!watchStationSelected && (
                 <IconButton
                   className="back-btn"
                   onClick={() => {
-                    setSelectedStation(undefined);
+                    setValue('stationSelected', '');
                     setValue('stationIds', []);
                   }}
                 >
@@ -112,7 +111,7 @@ const AreaStationSection: React.FC<AreaStationSectionProps> = ({
               )}
             </Box>
             <Stack sx={styles.stationList}>
-              {selectedStation
+              {watchStationSelected
                 ? (stationLines?.result || []).map((station) => (
                     <Box
                       component="label"
@@ -133,7 +132,7 @@ const AreaStationSection: React.FC<AreaStationSectionProps> = ({
                       key={station._id}
                       sx={styles.stationItem}
                       onClick={() => {
-                        setSelectedStation(station._id);
+                        setValue('stationSelected', `${station._id}`);
                       }}
                     >
                       {station.name}

@@ -79,7 +79,8 @@ const SalonProfile: React.FC<SalonProfileProps> = ({
           </FieldItem>
           <FieldItem label="住所">
             <Typography>
-              〒{data?.zipcode?.slice(0, 3)}-{data?.zipcode.slice(3)} <br />
+              〒{data?.zipcode?.replace(/[〒-－]/g, '').slice(0, 3)}-
+              {data?.zipcode.slice(3)} <br />
               東京都{data?.city} {data?.address}
             </Typography>
           </FieldItem>

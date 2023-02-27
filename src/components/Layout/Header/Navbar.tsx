@@ -5,6 +5,7 @@ import RegisterSvg from '@icons/icon_profile.svg';
 import { Stack, SvgIcon, Typography } from '@mui/material';
 import Link from 'components/Link';
 import useLogout from 'models/auth/useLogout';
+import { useRouter } from 'next/router';
 import React from 'react';
 import Helper from 'utils/helpers';
 
@@ -17,16 +18,25 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ isCardLayout }) => {
   const { logout } = useLogout();
   const webCookie = Helper.getWebCookie();
+  const router = useRouter();
 
   const token = webCookie?.accessToken;
 
-  return (
-    <Stack direction="row" sx={styles.navBarMenus}>
-      <Link href="/" sx={styles.navBarMenuItem} data-card={isCardLayout}>
-        <SvgIcon component={HomeSvg} inheritViewBox />
-        ホーム
-      </Link>
-      {token ? (
+  const renderNavigationLink = (): React.ReactNode => {
+    if (token) {
+      if (router.pathname === '/complete-profile') {
+        return (
+          <Typography
+            sx={styles.navBarMenuItem}
+            data-card={isCardLayout}
+            onClick={logout}
+          >
+            <SvgIcon component={LogoutSvg} inheritViewBox />
+            ログアウト
+          </Typography>
+        );
+      }
+      return (
         <>
           <Link
             href="/my-page/profile"
@@ -45,8 +55,11 @@ const Navbar: React.FC<NavbarProps> = ({ isCardLayout }) => {
             ログアウト
           </Typography>
         </>
-      ) : (
-        <>
+      );
+    }
+    return (
+      <>
+        {router.pathname !== '/register' && (
           <Link
             href="/register"
             sx={styles.navBarMenuItem}
@@ -55,6 +68,8 @@ const Navbar: React.FC<NavbarProps> = ({ isCardLayout }) => {
             <SvgIcon component={RegisterSvg} inheritViewBox />
             新規会員登録
           </Link>
+        )}
+        {router.pathname !== '/login' && (
           <Link
             href="/login"
             sx={styles.navBarMenuItem}
@@ -63,8 +78,18 @@ const Navbar: React.FC<NavbarProps> = ({ isCardLayout }) => {
             <SvgIcon component={LoginSvg} inheritViewBox />
             ログイン
           </Link>
-        </>
-      )}
+        )}
+      </>
+    );
+  };
+
+  return (
+    <Stack direction="row" sx={styles.navBarMenus}>
+      <Link href="/" sx={styles.navBarMenuItem} data-card={isCardLayout}>
+        <SvgIcon component={HomeSvg} inheritViewBox />
+        ホーム
+      </Link>
+      {renderNavigationLink()}
     </Stack>
   );
 };

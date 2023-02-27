@@ -29,6 +29,7 @@ const BankInfoSection: React.FC<BankInfoSectionProps> = ({
   watch,
 }) => {
   const watchBank = watch('bank', undefined);
+  const watchBranch = watch('branch', undefined);
 
   const { data: bankList } = useFetch<{ result: IBankItem[] }>(
     resourceQuery.banks,
@@ -43,8 +44,10 @@ const BankInfoSection: React.FC<BankInfoSectionProps> = ({
   });
 
   useEffect(() => {
-    setValue('branch', null as any);
-  }, [setValue, watchBank]);
+    if (watchBank?._id !== watchBranch?.bankRef) {
+      setValue('branch', null as any);
+    }
+  }, [setValue, watchBank, watchBranch]);
 
   return (
     <CommonSection title="口座情報">
@@ -97,15 +100,16 @@ const BankInfoSection: React.FC<BankInfoSectionProps> = ({
           />
           <TextField
             label="口座番号"
-            name="bankInfo.accountName"
+            name="bankInfo.accountNumber"
             control={control}
             placeholder="01234567"
             required
+            maxLength={8}
           />
         </Stack>
         <TextField
           label="名義"
-          name="bankInfo.accountNumber"
+          name="bankInfo.accountName"
           control={control}
           placeholder="〇〇整体院"
           required

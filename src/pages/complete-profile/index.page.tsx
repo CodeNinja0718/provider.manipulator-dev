@@ -43,6 +43,10 @@ const CompleteProfilePage = () => {
   const handleSubmit = (values: ProfileFormValues) => {
     setPreview(true);
     setPreviewData(values);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   const handleCreateProfile = () => {
@@ -59,11 +63,13 @@ const CompleteProfilePage = () => {
         address,
         areaId,
         stationIds,
+        zipcode,
         ...rest
       } = previewData;
       handleCreateSalon(
         {
           ...rest,
+          zipcode: zipcode.replace(/[〒-－]/g, ''),
           access: access.map(({ value }: { value: string }) => value),
           bankInfo: {
             ...bankInfo,
@@ -104,6 +110,10 @@ const CompleteProfilePage = () => {
 
   const handleOnBack = () => {
     setPreview(false);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   return (
@@ -134,6 +144,7 @@ const CompleteProfilePage = () => {
             description: get(previewData, 'description', ''),
             photos: get(previewData, 'photos', []),
             areaId: get(previewData, 'areaId', ''),
+            stationSelected: get(previewData, 'stationSelected', ''),
             stationIds: get(previewData, 'stationIds', []),
             bank: get(previewData, 'bank', null) as any,
             branch: get(previewData, 'branch', null) as any,

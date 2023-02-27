@@ -15,7 +15,7 @@ const getRedirecttUrl = ({
     if (NON_LOGIN_ROUTE.includes(nextUrl)) {
       return '/';
     }
-    if (userData?.isNewRegistration) {
+    if (userData?.isNewRegistration && userData?.type === 'Owner') {
       if (nextUrl !== '/complete-profile') {
         return '/complete-profile';
       }
@@ -25,7 +25,7 @@ const getRedirecttUrl = ({
       return '/';
     }
   }
-  if (nextUrl.startsWith('/my-page')) {
+  if (nextUrl.startsWith('/my-page') || nextUrl === '/complete-profile') {
     return '/login';
   }
   return undefined;
