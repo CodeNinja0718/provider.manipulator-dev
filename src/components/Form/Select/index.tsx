@@ -95,7 +95,7 @@ const Select = <TFormValues extends FieldValues>({
                 style={{
                   pointerEvents: 'auto',
                 }}
-                onClick={() => onChange(null)}
+                onClick={() => onChange('')}
               >
                 <CloseIcon />
               </IconButton>

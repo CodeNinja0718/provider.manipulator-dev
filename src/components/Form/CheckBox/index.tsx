@@ -67,7 +67,7 @@ const CheckBox = <TFormValues extends FieldValues>({
                 sx={{ whiteSpace: 'pre-line' }}
                 control={
                   <CheckboxBase
-                    sx={{ p: 0, pt: 4, pr: 8 }}
+                    sx={{ p: 0, mt: 4, mr: 8 }}
                     checked={value.length === data.length}
                   />
                 }
@@ -98,7 +98,7 @@ const CheckBox = <TFormValues extends FieldValues>({
                   control={
                     <CheckboxBase
                       checked={value.includes(option.id as never)}
-                      sx={{ p: 0, pt: 4, pr: 8 }}
+                      sx={{ p: 0, mt: 4, mr: 8 }}
                     />
                   }
                   label={

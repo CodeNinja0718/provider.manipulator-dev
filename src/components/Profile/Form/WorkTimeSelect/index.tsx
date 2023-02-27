@@ -103,7 +103,7 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
         );
       })}
       <HelperText error={errorMessage} fixed={false} />
-      <Stack direction="row" gap={10}>
+      <Stack direction="row" gap={10} flexWrap="wrap">
         <Button
           sx={{
             width: 156,

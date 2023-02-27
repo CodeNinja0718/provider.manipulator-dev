@@ -31,7 +31,7 @@ const WorkTimeSection: React.FC<WorkTimeSectionProps> = ({
 }) => {
   return (
     <CommonSection title="営業時間">
-      <Stack sx={styles.sectionContentWrapper}>
+      <Stack sx={styles.sectionContentWrapper} data-worktime={true}>
         <Typography sx={styles.workTimeNote}>
           すべて<span>必須項目</span>です。
           <br />
@@ -54,12 +54,13 @@ const WorkTimeSection: React.FC<WorkTimeSectionProps> = ({
                     errors,
                     `businessHours[${day.id}].hours.message`,
                   )}
-                  handleCheckHoliday={(e) =>
+                  handleCheckHoliday={(e) => {
                     setValue(
                       `businessHours.${day.id}.isHoliday`,
                       e.target.checked,
-                    )
-                  }
+                    );
+                    trigger(`businessHours.${day.id}.hours`);
+                  }}
                   handleChange={() => trigger(`businessHours.${day.id}.hours`)}
                 />
               </Stack>

@@ -3,6 +3,7 @@
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import type { IListItem } from 'hooks/types';
 import { get } from 'lodash';
+import type { IProvider } from 'models/auth/interface';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import process from 'process';
 import type { ToastContent, ToastOptions } from 'react-toastify';
@@ -25,7 +26,6 @@ const Helper = {
     const webCookie = Helper.getWebCookie();
     return get(webCookie, 'role');
   },
-
   setToken: (data: Record<string, string>, remember?: boolean): void =>
     setCookie(`${process.env.PROJECT_NAME}-web-cookie`, data, {
       path: '/',
@@ -37,8 +37,26 @@ const Helper = {
             maxAge: 86400,
           }),
     }),
-  removeWebCookie: (): void =>
-    deleteCookie(`${process.env.PROJECT_NAME}-web-cookie`, { path: '/' }),
+  setUserData: (data: IProvider) =>
+    setCookie(`${process.env.PROJECT_NAME}-user-data`, data, {
+      maxAge: 86400,
+    }),
+  getUserData: (
+    req?: NextApiRequest,
+    res?: NextApiResponse,
+  ): Record<string, string> => {
+    const cookies = JSON.parse(
+      (getCookie(
+        `${process.env.PROJECT_NAME}-user-data`,
+        req && res ? { req, res } : {},
+      ) || null) as string,
+    );
+    return cookies;
+  },
+  removeWebCookie: (): void => {
+    deleteCookie(`${process.env.PROJECT_NAME}-user-data`);
+    deleteCookie(`${process.env.PROJECT_NAME}-web-cookie`, { path: '/' });
+  },
   convertObjectToOptions: (obj: Record<string, string>): IListItem[] => {
     return Object.keys(obj).map((key) => ({
       id: key,

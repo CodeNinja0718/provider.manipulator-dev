@@ -43,7 +43,7 @@ const BankInfoSection: React.FC<BankInfoSectionProps> = ({
   });
 
   useEffect(() => {
-    setValue('branch', {});
+    setValue('branch', null as any);
   }, [setValue, watchBank]);
 
   return (

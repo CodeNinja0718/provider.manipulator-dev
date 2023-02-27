@@ -1,12 +1,17 @@
-import type { Gender } from 'utils/type';
-
-export interface ICustomer {
+export interface IProvider {
   createdAt: string;
   email: string;
-  id: string;
+  _id: string;
   status: string;
   updatedAt: string;
-  gender?: Gender;
+  type: string;
+  reviewRating: {
+    total: number;
+    averageRating: number;
+  };
+  menus: any[];
+  isNewRegistration: boolean;
+  isPublished: boolean;
 }
 export interface LoginPayload {
   email: string;
