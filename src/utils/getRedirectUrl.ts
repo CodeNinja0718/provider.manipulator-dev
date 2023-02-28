@@ -15,15 +15,17 @@ const getRedirecttUrl = ({
     if (NON_LOGIN_ROUTE.includes(nextUrl)) {
       return '/';
     }
-    if (userData?.isNewRegistration && userData?.type === 'Owner') {
-      if (nextUrl !== '/complete-profile') {
-        return '/complete-profile';
-      }
-      return undefined;
+    if (
+      userData?.isNewRegistration &&
+      userData?.type === 'Owner' &&
+      nextUrl !== '/complete-profile'
+    ) {
+      return '/complete-profile';
     }
     if (nextUrl === '/complete-profile') {
       return '/';
     }
+    return undefined;
   }
   if (nextUrl.startsWith('/my-page') || nextUrl === '/complete-profile') {
     return '/login';
