@@ -22,7 +22,11 @@ const getRedirecttUrl = ({
     ) {
       return '/complete-profile';
     }
-    if (nextUrl === '/complete-profile') {
+    if (
+      !userData?.isNewRegistration &&
+      userData?.type !== 'Owner' &&
+      nextUrl === '/complete-profile'
+    ) {
       return '/';
     }
     return undefined;
