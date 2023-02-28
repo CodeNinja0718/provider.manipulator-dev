@@ -19,7 +19,7 @@ const { data } = useFetch<IExample>(exampleQuery.exampleDetail(exampleId as stri
 **models/example/query.ts**
 ```
 const exampleQuery = {
-  exampleDetail: (id: string) => ({
+  exampleFetch: (id: string) => ({
     queryKey: ['public', 'articleDetail', id],
     apiUrl: `/exmaples/${id}`,
   }),
@@ -27,7 +27,7 @@ const exampleQuery = {
 };
 // OR
 const exampleQuery = {
-  exampleDetail: {
+  exampleFetch: {
     queryKey: ['public', 'articleDetail', detail],
     apiUrl: `/exmaples/detail`,
   },

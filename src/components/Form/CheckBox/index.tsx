@@ -29,6 +29,7 @@ interface CheckBoxFieldProps<TFormValues extends FieldValues>
   layout?: 'vertical' | 'horizontal';
   formControlProps?: FormControlProps;
   fixedHelperText?: boolean;
+  spacing?: number;
 }
 
 const CheckBox = <TFormValues extends FieldValues>({
@@ -41,6 +42,7 @@ const CheckBox = <TFormValues extends FieldValues>({
   layout = 'vertical',
   columns,
   formControlProps,
+  spacing,
 }: CheckBoxFieldProps<TFormValues>) => {
   const {
     field: { value = [], onChange },
@@ -60,7 +62,7 @@ const CheckBox = <TFormValues extends FieldValues>({
     >
       {label && <Label label={label} required={required} />}
       <FormGroup>
-        <Grid container>
+        <Grid container spacing={spacing}>
           {showSelectAll && !isEmpty(data) && (
             <Grid item xs={12} sm={12}>
               <FormControlLabel
@@ -113,6 +115,9 @@ const CheckBox = <TFormValues extends FieldValues>({
                       onChange(value.filter((item) => item !== option.id));
                     }
                   }}
+                  className={`${
+                    value.includes(option.id as never) ? 'active' : {}
+                  }`}
                 />
               </Grid>
             );

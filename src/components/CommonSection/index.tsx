@@ -6,11 +6,13 @@ import styles from './styles';
 interface CommonSectionProps {
   children: React.ReactNode;
   title: string;
+  customHeadingClass?: string;
 }
 
 const CommonSection: React.FC<CommonSectionProps> = ({
   children,
   title,
+  customHeadingClass,
   ...props
 }) => {
   return (
@@ -20,7 +22,7 @@ const CommonSection: React.FC<CommonSectionProps> = ({
       sx={styles.commonSectionWrapper}
       {...props}
     >
-      <Typography variant="section" sx={styles.sectionTitle}>
+      <Typography variant="section" className={customHeadingClass}>
         {title}
       </Typography>
       {children}

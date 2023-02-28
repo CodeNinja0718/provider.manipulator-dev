@@ -1,3 +1,4 @@
+import LogoutSvg from '@icons/icon_logout.svg';
 import {
   Box,
   Link,
@@ -7,6 +8,7 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
+import useLogout from 'models/auth/useLogout';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { PROVIDER_NAVIGATION } from 'utils/const';
@@ -15,6 +17,7 @@ import styles from './styles';
 
 const SideMenu: React.FC = () => {
   const router = useRouter();
+  const { logout } = useLogout();
   return (
     <Box sx={styles.sideMenuContainer}>
       <Box sx={styles.sideMenuWrapper}>
@@ -36,6 +39,16 @@ const SideMenu: React.FC = () => {
               </ListItemButton>
             </Link>
           ))}
+          <ListItemButton
+            sx={styles.menuBtn}
+            className="menuGreyBtn"
+            onClick={logout}
+          >
+            <ListItemIcon>
+              <LogoutSvg />
+            </ListItemIcon>
+            <ListItemText>ログアウト</ListItemText>
+          </ListItemButton>
         </List>
       </Box>
     </Box>
