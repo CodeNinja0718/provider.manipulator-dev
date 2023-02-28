@@ -8,7 +8,7 @@ const styles = {
     mt: 55,
 
     '&.sectionButton': {
-      mt: 55,
+      mt: 20,
     },
   },
 } as Record<string, SxProps<Theme>>;

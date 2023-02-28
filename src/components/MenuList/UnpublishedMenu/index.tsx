@@ -1,15 +1,32 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
 import DirectRegisterMenu from 'components/MenuList/DirectRegisterMenu';
+import type { IMenu } from 'models/menu/interface';
 
-const UnpublishedMenu = () => {
+import MenuCard from '../MenuCard';
+import styles from '../styles';
+
+interface UnpublishedMenuProps {
+  menus: IMenu[];
+}
+const UnpublishedMenu = ({ menus }: UnpublishedMenuProps) => {
   return (
     <CommonSection
       title="非掲載のメニュー"
       customHeadingClass="customHeadingClass"
     >
       <Box width="100%" pt={30}>
-        <Box>This is list</Box>
+        <Box p={{ xs: 20, tablet: 0 }}>
+          {menus && menus.length ? (
+            menus.map((menu: IMenu) => (
+              <MenuCard key={menu._id} menu={menu} isUnpublished={true} />
+            ))
+          ) : (
+            <Typography variant="subtitle1" sx={styles.emptyText}>
+              空のリスト
+            </Typography>
+          )}
+        </Box>
 
         <DirectRegisterMenu className="sectionButton" />
       </Box>

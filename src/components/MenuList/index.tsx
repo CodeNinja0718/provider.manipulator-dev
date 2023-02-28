@@ -1,10 +1,10 @@
-import { Box, Typography } from '@mui/material';
+import { Box, MenuItem, Select, Typography } from '@mui/material';
 import DirectRegisterMenu from 'components/MenuList/DirectRegisterMenu';
 import UnpublishedMenu from 'components/MenuList/UnpublishedMenu';
 import { useFetch, useUser } from 'hooks';
 import type { IMenu } from 'models/menu/interface';
 import menuQuery from 'models/menu/query';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { MENU_STATUS } from 'utils/const';
 import queryClient from 'utils/queryClient';
 
@@ -33,6 +33,7 @@ const MenuList = () => {
   const { data: res } = useFetch<IMenu | any>(
     menuQuery.searchManiplator(salonList[0]?.salonId),
   );
+  const [salonSelected, setSalonSelected] = useState('');
   // List
   const privateList = useMemo(() => {
     const list = res?.docs || [];
@@ -43,11 +44,12 @@ const MenuList = () => {
     return list.filter((item: IMenu) => item?.status === MENU_STATUS.PUBLIC);
   }, [res?.docs]);
   const salonNameList = salonList.map((item) => {
-    return item.name;
+    return { id: item.salonId, name: item.name };
   });
-  console.log(privateList);
-  console.log(pulicList);
-  console.log(salonNameList);
+  useEffect(() => {
+    setSalonSelected(salonNameList[0]?.id);
+  }, [salonNameList]);
+
   return (
     <Box sx={styles.wrapper}>
       <Box display="flex" justifyContent="center">
@@ -56,8 +58,20 @@ const MenuList = () => {
       <DirectRegisterMenu />
 
       <Box display="flex" mt={40} flexDirection="column" gap={40}>
-        <PublishedMenu />
-        <UnpublishedMenu />
+        <Box display="flex" flexDirection={'column'} p={{ xs: 20, tablet: 0 }}>
+          <Typography component={'h3'} sx={styles.labelText}>
+            整体師で絞り込む
+          </Typography>
+          <Select value={salonSelected}>
+            {salonNameList.map((salon) => (
+              <MenuItem key={salon.id} value={salon.id}>
+                {salon.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </Box>
+        <PublishedMenu menus={pulicList} />
+        <UnpublishedMenu menus={privateList} />
       </Box>
     </Box>
   );
