@@ -54,7 +54,7 @@ const Helper = {
     return cookies;
   },
   removeWebCookie: (): void => {
-    deleteCookie(`${process.env.PROJECT_NAME}-user-data`);
+    deleteCookie(`${process.env.PROJECT_NAME}-user-data`, { path: '/' });
     deleteCookie(`${process.env.PROJECT_NAME}-web-cookie`, { path: '/' });
   },
   convertObjectToOptions: (obj: Record<string, string>): IListItem[] => {
