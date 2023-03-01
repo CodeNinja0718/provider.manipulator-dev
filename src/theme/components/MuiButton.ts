@@ -24,8 +24,8 @@ const MuiButton = {
       margin: 0,
       left: 17,
       svg: {
-        width: 16,
-        height: 24,
+        width: 14,
+        height: 14,
       },
     },
   },

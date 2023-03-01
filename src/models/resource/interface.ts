@@ -38,3 +38,14 @@ export interface IFeatureItem {
   _id: string;
   name: string;
 }
+
+export interface ISymptomItem {
+  _id: number;
+  symptomName: string;
+  typeId: number;
+}
+
+export interface IStationItem {
+  _id: number;
+  name: string;
+}

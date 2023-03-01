@@ -37,10 +37,15 @@ const styles = {
     marginTop: 15,
     minWidth: 60,
     color: 'black',
+    fontSize: 14,
     '& .MuiButton-startIcon': {
       position: 'relative',
       left: 'initial',
       marginRight: 10,
+      svg: {
+        width: 15,
+        height: 18,
+      },
     },
   },
   divider: {

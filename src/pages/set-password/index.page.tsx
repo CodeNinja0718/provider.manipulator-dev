@@ -107,7 +107,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     return {
       props: {
         token,
-        email,
+        email: email.replace(/\s/g, '+'),
       },
     };
   } catch {

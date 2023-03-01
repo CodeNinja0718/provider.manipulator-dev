@@ -14,7 +14,7 @@ const resourceQuery = {
   },
   bankBranches: (params: Record<string, unknown>) => ({
     apiUrl: `/salon/common-data/banks/${params.bankId}/branches`,
-    queryKey: ['public', 'bank', 'branches', params],
+    queryKey: ['public', 'banks', 'branches', params],
     staleTime: Infinity,
   }),
   prefectures: {
@@ -24,7 +24,7 @@ const resourceQuery = {
   },
   prefectureAreas: (params: Record<string, unknown>) => ({
     apiUrl: `/salon/common-data/prefectures/${params.provinceId}/areas`,
-    queryKey: ['public', 'prefecture', 'areas', params],
+    queryKey: ['public', 'prefectures', 'areas', params],
     staleTime: Infinity,
   }),
   features: {
@@ -32,6 +32,21 @@ const resourceQuery = {
     queryKey: ['public', 'features'],
     staleTime: Infinity,
   },
+  symptoms: {
+    apiUrl: '/salon/common-data/symptoms',
+    queryKey: ['public', 'symptoms'],
+    staleTime: Infinity,
+  },
+  stations: {
+    apiUrl: '/salon/common-data/lines',
+    queryKey: ['public', 'stations'],
+    staleTime: Infinity,
+  },
+  stationLines: (params: Record<string, unknown>) => ({
+    apiUrl: `salon/common-data/lines/${params._id}/stations`,
+    queryKey: ['public', 'stations', 'lines', params],
+    staleTime: Infinity,
+  }),
 };
 
 export default resourceQuery;

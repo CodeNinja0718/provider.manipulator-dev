@@ -10,10 +10,17 @@ export function middleware(req: NextRequest) {
   const webCookie = JSON.parse(
     req.cookies.get(`${process.env.PROJECT_NAME}-web-cookie`)?.value || '{}',
   );
+  const userDataCookie = JSON.parse(
+    req.cookies.get(`${process.env.PROJECT_NAME}-user-data`)?.value || '{}',
+  );
   const nextUrl = req.nextUrl.pathname;
   const token = webCookie?.accessToken;
 
-  const redirectUrl = getRedirecttUrl({ nextUrl, token });
+  const redirectUrl = getRedirecttUrl({
+    nextUrl,
+    token,
+    userData: userDataCookie,
+  });
   if (redirectUrl) {
     return NextResponse.redirect(new URL(redirectUrl, req.url));
   }

@@ -1,11 +1,16 @@
-import { Box } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import CommonSection from 'components/CommonSection';
 import { CheckBox } from 'components/Form';
 import type { IMenuStaffProps } from 'components/RegisterMenu/models/interface';
 import styles from 'components/RegisterMenu/styles';
-import { AVAILABEL_STAFF } from 'utils/const';
+import theme from 'theme';
+import { AVAILABEL_STAFF, MENU_INFO } from 'utils/const';
 
 const StaffSection: React.FC<IMenuStaffProps> = ({ control }) => {
+  const isTablet = useMediaQuery(theme.breakpoints.down('tablet'), {
+    noSsr: true,
+  });
+
   return (
     <CommonSection title="スタッフ選択">
       <Box sx={styles.sectionItem}>
@@ -26,8 +31,9 @@ const StaffSection: React.FC<IMenuStaffProps> = ({ control }) => {
             data={AVAILABEL_STAFF}
             layout="horizontal"
             spacing={10}
-            label="施術可能なスタッフを選択してください"
+            label={MENU_INFO.AVAILABEL_STAFF}
             required
+            columns={isTablet ? 12 : 6}
           />
         </Box>
       </Box>

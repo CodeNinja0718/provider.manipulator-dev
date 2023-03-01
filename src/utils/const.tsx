@@ -13,15 +13,14 @@ export const Regex = {
   // eslint-disable-next-line no-useless-escape
   URL: /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/i,
   PASSWORD: /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).{8,}$/,
-  PHONE:
-    /^(?:\d{10,15}|\d{3}-\d{3}-\d{4}|\d{2}-\d{4}-\d{4}|\d{3}-\d{4}-\d{4})$/,
+  PHONE: /^(?:\d{10}|\d{3}-\d{3}-\d{4}|\d{2}-\d{4}-\d{4}|\d{3}-\d{4}-\d{4})$/,
   WHITESPACE: /\s/,
   EMAIL:
     // eslint-disable-next-line no-useless-escape, no-control-regex
     /[\s]{0,}((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))[\s]{0,}$/,
   JP_ZIPCODE:
     // eslint-disable-next-line no-useless-escape, no-control-regex
-    /〒?[0-9０-９]{3}[-－]?[0-9０-９]{4}/,
+    /^〒?[0-9０-９]{3}[-－]?[0-9０-９]{4}$/,
 };
 
 export enum DateFormat {
@@ -154,6 +153,53 @@ export const WORK_TIMES: string[] = [
   '23:00',
   '23:30',
 ];
+
+export const FEATURES_DATA: Record<
+  string,
+  {
+    label: string;
+    value: string;
+    img: string;
+  }
+> = {
+  '1': {
+    label: '駅チカ',
+    value: '1',
+    img: '/images/feature1.webp',
+  },
+  '2': {
+    label: '駐車場あり',
+    value: '2',
+    img: '/images/feature2.webp',
+  },
+  '3': {
+    label: 'コロナ対策',
+    value: '3',
+    img: '/images/feature3.webp',
+  },
+  '4': {
+    label: 'キッズスペースあり',
+    value: '4',
+    img: '/images/feature4.webp',
+  },
+  '5': {
+    label: '子連れOK',
+    value: '5',
+    img: '/images/feature5.webp',
+  },
+  '6': {
+    label: 'バリアフリー',
+    value: '6',
+    img: '/images/feature6.webp',
+  },
+  '7': { label: '女性専用', value: '7', img: '/images/feature7.webp' },
+  '8': {
+    label: '英語対応',
+    value: '8',
+    img: '/images/feature8.webp',
+  },
+};
+
 export const MENU_STATUS = {
   PRIVATE: 'private',
   PUBLIC: 'public',
@@ -173,17 +219,40 @@ export const MENU_TYPE = [
     id: 'one_time',
     name: '単発',
   },
-  {
-    id: 'coupon',
-    name: '回数券',
-  },
+  // {
+  //   id: 'coupon',
+  //   name: '回数券',
+  // },
 ];
+
 export const AVAILABEL_STAFF = [
   { id: '1', name: '整体師 太郎' },
   { id: '2', name: 'スタッフ2' },
   { id: '3', name: 'スタッフ3' },
   { id: '4', name: 'スタッフ4' },
 ];
+
 export const CURRENCY = {
   JPY: 'JPY',
+};
+
+export const MENU_INFO = {
+  NAME: 'メニュー名',
+  ORDER: '並び順（昇順で表示されます）',
+  ORDER_SHORT: '並び順',
+  ESTIMATED_TIME: '目安時間',
+  DISPLAY_TIME: '表示しない',
+  MENU_TYPE: 'メニュー種別',
+  PRICE: '単発料金',
+  COUPON_TIKET: '回数券料金',
+  EXPIRATION_COUPON_DATE: '回数券の有効期限',
+  PUBLISH_STATUS: '掲載状況',
+  AVAILABEL_STAFF: '施術可能なスタッフを選択してください',
+};
+
+export const UNIT = {
+  MINUTE: '分',
+  SHEET: '枚', // for coupon, ticket
+  YEN: '円',
+  MONTH: 'ヶ月',
 };

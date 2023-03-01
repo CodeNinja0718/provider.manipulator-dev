@@ -8,8 +8,9 @@ import styles from '../styles';
 
 interface UnpublishedMenuProps {
   menus: IMenu[];
+  currentSalonId: string;
 }
-const UnpublishedMenu = ({ menus }: UnpublishedMenuProps) => {
+const UnpublishedMenu = ({ menus, currentSalonId }: UnpublishedMenuProps) => {
   return (
     <CommonSection
       title="非掲載のメニュー"
@@ -28,7 +29,10 @@ const UnpublishedMenu = ({ menus }: UnpublishedMenuProps) => {
           )}
         </Box>
 
-        <DirectRegisterMenu className="sectionButton" />
+        <DirectRegisterMenu
+          currentSalonId={currentSalonId}
+          className="sectionButton"
+        />
       </Box>
     </CommonSection>
   );

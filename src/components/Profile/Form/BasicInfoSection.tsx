@@ -45,7 +45,7 @@ const BasisInfoSection: React.FC<BasisInfoSectionProps> = ({
   const featureOptions = useMemo(
     () =>
       (featureList?.result || []).map((feature) => ({
-        id: feature._id,
+        id: `${feature._id}`,
         name: feature.name,
       })),
     [featureList],
@@ -60,9 +60,14 @@ const BasisInfoSection: React.FC<BasisInfoSectionProps> = ({
           `https://postal-codes-jp.azurewebsites.net/api/PostalCodes/${zipcode}`,
         )
         .then(({ data }) => {
-          if (!isEmpty(data[0])) {
+          if (!isEmpty(data)) {
             setValue('address', data[0]?.name);
             setValue('city', data[0]?.city?.name);
+          } else {
+            helpers.toast("Coundn't found address based on postal code", {
+              type: 'error',
+              toastId: "Coundn't found address based on postal code",
+            });
           }
         })
         .catch(() => {
@@ -106,6 +111,13 @@ const BasisInfoSection: React.FC<BasisInfoSectionProps> = ({
             メールアドレス
           </Typography>
           <Typography>{watchEmail}</Typography>
+          <TextField
+            name="email"
+            control={control}
+            formControlProps={{
+              sx: { display: 'none' },
+            }}
+          />
         </Stack>
         <Stack direction="row" alignItems="center" gap={20}>
           <TextField
@@ -132,7 +144,7 @@ const BasisInfoSection: React.FC<BasisInfoSectionProps> = ({
         <AccessField control={control} errors={errors} />
         <CheckBox
           label="特徴"
-          name="feature"
+          name="features"
           control={control}
           data={featureOptions}
           layout="horizontal"

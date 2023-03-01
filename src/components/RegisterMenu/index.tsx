@@ -33,9 +33,17 @@ const RegisterMenu = () => {
     };
 
     setLoading(true);
-    router.push(`${Helper.parseURLByParams(params, '/my-page/menu/register')}`);
     router.push(
-      `${Helper.parseURLByParams(params, '/my-page/menu/register-review')}`,
+      `${Helper.parseURLByParams(
+        params,
+        `/my-page/menu/register/${router?.query.slug}`,
+      )}`,
+    );
+    router.push(
+      `${Helper.parseURLByParams(
+        params,
+        `/my-page/menu/register-review/${router?.query.slug}`,
+      )}`,
     );
   };
 

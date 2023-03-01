@@ -3,11 +3,11 @@ import UnCheckedIcon from '@icons/uncheck.svg';
 import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
 import { CheckBox, Radio, TextField } from 'components/Form';
-import Label from 'components/Form/Label';
+// import Label from 'components/Form/Label';
 import NumberField from 'components/Form/NumberField';
 import type { IMenuDetailProps } from 'components/RegisterMenu/models/interface';
 import styles from 'components/RegisterMenu/styles';
-import { MENU_STATUS_LIST, MENU_TYPE } from 'utils/const';
+import { MENU_INFO, MENU_STATUS_LIST, MENU_TYPE, UNIT } from 'utils/const';
 
 const MenuDetailSection: React.FC<IMenuDetailProps> = ({
   control,
@@ -19,7 +19,7 @@ const MenuDetailSection: React.FC<IMenuDetailProps> = ({
     <CommonSection title="メニュー詳細">
       <Box sx={styles.sectionItem}>
         <TextField
-          label="メニュー名"
+          label={MENU_INFO.NAME}
           name="name"
           control={control}
           placeholder="全身整体コース"
@@ -29,7 +29,7 @@ const MenuDetailSection: React.FC<IMenuDetailProps> = ({
         <NumberField
           name="order"
           control={control}
-          label="メニュー名"
+          label={MENU_INFO.ORDER}
           showEndAdornment={true}
           required
           sx={styles.numberField}
@@ -38,16 +38,18 @@ const MenuDetailSection: React.FC<IMenuDetailProps> = ({
           <NumberField
             name="estimatedTime"
             control={control}
-            label="目安時間"
+            label={MENU_INFO.ESTIMATED_TIME}
             showEndAdornment={true}
             required
             sx={styles.numberField}
             className="estimatedTimeLabel"
-            unitLabel={<Typography sx={styles.unitLabel}>分</Typography>}
+            unitLabel={
+              <Typography sx={styles.unitLabel}>{UNIT.MINUTE}</Typography>
+            }
           />
           <FormControlLabel
             className="checkboxControlWrapper"
-            label="表示しない"
+            label={MENU_INFO.DISPLAY_TIME}
             control={
               <Checkbox
                 icon={<UnCheckedIcon />}
@@ -65,33 +67,38 @@ const MenuDetailSection: React.FC<IMenuDetailProps> = ({
             data={MENU_TYPE}
             layout="horizontal"
             spacing={10}
-            label="メニュー種別"
+            label={MENU_INFO.MENU_TYPE}
             required
           />
         </Box>
         <NumberField
           name="price"
           control={control}
-          label="単発料金"
+          label={MENU_INFO.PRICE}
           placeholder="6,000"
           showEndAdornment={false}
           required
           className="maxHeight maxWidth"
           sx={styles.numberField}
           unitLabel={
-            <Typography sx={{ ...styles.unitLabel, ml: 12 }}>円</Typography>
+            <Typography sx={{ ...styles.unitLabel, ml: 12 }}>
+              {UNIT.YEN}
+            </Typography>
           }
         />
-
-        <Box display="flex">
+        {/* Field for Ticket/ Coupon */}
+        {/* <Box display="flex" flexWrap="wrap">
           <Box
             display="flex"
             flexDirection="column"
             position="relative"
-            mr={40}
+            mr={{
+              xs: 0,
+              mobile: 40,
+            }}
           >
             <Box mb={10}>
-              <Label label="回数券料金" required />
+              <Label label={MENU_INFO.COUPON_TIKET} required />
             </Box>
             <Box display="flex">
               <Box>
@@ -103,7 +110,7 @@ const MenuDetailSection: React.FC<IMenuDetailProps> = ({
                   sx={styles.numberField}
                   unitLabel={
                     <Typography sx={{ ...styles.unitLabel, mx: 9 }}>
-                      枚 ×
+                      {UNIT.SHEET} ×
                     </Typography>
                   }
                 />
@@ -120,7 +127,7 @@ const MenuDetailSection: React.FC<IMenuDetailProps> = ({
                   showEndAdornment={false}
                   unitLabel={
                     <Typography sx={{ ...styles.unitLabel, mx: 9 }}>
-                      円
+                      {UNIT.YEN}
                     </Typography>
                   }
                 />
@@ -130,7 +137,7 @@ const MenuDetailSection: React.FC<IMenuDetailProps> = ({
 
           <Box>
             <Box mb={10}>
-              <Label label="回数券の有効期限" required />
+              <Label label={MENU_INFO.EXPIRATION_COUPON_DATE} required />
             </Box>
             <Box>
               <NumberField
@@ -141,13 +148,13 @@ const MenuDetailSection: React.FC<IMenuDetailProps> = ({
                 sx={styles.numberField}
                 unitLabel={
                   <Typography sx={{ ...styles.unitLabel, mx: 9 }}>
-                    ヶ月
+                    {UNIT.MONTH}
                   </Typography>
                 }
               />
             </Box>
           </Box>
-        </Box>
+        </Box> */}
 
         <Box display="flex" width="100%" sx={styles.checkboxArea}>
           <Radio
@@ -155,7 +162,7 @@ const MenuDetailSection: React.FC<IMenuDetailProps> = ({
             defaultValue={initialValues.status}
             control={control}
             data={MENU_STATUS_LIST}
-            label="掲載状況"
+            label={MENU_INFO.PUBLISH_STATUS}
             className="customRadio"
             required
           />

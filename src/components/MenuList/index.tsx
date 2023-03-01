@@ -4,7 +4,7 @@ import UnpublishedMenu from 'components/MenuList/UnpublishedMenu';
 import { useFetch, useUser } from 'hooks';
 import type { IMenu } from 'models/menu/interface';
 import menuQuery from 'models/menu/query';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { MENU_STATUS } from 'utils/const';
 import queryClient from 'utils/queryClient';
 
@@ -21,19 +21,21 @@ const getSalonInfo = () => {
     });
   const salonList: any[] = [];
   currentUserQuery.filter(Boolean).map((item: any) => {
-    const list = item.salon ? item.salon : [];
-    return salonList.push(...list);
+    return salonList.push(...(item.salon || []));
   });
-  return salonList;
+  return salonList || [];
 };
 
 const MenuList = () => {
   useUser({ enabled: false });
-  const salonList = getSalonInfo() || [];
+  const salonList = getSalonInfo();
   const { data: res } = useFetch<IMenu | any>(
-    menuQuery.searchManiplator(salonList[0]?.salonId),
+    menuQuery.getManiplatorList(salonList[0]?.salonId),
   );
-  const [salonSelected, setSalonSelected] = useState('');
+  const currentSalonId = useMemo(() => {
+    return salonList[0]?.salonId || '';
+  }, [salonList]);
+
   // List
   const privateList = useMemo(() => {
     const list = res?.docs || [];
@@ -46,23 +48,20 @@ const MenuList = () => {
   const salonNameList = salonList.map((item) => {
     return { id: item.salonId, name: item.name };
   });
-  useEffect(() => {
-    setSalonSelected(salonNameList[0]?.id);
-  }, [salonNameList]);
 
   return (
     <Box sx={styles.wrapper}>
       <Box display="flex" justifyContent="center">
         <Typography variant="title">メニュー管理</Typography>
       </Box>
-      <DirectRegisterMenu />
+      <DirectRegisterMenu currentSalonId={currentSalonId} />
 
       <Box display="flex" mt={40} flexDirection="column" gap={40}>
         <Box display="flex" flexDirection={'column'} p={{ xs: 20, tablet: 0 }}>
           <Typography component={'h3'} sx={styles.labelText}>
             整体師で絞り込む
           </Typography>
-          <Select value={salonSelected}>
+          <Select value={currentSalonId}>
             {salonNameList.map((salon) => (
               <MenuItem key={salon.id} value={salon.id}>
                 {salon.name}
@@ -70,8 +69,8 @@ const MenuList = () => {
             ))}
           </Select>
         </Box>
-        <PublishedMenu menus={pulicList} />
-        <UnpublishedMenu menus={privateList} />
+        <PublishedMenu menus={pulicList} currentSalonId={currentSalonId} />
+        <UnpublishedMenu menus={privateList} currentSalonId={currentSalonId} />
       </Box>
     </Box>
   );

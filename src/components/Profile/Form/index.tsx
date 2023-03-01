@@ -2,9 +2,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import ArrowRight from '@icons/arrow-right.svg';
 import { LoadingButton } from '@mui/lab';
 import { Stack } from '@mui/material';
+import { useEffect } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
+import AreaStationSection from './AreaStationSection';
 import BankInfoSection from './BankInfoSection';
 import BasicInfoSection from './BasicInfoSection';
 import type { ProfileFormValues } from './schema';
@@ -29,6 +31,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
     watch,
     setValue,
     trigger,
+    reset,
     formState: { errors },
   } = useForm<ProfileFormValues>({
     resolver: yupResolver(schema),
@@ -36,6 +39,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
     defaultValues: initialValues,
     shouldFocusError: true,
   });
+
+  useEffect(() => {
+    reset(initialValues);
+  }, [initialValues, reset]);
 
   return (
     <Stack
@@ -50,6 +57,13 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         setValue={setValue}
         watch={watch}
         errors={errors}
+      />
+      <AreaStationSection
+        control={control}
+        setValue={setValue}
+        watch={watch}
+        errors={errors}
+        trigger={trigger}
       />
       <BankInfoSection
         control={control}

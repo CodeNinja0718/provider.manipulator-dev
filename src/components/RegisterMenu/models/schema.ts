@@ -3,7 +3,7 @@ import { array, boolean, number, object, string } from 'yup';
 
 const schema = object({
   name: string().required(),
-  order: number().min(0, 'Order must be 0 or greater'),
+  order: number().required().min(0, 'Order must be 0 or greater'),
   estimatedTime: number()
     .required()
     .min(0, 'Estimated Time must be 0 or greater'),

@@ -5,11 +5,14 @@ import { useRouter } from 'next/router';
 import type { IDirectRegisterMenu } from '../models/interface';
 import styles from './styles';
 
-const DirectRegisterMenu = ({ className }: IDirectRegisterMenu) => {
+const DirectRegisterMenu = ({
+  className,
+  currentSalonId,
+}: IDirectRegisterMenu) => {
   const router = useRouter();
   // Go to register menu
   const handleClick = () => {
-    router.push(`${router.pathname}/register`);
+    router.push(`${router.pathname}/register/${currentSalonId}`);
   };
 
   return (

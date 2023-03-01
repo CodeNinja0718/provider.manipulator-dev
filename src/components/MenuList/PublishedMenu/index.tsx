@@ -8,8 +8,9 @@ import styles from '../styles';
 
 interface PublishedMenuProps {
   menus: IMenu[];
+  currentSalonId: string;
 }
-const PublishedMenu = ({ menus }: PublishedMenuProps) => {
+const PublishedMenu = ({ menus, currentSalonId }: PublishedMenuProps) => {
   return (
     <CommonSection title="掲載中のメニュー一覧">
       <Box width="100%" pt={30}>
@@ -22,7 +23,10 @@ const PublishedMenu = ({ menus }: PublishedMenuProps) => {
             </Typography>
           )}
         </Box>
-        <DirectRegisterMenu className="sectionButton" />
+        <DirectRegisterMenu
+          currentSalonId={currentSalonId}
+          className="sectionButton"
+        />
       </Box>
     </CommonSection>
   );

@@ -12,7 +12,7 @@ const styles = {
     },
   },
   submitBtn: {
-    maxWidth: 323,
+    maxWidth: { xs: 'calc(100% - 40px)', tablet: 323 },
     width: '100%',
     m: 'auto',
     mt: 0,
@@ -52,10 +52,11 @@ const styles = {
         },
 
         '& .MuiButtonBase-root': {
+          padding: 0,
           svg: {
             width: 18,
             height: 18,
-            mr: 30,
+            mr: 20,
           },
         },
       },
@@ -94,7 +95,7 @@ const styles = {
     px: { xs: 20, tablet: 0 },
   },
   numberField: {
-    width: 66,
+    width: 70,
     height: 40,
     fontWeight: 'bold',
     '& .MuiNumberInput-stepper': {
@@ -109,6 +110,10 @@ const styles = {
       height: 50,
     },
     '&.maxWidth': {
+      // width: {
+      //   xs: 120,
+      //   tablet: 168,
+      // },
       width: 168,
     },
   },
@@ -123,7 +128,7 @@ const styles = {
         mr: 9,
       },
     },
-    '.MuiTypography-root': {
+    '> .MuiTypography-root': {
       lineHeight: 1,
     },
   },

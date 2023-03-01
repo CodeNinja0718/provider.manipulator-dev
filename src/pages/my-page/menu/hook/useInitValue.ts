@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
+import { MENU_TYPE } from 'utils/const';
 
 const useInitValue = () => {
   const router = useRouter();
@@ -12,7 +13,7 @@ const useInitValue = () => {
         : 0,
       menuTypes: router?.query?.menuTypes
         ? String(router?.query?.menuTypes).split(',')
-        : [],
+        : [MENU_TYPE[0]?.id],
       price: router?.query?.price ? Number(router?.query?.price) : 0,
       ticketMount: router?.query?.ticketMount
         ? Number(router?.query?.ticketMount)
