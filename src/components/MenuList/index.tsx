@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, MenuItem, Select, Typography } from '@mui/material';
 import DirectRegisterMenu from 'components/MenuList/DirectRegisterMenu';
 import UnpublishedMenu from 'components/MenuList/UnpublishedMenu';
 import { useFetch, useUser } from 'hooks';
@@ -46,11 +46,9 @@ const MenuList = () => {
     return list.filter((item: IMenu) => item?.status === MENU_STATUS.PUBLIC);
   }, [res?.docs]);
   const salonNameList = salonList.map((item) => {
-    return item.name;
+    return { id: item.salonId, name: item.name };
   });
-  console.log(privateList);
-  console.log(pulicList);
-  console.log(salonNameList);
+
   return (
     <Box sx={styles.wrapper}>
       <Box display="flex" justifyContent="center">
@@ -59,8 +57,20 @@ const MenuList = () => {
       <DirectRegisterMenu currentSalonId={currentSalonId} />
 
       <Box display="flex" mt={40} flexDirection="column" gap={40}>
-        <PublishedMenu currentSalonId={currentSalonId} />
-        <UnpublishedMenu currentSalonId={currentSalonId} />
+        <Box display="flex" flexDirection={'column'} p={{ xs: 20, tablet: 0 }}>
+          <Typography component={'h3'} sx={styles.labelText}>
+            整体師で絞り込む
+          </Typography>
+          <Select value={currentSalonId}>
+            {salonNameList.map((salon) => (
+              <MenuItem key={salon.id} value={salon.id}>
+                {salon.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </Box>
+        <PublishedMenu menus={pulicList} currentSalonId={currentSalonId} />
+        <UnpublishedMenu menus={privateList} currentSalonId={currentSalonId} />
       </Box>
     </Box>
   );

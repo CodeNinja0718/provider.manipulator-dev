@@ -204,7 +204,6 @@ export const MENU_STATUS = {
   PRIVATE: 'private',
   PUBLIC: 'public',
 };
-
 export const MENU_STATUS_LIST = [
   {
     id: 'public',
@@ -215,7 +214,6 @@ export const MENU_STATUS_LIST = [
     name: '掲載しない',
   },
 ];
-
 export const MENU_TYPE = [
   {
     id: 'one_time',

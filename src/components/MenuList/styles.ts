@@ -10,6 +10,18 @@ const styles = {
       background: (theme: Theme) => theme.palette.placeholder,
     },
   },
+  emptyText: {
+    textAlign: 'center',
+    color: 'gray',
+    mb: 30,
+    fontSize: 24,
+  },
+  labelText: {
+    color: 'secondary.main',
+    fontWeight: 600,
+    fontSize: 16,
+    marginBottom: 10,
+  },
 } as Record<string, SxProps<Theme>>;
 
 export default styles;
