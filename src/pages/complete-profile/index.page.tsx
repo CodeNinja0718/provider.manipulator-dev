@@ -35,7 +35,7 @@ const CompleteProfilePage = () => {
       range(7).map((index) => ({
         weekDay: index,
         isHoliday: false,
-        hours: [{ startTime: '09:00', endTime: '23:00' }],
+        hours: [{ startTime: '09:00', endTime: '20:00' }],
       })),
     [],
   );
@@ -99,8 +99,8 @@ const CompleteProfilePage = () => {
           ],
         },
         {
-          onSuccess: () => {
-            refetch();
+          onSuccess: async () => {
+            await refetch();
             router.replace('/');
           },
         },
