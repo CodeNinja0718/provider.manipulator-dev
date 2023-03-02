@@ -16,8 +16,8 @@ const schema = object({
     .required()
     .min(0, 'Coupon expiration date must be 0 or greater'),
   status: string().required(),
-  availabelStaff: array().min(1),
+  // availabelStaff: array().min(1),
 });
 
 export default schema;
-export type RegisterMenuFormValues = InferType<typeof schema>;
+export type MenuFormValues = InferType<typeof schema>;

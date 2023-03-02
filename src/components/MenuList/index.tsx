@@ -1,4 +1,10 @@
-import { Box, MenuItem, Select, Typography } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
 import DirectRegisterMenu from 'components/MenuList/DirectRegisterMenu';
 import UnpublishedMenu from 'components/MenuList/UnpublishedMenu';
 import { useFetch, useUser } from 'hooks';
@@ -58,19 +64,34 @@ const MenuList = () => {
 
       <Box display="flex" mt={40} flexDirection="column" gap={40}>
         <Box display="flex" flexDirection={'column'} p={{ xs: 20, tablet: 0 }}>
-          <Typography component={'h3'} sx={styles.labelText}>
-            整体師で絞り込む
-          </Typography>
-          <Select value={currentSalonId}>
-            {salonNameList.map((salon) => (
-              <MenuItem key={salon.id} value={salon.id}>
-                {salon.name}
-              </MenuItem>
-            ))}
-          </Select>
+          {res && (
+            <>
+              <Typography component={'h3'} sx={styles.labelText}>
+                整体師で絞り込む
+              </Typography>
+              <Select value={currentSalonId} readOnly>
+                {salonNameList.map((salon) => (
+                  <MenuItem key={salon.id} value={salon.id}>
+                    {salon.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </>
+          )}
         </Box>
-        <PublishedMenu menus={pulicList} currentSalonId={currentSalonId} />
-        <UnpublishedMenu menus={privateList} currentSalonId={currentSalonId} />
+        {res ? (
+          <>
+            <PublishedMenu menus={pulicList} currentSalonId={currentSalonId} />
+            <UnpublishedMenu
+              menus={privateList}
+              currentSalonId={currentSalonId}
+            />
+          </>
+        ) : (
+          <Box sx={styles.loadingBox}>
+            <CircularProgress size="small" sx={styles.loading} />
+          </Box>
+        )}
       </Box>
     </Box>
   );
