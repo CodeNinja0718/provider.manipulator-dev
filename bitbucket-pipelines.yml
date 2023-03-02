@@ -53,12 +53,10 @@ pipelines:
           deployment: UAT
           trigger: manual
     develop:
-      - parallel:
-        - step:
-            <<: *build
-            deployment: BuildDevelopment
-        - step: *lint
+      - step:
+          <<: *build
+          deployment: BuildDevelopment
       - step:
           <<: *deploy
           deployment: Development
-          trigger: manual
+          image: public.ecr.aws/e2s7v1k5/auto-deploy-image:next
