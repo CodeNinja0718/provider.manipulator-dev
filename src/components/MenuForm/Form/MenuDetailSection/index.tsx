@@ -5,11 +5,11 @@ import CommonSection from 'components/CommonSection';
 import { CheckBox, Radio, TextField } from 'components/Form';
 // import Label from 'components/Form/Label';
 import NumberField from 'components/Form/NumberField';
-import type { IMenuDetailProps } from 'components/RegisterMenu/models/interface';
-import styles from 'components/RegisterMenu/styles';
+import type { IMenuFormProps } from 'components/MenuForm/models/interface';
+import styles from 'components/MenuForm/styles';
 import { MENU_INFO, MENU_STATUS_LIST, MENU_TYPE, UNIT } from 'utils/const';
 
-const MenuDetailSection: React.FC<IMenuDetailProps> = ({
+const MenuDetailSection: React.FC<IMenuFormProps> = ({
   control,
   initialValues,
   timeDisplay,

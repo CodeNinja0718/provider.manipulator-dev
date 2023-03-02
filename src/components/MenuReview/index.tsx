@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import useInitValue from 'pages/my-page/menu/hook/useInitValue';
 import { useMemo, useState } from 'react';
 import {
-  AVAILABEL_STAFF,
+  // AVAILABEL_STAFF,
   MENU_INFO,
   MENU_STATUS_LIST,
   MENU_TYPE,
@@ -56,14 +56,14 @@ const MenuReview = () => {
     return value;
   }, [initialValues]);
 
-  const availabelStaff = useMemo(() => {
-    const data = initialValues?.availabelStaff || [];
-    const value =
-      AVAILABEL_STAFF.filter((item) => data.includes(item.id)).map((item) => {
-        return item.name;
-      }) || [];
-    return value;
-  }, [initialValues]);
+  // const availabelStaff = useMemo(() => {
+  //   const data = initialValues?.availabelStaff || [];
+  //   const value =
+  //     AVAILABEL_STAFF.filter((item) => data.includes(item.id)).map((item) => {
+  //       return item.name;
+  //     }) || [];
+  //   return value;
+  // }, [initialValues]);
 
   const handleSubmit = () => {
     const data = {
@@ -88,7 +88,7 @@ const MenuReview = () => {
       {
         onSuccess: () => {
           setDisabled(true);
-          router.push('/my-page/menu');
+          router.replace('/my-page/menu');
         },
       },
     );
@@ -144,7 +144,7 @@ const MenuReview = () => {
             {handleGetStatus(initialValues?.status)}
           </RowItem>
         </CommonSection>
-        <CommonSection title="メニュー詳細">
+        {/* <CommonSection title="メニュー詳細">
           <RowItem customItemRow="borderNone">
             <Box sx={styles.horizontalBox}>
               {availabelStaff.map((item, index) => (
@@ -164,7 +164,7 @@ const MenuReview = () => {
               ))}
             </Box>
           </RowItem>
-        </CommonSection>
+        </CommonSection> */}
 
         <LoadingButton
           size="medium"

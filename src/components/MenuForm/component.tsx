@@ -7,8 +7,8 @@ import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
 import MenuDetailSection from './Form/MenuDetailSection';
-import StaffSection from './Form/StaffSection';
-import type { RegisterMenuFormValues } from './models/schema';
+// import StaffSection from './Form/StaffSection';
+import type { MenuFormValues } from './models/schema';
 import schema from './models/schema';
 import styles from './styles';
 
@@ -17,12 +17,12 @@ const Component = ({
   initialValues,
   loading = false,
 }: {
-  onSubmit: SubmitHandler<RegisterMenuFormValues>;
-  initialValues: RegisterMenuFormValues;
+  onSubmit: SubmitHandler<MenuFormValues>;
+  initialValues: MenuFormValues;
   loading: boolean;
 }) => {
   const [timeDisplay, setTimeDisplay] = useState(initialValues.timeDisplay);
-  const { control, handleSubmit } = useForm<RegisterMenuFormValues>({
+  const { control, handleSubmit } = useForm<MenuFormValues>({
     resolver: yupResolver(schema),
     mode: 'onBlur',
     defaultValues: initialValues,
@@ -51,7 +51,7 @@ const Component = ({
           />
 
           {/* Staff */}
-          <StaffSection control={control} />
+          {/* <StaffSection control={control} /> */}
 
           <LoadingButton
             size="medium"

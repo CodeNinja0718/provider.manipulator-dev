@@ -1,19 +1,21 @@
 import { useUser } from 'hooks';
 import _map from 'lodash/map';
-import { useRouter } from 'next/router';
 import useInitValue from 'pages/my-page/menu/hook/useInitValue';
 import { useState } from 'react';
 import { CURRENCY } from 'utils/const';
-import Helper from 'utils/helpers';
 import queryClient from 'utils/queryClient';
 
 import Component from './component';
-import type { RegisterMenuFormValues } from './models/schema';
+import type { MenuFormValues } from './models/schema';
 
-const RegisterMenu = () => {
-  const router = useRouter();
+interface MenuFormProps {
+  onSubmit: (param: MenuFormValues) => void;
+  defaultValues?: MenuFormValues;
+}
+
+const MenuForm = ({ onSubmit, defaultValues }: MenuFormProps) => {
   const [loading, setLoading] = useState(false);
-  const initValues = useInitValue();
+  const initValues = { ...useInitValue(), ...defaultValues };
 
   useUser({ enabled: false });
 
@@ -24,7 +26,7 @@ const RegisterMenu = () => {
       return each?.state?.data;
     });
 
-  const handleSubmit = (value: RegisterMenuFormValues) => {
+  const handleSubmit = (value: MenuFormValues) => {
     const manipulatorIds = _map(currentUserQuery, (item: any) => item._id);
     const params = {
       ...value,
@@ -33,18 +35,7 @@ const RegisterMenu = () => {
     };
 
     setLoading(true);
-    router.push(
-      `${Helper.parseURLByParams(
-        params,
-        `/my-page/menu/register/${router?.query.slug}`,
-      )}`,
-    );
-    router.push(
-      `${Helper.parseURLByParams(
-        params,
-        `/my-page/menu/register-review/${router?.query.slug}`,
-      )}`,
-    );
+    onSubmit(params);
   };
 
   return (
@@ -58,4 +49,4 @@ const RegisterMenu = () => {
   );
 };
 
-export default RegisterMenu;
+export default MenuForm;
