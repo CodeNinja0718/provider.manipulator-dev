@@ -1,16 +1,14 @@
 import { ArrowUpward } from '@mui/icons-material';
 import { Box, Card, IconButton, Stack } from '@mui/material';
 import { useScroll } from 'framer-motion';
-import dynamic from 'next/dynamic';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 
+import Drawer from './CommonDrawer';
+import Footer from './Footer';
 import Header from './Header';
+import SideMenu from './SideMenu';
 import styles from './styles';
-
-const Footer = dynamic(() => import('./Footer'));
-const SideMenu = dynamic(() => import('./SideMenu'));
-const Drawer = dynamic(() => import('./CommonDrawer'));
 
 export default function Layout({
   children,

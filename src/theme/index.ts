@@ -30,6 +30,8 @@ declare module '@mui/material/styles' {
     headerGradient: string;
     chamoisee: string;
     nyanza: string;
+    spanishOrange: string;
+    unbleachedSilk: string;
   }
 
   interface PaletteOptions {
@@ -51,6 +53,8 @@ declare module '@mui/material/styles' {
     headerGradient?: string;
     chamoisee?: string;
     nyanza?: string;
+    spanishOrange?: string;
+    unbleachedSilk?: string;
   }
 
   interface TypographyVariants {
@@ -126,6 +130,8 @@ const palette: MuiPaletteOptions = {
   grullo: '#ac9b93',
   chamoisee: '#9c795e',
   nyanza: '#e3f5d6',
+  spanishOrange: '#EA6500',
+  unbleachedSilk: '#FFDFC7',
   action: {
     hoverOpacity: 0.04,
     disabledBackground: '#cccccc',

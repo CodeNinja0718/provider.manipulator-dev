@@ -41,29 +41,19 @@ const CommonDrawer: React.FC = () => {
               <ListItemText>マイページ</ListItemText>
             </ListItemButton>
           </Link>
-          <List disablePadding>
-            <Link href="/my-page/profile">
-              <ListItemButton sx={styles.menuBtn}>
-                <ListItemIcon>
-                  <ProfileSvg />
-                </ListItemIcon>
-                <ListItemText>マイページ</ListItemText>
-              </ListItemButton>
-            </Link>
-            {PROVIDER_NAVIGATION.map((nav) => {
-              return (
-                <Link key={nav.href} href={nav.href}>
-                  <ListItemButton
-                    sx={{ ...styles.menuBtn, paddingLeft: 80 }}
-                    selected={router.pathname.startsWith(nav.href)}
-                  >
-                    <ListItemIcon>{nav.icon}</ListItemIcon>
-                    <ListItemText>{nav.label}</ListItemText>
-                  </ListItemButton>
-                </Link>
-              );
-            })}
-          </List>
+          {PROVIDER_NAVIGATION.map((nav) => {
+            return (
+              <Link key={nav.href} href={nav.href}>
+                <ListItemButton
+                  sx={styles.menuBtn}
+                  selected={router.pathname.startsWith(nav.href)}
+                >
+                  <ListItemIcon>{nav.icon}</ListItemIcon>
+                  <ListItemText>{nav.label}</ListItemText>
+                </ListItemButton>
+              </Link>
+            );
+          })}
           <ListItemButton
             sx={styles.menuBtn}
             className="logout"

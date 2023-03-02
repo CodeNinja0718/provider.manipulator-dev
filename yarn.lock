@@ -5261,11 +5261,6 @@ pidtree@^0.6.0:
   resolved "https://registry.yarnpkg.com/pidtree/-/pidtree-0.6.0.tgz#90ad7b6d42d5841e69e0a2419ef38f8883aa057c"
   integrity sha512-eG2dWTVw5bzqGRztnHExczNxt5VGsE6OwTeCG3fdUf9KBsZzO3R5OIIIzWR+iZA0NtZ+RDVdaoE2dK1cn6jH4g==
 
-postcode-validator@^3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/postcode-validator/-/postcode-validator-3.7.0.tgz#ea180b860e55adba839fd7f453464b99fc116ecc"
-  integrity sha512-pl697wPxQ8kb3S0qoIHdNsqPjMY3ieKQtR6+dp0o+NOlM6ImzDpyKSdlXgGzzjoUElDUdXWezFjGGd9yITM+Xg==
-
 postcss@8.4.14:
   version "8.4.14"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.14.tgz#ee9274d5622b4858c1007a74d76e42e56fd21caf"
@@ -5411,6 +5406,11 @@ react-hook-form@^7.43.1:
   version "7.43.1"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.43.1.tgz#0d0d7822f3f7fc05ffc41d5f012b49b90fcfa0f0"
   integrity sha512-+s3+s8LLytRMriwwuSqeLStVjRXFGxgjjx2jED7Z+wz1J/88vpxieRQGvJVvzrzVxshZ0BRuocFERb779m2kNg==
+
+react-indiana-drag-scroll@^3.0.3-alpha:
+  version "3.0.3-alpha"
+  resolved "https://registry.yarnpkg.com/react-indiana-drag-scroll/-/react-indiana-drag-scroll-3.0.3-alpha.tgz#215572d235b330ce5e070b2e2f7f6872283e5a7d"
+  integrity sha512-Bo8Ium/CGs0oIYzk4wVDphuhrf2QRvLKTLO/+21M+czF1EQEII4w1UqoFs4lIGd84YpVL8UDXIcy2m9yzsFuRQ==
 
 react-intersection-observer@^9.4.1:
   version "9.4.1"
@@ -6304,11 +6304,6 @@ use-intl@^2.10.2:
   dependencies:
     "@formatjs/ecma402-abstract" "^1.11.4"
     intl-messageformat "^9.3.18"
-
-use-postal-jp@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/use-postal-jp/-/use-postal-jp-2.0.2.tgz#6284ed70cf9314e8cc65f450eb95954fd27c648f"
-  integrity sha512-Zd+H/X7lM+vzPREfxAfebI5HDR2AZkY7DLONirYvIPfTmEZM0fflKW6KaxDGA2GP+c6gm/RkOKotKZoXePhHFA==
 
 use-sync-external-store@1.2.0, use-sync-external-store@^1.2.0:
   version "1.2.0"

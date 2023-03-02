@@ -1,5 +1,6 @@
 import FacebookIcon from '@icons/facebook_icon.svg';
 import ListSvg from '@icons/icon_list.svg';
+import ScheduleSvg from '@icons/icon_schedule.svg';
 import InstagramIcon from '@icons/instagram_icon.svg';
 import TwitterIcon from '@icons/twitter_icon.svg';
 
@@ -54,6 +55,11 @@ export const PROVIDER_NAVIGATION: {
   icon: React.ReactNode;
   children?: INavigation[];
 }[] = [
+  {
+    href: '/my-page/schedule',
+    label: 'スケジュール',
+    icon: <ScheduleSvg />,
+  },
   {
     href: '/my-page/menu',
     label: 'メニュー管理',
@@ -145,13 +151,6 @@ export const WORK_TIMES: string[] = [
   '19:00',
   '19:30',
   '20:00',
-  '20:30',
-  '21:00',
-  '21:30',
-  '22:00',
-  '22:30',
-  '23:00',
-  '23:30',
 ];
 
 export const FEATURES_DATA: Record<
