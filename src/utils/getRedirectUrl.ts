@@ -15,19 +15,20 @@ const getRedirecttUrl = ({
     if (NON_LOGIN_ROUTE.includes(nextUrl)) {
       return '/';
     }
-    if (
-      userData?.isNewRegistration &&
-      userData?.type === 'Owner' &&
-      nextUrl !== '/complete-profile'
-    ) {
-      return '/complete-profile';
-    }
-    if (
-      !userData?.isNewRegistration &&
-      userData?.type !== 'Owner' &&
-      nextUrl === '/complete-profile'
-    ) {
-      return '/';
+    if (userData) {
+      if (
+        userData?.isNewRegistration &&
+        userData?.type === 'Owner' &&
+        nextUrl !== '/complete-profile'
+      ) {
+        return '/complete-profile';
+      }
+      if (
+        (!userData?.isNewRegistration || userData?.type !== 'Owner') &&
+        nextUrl === '/complete-profile'
+      ) {
+        return '/';
+      }
     }
     return undefined;
   }

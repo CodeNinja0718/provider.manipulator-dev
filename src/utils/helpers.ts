@@ -4,7 +4,6 @@ import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import dayjs from 'dayjs';
 import type { IListItem } from 'hooks/types';
 import { get, map } from 'lodash';
-import type { IProvider } from 'models/auth/interface';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import process from 'process';
 import type { ToastContent, ToastOptions } from 'react-toastify';
@@ -40,24 +39,7 @@ const Helper = {
             maxAge: 86400,
           }),
     }),
-  setUserData: (data: IProvider) =>
-    setCookie(`${process.env.PROJECT_NAME}-user-data`, data, {
-      maxAge: 86400,
-    }),
-  getUserData: (
-    req?: NextApiRequest,
-    res?: NextApiResponse,
-  ): Record<string, string> => {
-    const cookies = JSON.parse(
-      (getCookie(
-        `${process.env.PROJECT_NAME}-user-data`,
-        req && res ? { req, res } : {},
-      ) || null) as string,
-    );
-    return cookies;
-  },
   removeWebCookie: (): void => {
-    deleteCookie(`${process.env.PROJECT_NAME}-user-data`, { path: '/' });
     deleteCookie(`${process.env.PROJECT_NAME}-web-cookie`, { path: '/' });
   },
   convertObjectToOptions: (obj: Record<string, string>): IListItem[] => {

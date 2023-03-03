@@ -20,9 +20,6 @@ const useUser = (options?: Options<IProvider>) => {
     ...authQuery.currentUser,
     enabled: enabled && !!webCookie,
     staleTime: Infinity,
-    onSuccess: (data) => {
-      Helper.setUserData(data);
-    },
     ...otherOptions,
   });
 };

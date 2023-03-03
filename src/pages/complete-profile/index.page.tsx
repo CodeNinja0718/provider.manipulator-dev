@@ -101,7 +101,6 @@ const CompleteProfilePage = () => {
         {
           onSuccess: async () => {
             await refetch();
-            router.replace('/');
           },
         },
       );

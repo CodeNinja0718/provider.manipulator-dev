@@ -6,7 +6,7 @@ import CheckboxBase from 'components/Form/CheckBox/CheckboxBase';
 import HelperText from 'components/Form/HelperText';
 import Label from 'components/Form/Label';
 import { useFetch } from 'hooks';
-import type { IStationItem, ISymptomItem } from 'models/resource/interface';
+import type { IPrefectureItem, IStationItem } from 'models/resource/interface';
 import resourceQuery from 'models/resource/query';
 import { useMemo } from 'react';
 import type {
@@ -38,8 +38,8 @@ const AreaStationSection: React.FC<AreaStationSectionProps> = ({
   const watchStationIds = watch('stationIds', []);
   const watchStationSelected = watch('stationSelected', '');
 
-  const { data: symptoms } = useFetch<{ result: ISymptomItem[] }>(
-    resourceQuery.symptoms,
+  const { data: areas } = useFetch<{ result: IPrefectureItem[] }>(
+    resourceQuery.prefectureAreas({ provinceId: 1 }),
   );
   const { data: stations } = useFetch<{ result: IStationItem[] }>(
     resourceQuery.stations,
@@ -55,11 +55,11 @@ const AreaStationSection: React.FC<AreaStationSectionProps> = ({
 
   const areaOptions = useMemo(
     () =>
-      (symptoms?.result || []).map((symptom) => ({
-        id: `${symptom._id}`,
-        name: symptom.symptomName,
+      (areas?.result || []).map((area) => ({
+        id: `${area._id}`,
+        name: area.name,
       })),
-    [symptoms],
+    [areas],
   );
 
   const handleCheckStation = (e: any) => {
