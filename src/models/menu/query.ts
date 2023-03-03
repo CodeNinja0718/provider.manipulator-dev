@@ -19,6 +19,7 @@ const menuQuery = {
     apiUrl: `salon/${salonId}/menu/${menuId}`,
     enabled: !!salonId && !!menuId,
     queryKey: [salonId, menuId, 'menuDetail'],
+    cacheTime: 0,
   }),
   updateMenu: (salonId: string | any, menuId: string | any) => ({
     apiUrl: `salon/${salonId}/menu/${menuId}`,
