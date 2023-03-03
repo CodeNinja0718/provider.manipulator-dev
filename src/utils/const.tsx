@@ -255,3 +255,5 @@ export const UNIT = {
   YEN: '円',
   MONTH: 'ヶ月',
 };
+
+export const DATE_FORMAT = 'YYYY-MM-DD';

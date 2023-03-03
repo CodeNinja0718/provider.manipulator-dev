@@ -111,7 +111,7 @@ const SchedulePage = () => {
       <Button
         component={Link}
         variant="contained"
-        href="/my-page/profile"
+        href="/my-page/schedule/working-time"
         sx={styles.updateScheduleBtn}
         endIcon={<ArrowRight />}
       >

@@ -1,6 +1,7 @@
 /* eslint-disable import/no-cycle */
 
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+import dayjs from 'dayjs';
 import type { IListItem } from 'hooks/types';
 import { get, map } from 'lodash';
 import type { IProvider } from 'models/auth/interface';
@@ -8,6 +9,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import process from 'process';
 import type { ToastContent, ToastOptions } from 'react-toastify';
 import { toast } from 'react-toastify';
+
+import { DATE_FORMAT } from './const';
 
 const Helper = {
   getWebCookie: (
@@ -153,6 +156,21 @@ const Helper = {
     );
     const newURL = `${url}?${convertParamsToString.join('&')}`;
     return newURL;
+  },
+
+  getValidDate: (date?: string | string[], dayAdded?: number) => {
+    if (
+      date &&
+      typeof date === 'string' &&
+      dayjs(date, DATE_FORMAT).isValid()
+    ) {
+      const currentDate = dayjs(date, DATE_FORMAT);
+      if (typeof dayAdded === 'number') {
+        return currentDate.add(dayAdded, 'day').format(DATE_FORMAT);
+      }
+      return currentDate.format(DATE_FORMAT);
+    }
+    return dayjs().format(DATE_FORMAT);
   },
 };
 
