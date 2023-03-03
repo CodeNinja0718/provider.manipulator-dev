@@ -7,6 +7,7 @@ const menuQuery = {
     customParams: {
       page: 1,
       limit: 100,
+      sort: 'order.asc_updateAt.desc',
     },
   }),
   createMenu: (salonId: string | any) => ({
