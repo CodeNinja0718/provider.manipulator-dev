@@ -22,7 +22,6 @@ const ChangeDate = () => {
       previousHref={{
         href: router.pathname,
         query: {
-          page: 1,
           date: previousDay,
         },
       }}
@@ -30,7 +29,6 @@ const ChangeDate = () => {
       nextHref={{
         href: router.pathname,
         query: {
-          page: 1,
           date: nextDay,
         },
       }}
