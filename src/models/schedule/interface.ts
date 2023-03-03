@@ -12,3 +12,14 @@ export interface IReservationItem {
   endTime: string;
   id: string;
 }
+
+export interface IWorkingTime {
+  date: string;
+  workingTime: [
+    {
+      startTime: string;
+      endTime: string;
+    },
+  ];
+  isDayOff: boolean;
+}

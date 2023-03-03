@@ -1,6 +1,6 @@
 import { Stack, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
-import _get from 'lodash//get';
+import _get from 'lodash/get';
 import React from 'react';
 import type {
   Control,

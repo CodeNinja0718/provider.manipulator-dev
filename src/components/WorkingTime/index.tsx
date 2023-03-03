@@ -4,33 +4,35 @@ import ArrowRight from '@icons/arrow-right.svg';
 import { LoadingButton } from '@mui/lab';
 import { Box, CircularProgress, Grid, Stack, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
-import WorkTimeSelect from 'components/Profile/Form/WorkTimeSelect';
-import _get from 'lodash//get';
-import { useEffect } from 'react';
+import _get from 'lodash/get';
+import { useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
 import ChangeDate from './ChangeDate';
+import WorkTimeSelect from './Form/WorkTimeSelect';
 import type { WorkingTimeFormValues } from './schema';
 import schema from './schema';
 import styles from './styles';
 
-const dayId = 0;
 interface WorkingTimeFormProps {
   onSubmit: SubmitHandler<WorkingTimeFormValues>;
-  initialValues: WorkingTimeFormValues;
+  initialValues: WorkingTimeFormValues | any;
   loading?: boolean;
+  disabled?: boolean;
 }
 const WorkingTime = ({
   onSubmit,
   initialValues,
   loading,
+  disabled,
 }: WorkingTimeFormProps) => {
   const {
     control,
+    register,
     setValue,
-    trigger,
     handleSubmit,
+    trigger,
     reset,
     formState: { errors },
   } = useForm<WorkingTimeFormValues>({
@@ -40,9 +42,15 @@ const WorkingTime = ({
     shouldFocusError: true,
   });
 
+  const [isDayoff, setIsDayoff] = useState(false);
+
   useEffect(() => {
     reset(initialValues);
   }, [initialValues, reset]);
+
+  useEffect(() => {
+    setIsDayoff(initialValues?.isDayOff || false);
+  }, [initialValues?.isDayOff]);
 
   return (
     <Box sx={styles.wrapper}>
@@ -67,14 +75,14 @@ const WorkingTime = ({
                       本日の営業時間
                     </Typography>
                     <Stack>
-                      {initialValues?.businessHours[0]?.hours?.map(
-                        (time: any, index) => (
+                      {initialValues?.workingTime?.map(
+                        (time: any, index: number) => (
                           <Typography
                             key={`time-${index}`}
                             fontSize={16}
                             fontWeight={500}
                           >
-                            {`${time.startTime} ～ ${time.endTime}`}
+                            {`${time?.startTime} ～ ${time?.endTime}`}
                           </Typography>
                         ),
                       )}
@@ -90,22 +98,17 @@ const WorkingTime = ({
                       変更後の営業時間
                     </Typography>
                     <WorkTimeSelect
-                      weekDayId={dayId}
+                      register={register}
+                      errorMessage={_get(errors, `workingTime.message`)}
                       control={control as any}
-                      errorMessage={_get(
-                        errors,
-                        `businessHours[${dayId}].hours.message`,
-                      )}
-                      handleCheckHoliday={(e) => {
-                        setValue(
-                          `businessHours.${dayId}.isHoliday`,
-                          e.target.checked,
-                        );
-                        trigger(`businessHours.${dayId}.hours`);
+                      isDayOff={isDayoff}
+                      handleDayOff={(e) => {
+                        setValue('isDayOff', e.target.checked);
+                        setIsDayoff(e.target.checked);
                       }}
-                      handleChange={() =>
-                        trigger(`businessHours.${dayId}.hours`)
-                      }
+                      onChange={(name) => {
+                        trigger(name);
+                      }}
                     />
                   </Grid>
                 </Grid>
@@ -119,6 +122,7 @@ const WorkingTime = ({
                     loadingPosition="end"
                     sx={styles.button}
                     loading={loading}
+                    disabled={disabled}
                   >
                     変更する
                   </LoadingButton>
