@@ -3,6 +3,7 @@ import {
   CircularProgress,
   MenuItem,
   Select,
+  Stack,
   Typography,
 } from '@mui/material';
 import DirectRegisterMenu from 'components/MenuList/DirectRegisterMenu';
@@ -88,9 +89,9 @@ const MenuList = () => {
             />
           </>
         ) : (
-          <Box sx={styles.loadingBox}>
-            <CircularProgress size="small" sx={styles.loading} />
-          </Box>
+          <Stack alignItems="center" justifyContent="center" minHeight={570}>
+            <CircularProgress />
+          </Stack>
         )}
       </Box>
     </Box>
