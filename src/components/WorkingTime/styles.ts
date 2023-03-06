@@ -35,7 +35,7 @@ const styles = {
     color: (theme: Theme) => theme.palette.primary,
   },
   button: {
-    maxWidth: 323,
+    maxWidth: { xs: 280, normalMobile: 323 },
     width: '100%',
     m: 'auto',
     mt: 55,
@@ -43,6 +43,17 @@ const styles = {
   timeWrapper: {
     '& .MuiFormControl-fullWidth': {
       maxWidth: 123,
+    },
+    textAlign: { xs: 'center', tablet: 'left' },
+    '& > div': {
+      alignItems: { xs: 'center', tablet: 'start' },
+      '& > div': {
+        minWidth: { xs: 280, normalMobile: 340, tablet: 'auto' },
+        backgroundColor: 'transparent',
+        '&:last-child': {
+          minWidth: { xs: 'auto' },
+        },
+      },
     },
   },
 } as Record<string, SxProps<Theme>>;
