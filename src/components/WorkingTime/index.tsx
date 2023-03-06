@@ -70,7 +70,12 @@ const WorkingTime = ({
                 onSubmit={handleSubmit(onSubmit)}
               >
                 <Grid container>
-                  <Grid item xs={4}>
+                  <Grid
+                    item
+                    xs={12}
+                    tablet={4}
+                    textAlign={{ xs: 'center', tablet: 'left' }}
+                  >
                     <Typography component={'h3'} sx={styles.labelText}>
                       本日の営業時間
                     </Typography>
@@ -88,12 +93,22 @@ const WorkingTime = ({
                       )}
                     </Stack>
                   </Grid>
-                  <Grid item xs={1}>
-                    <Box sx={{ svg: { transform: 'rotate(-90deg)' } }}>
+                  <Grid item xs={12} tablet={1}>
+                    <Box
+                      sx={{
+                        svg: {
+                          transform: {
+                            xs: 'rotate(0deg)',
+                            tablet: 'rotate(-90deg)',
+                          },
+                        },
+                      }}
+                      textAlign={{ xs: 'center', tablet: 'left' }}
+                    >
                       <ArrowChange />
                     </Box>
                   </Grid>
-                  <Grid item xs={7} sx={styles.timeWrapper}>
+                  <Grid item xs={12} tablet={7} sx={styles.timeWrapper}>
                     <Typography component={'h3'} sx={styles.labelText}>
                       変更後の営業時間
                     </Typography>
