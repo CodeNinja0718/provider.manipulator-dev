@@ -1,7 +1,6 @@
 import ArrowRight from '@icons/arrow-right.svg';
 import CalenderIcon from '@icons/icon_datepicker.svg';
 import { Button, Stack, TextField, Typography } from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import CommonSection from 'components/CommonSection';
 import Layout from 'components/Layout';
@@ -14,26 +13,15 @@ import get from 'lodash/get';
 import type { ISalonScheduleItem } from 'models/schedule/interface';
 import scheduleQuery from 'models/schedule/query';
 import { useRouter } from 'next/router';
+import { DATE_FORMAT } from 'utils/const';
+import helpers from 'utils/helpers';
 
 import styles from './styles';
-
-const DATE_FORMAT = 'YYYY-MM-DD';
-
-const getValidDate = (date?: string | string[], dayAdded?: number) => {
-  if (date && typeof date === 'string' && dayjs(date, DATE_FORMAT).isValid()) {
-    const currentDate = dayjs(date, DATE_FORMAT);
-    if (typeof dayAdded === 'number') {
-      return currentDate.add(dayAdded, 'day').format(DATE_FORMAT);
-    }
-    return currentDate.format(DATE_FORMAT);
-  }
-  return dayjs().format(DATE_FORMAT);
-};
 
 const SchedulePage = () => {
   const router = useRouter();
   const { page, date } = router.query;
-  const validDate = getValidDate(date);
+  const validDate = helpers.getValidDate(date);
   const { data } = useUser();
   const {
     list,
@@ -51,8 +39,8 @@ const SchedulePage = () => {
     staleTime: 1000 * 60 * 2,
   });
 
-  const nextDay = getValidDate(date, 1);
-  const previousDay = getValidDate(date, -1);
+  const nextDay = helpers.getValidDate(date, 1);
+  const previousDay = helpers.getValidDate(date, -1);
 
   return (
     <Stack alignItems="center" sx={styles.scheduleListWrapper}>
@@ -79,7 +67,6 @@ const SchedulePage = () => {
       >
         <DesktopDatePicker
           value={validDate}
-          OpenPickerButtonProps={{ children: <>content</> }}
           onChange={(value) => {
             const valueDate = dayjs(value);
             if (valueDate.isValid()) {
@@ -111,7 +98,7 @@ const SchedulePage = () => {
       <Button
         component={Link}
         variant="contained"
-        href="/my-page/schedule/working-time"
+        href={`/my-page/schedule/working-time?date=${validDate}`}
         sx={styles.updateScheduleBtn}
         endIcon={<ArrowRight />}
       >
@@ -168,13 +155,7 @@ const SchedulePage = () => {
             }}
           />
 
-          {isLoading ? (
-            <Stack alignItems="center" justifyContent="center" minHeight={500}>
-              <CircularProgress />
-            </Stack>
-          ) : (
-            <SlotTable list={list} date={validDate} />
-          )}
+          <SlotTable list={list} date={validDate} loading={isLoading} />
 
           <NavigateControl
             previousHref={{

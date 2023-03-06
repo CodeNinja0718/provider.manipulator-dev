@@ -6,7 +6,7 @@ const scheduleQuery = {
   }),
   getWorkingTime: (date: string | any) => ({
     queryKey: ['working-time', 'me', date],
-    apiUrl: `schedule/me/schedules-within-date?date=${date}'`,
+    apiUrl: `schedule/me/schedules-within-date?date=${date}`,
     useUrlQuery: false,
     enabled: !!date,
     cacheTime: 0,
