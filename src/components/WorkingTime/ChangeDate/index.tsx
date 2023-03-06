@@ -36,7 +36,6 @@ const ChangeDate = () => {
     >
       <DesktopDatePicker
         value={validDate}
-        OpenPickerButtonProps={{ children: <>content</> }}
         onChange={(value) => {
           const valueDate = dayjs(value);
           if (valueDate.isValid()) {

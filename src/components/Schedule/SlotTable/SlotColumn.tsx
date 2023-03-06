@@ -33,7 +33,7 @@ const SlotColumn: React.FC<SlotColumnProps> = ({ data, date }) => {
   const availableTimeSlots = useMemo(
     () =>
       data.availableTimeSlots.map((time) =>
-        dayjs(time).format(DATE_TIME_FORMAT),
+        dayjs.utc(time).tz().format(DATE_TIME_FORMAT),
       ),
     [data.availableTimeSlots],
   );
@@ -42,10 +42,11 @@ const SlotColumn: React.FC<SlotColumnProps> = ({ data, date }) => {
     const timeBooked: string[] = [];
     const startSlot: Record<string, IReservationItem> = {};
     data.reservations?.forEach((reservation) => {
-      startSlot[dayjs(reservation.startTime).format(DATE_TIME_FORMAT)] =
-        reservation;
+      startSlot[
+        dayjs.utc(reservation.startTime).tz().format(DATE_TIME_FORMAT)
+      ] = reservation;
       reservation.slots.forEach((slot) =>
-        timeBooked.push(dayjs(slot).format(DATE_TIME_FORMAT)),
+        timeBooked.push(dayjs.utc(slot).tz().format(DATE_TIME_FORMAT)),
       );
     });
     return {
