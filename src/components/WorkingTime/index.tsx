@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
-import ChangeDate from './ChangeDate';
+import ChangeDate from '../ChangeDate';
 import WorkTimeSelect from './Form/WorkTimeSelect';
 import type { WorkingTimeFormValues } from './schema';
 import schema from './schema';

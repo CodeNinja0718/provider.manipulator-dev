@@ -23,7 +23,7 @@ const styles = {
   },
   changeDateBox: {
     display: 'block',
-    width: { xs: 320, mobile: 340 },
+    width: { xs: '100%' },
     margin: 'auto',
     px: { xs: 15, mobile: 0 },
     py: 0,
