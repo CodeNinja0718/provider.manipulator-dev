@@ -1,5 +1,6 @@
 import FacebookIcon from '@icons/facebook_icon.svg';
 import ListSvg from '@icons/icon_list.svg';
+import ReservationSvg from '@icons/icon_reservation.svg';
 import ScheduleSvg from '@icons/icon_schedule.svg';
 import InstagramIcon from '@icons/instagram_icon.svg';
 import TwitterIcon from '@icons/twitter_icon.svg';
@@ -64,6 +65,11 @@ export const PROVIDER_NAVIGATION: {
     href: '/my-page/menu',
     label: 'メニュー管理',
     icon: <ListSvg />,
+  },
+  {
+    href: '/my-page/reservation',
+    label: '予約リスト',
+    icon: <ReservationSvg />,
   },
 ];
 
