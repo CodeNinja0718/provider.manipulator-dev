@@ -28,6 +28,12 @@ const menuQuery = {
     successMessage: '編集メニュー成功',
     enabled: !!salonId,
   }),
+  deleteMenu: (salonId: string | any, menuId: string | any) => ({
+    apiUrl: `salon/${salonId}/menu/${menuId}`,
+    method: 'delete',
+    successMessage: '削除メニュー成功',
+    enabled: !!salonId && !!menuId,
+  }),
 };
 
 export default menuQuery;

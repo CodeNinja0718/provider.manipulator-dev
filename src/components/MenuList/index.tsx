@@ -56,6 +56,13 @@ const MenuList = () => {
     return { id: item.salonId, name: item.name };
   });
 
+  // Re-fetch list
+  const handleRefetchList = () => {
+    queryClient.prefetchQuery({
+      queryKey: ['menu', 'list', 'salonId', salonList[0]?.salonId],
+    });
+  };
+
   return (
     <Box sx={styles.wrapper}>
       <Box display="flex" justifyContent="center">
@@ -82,10 +89,15 @@ const MenuList = () => {
         </Box>
         {res ? (
           <>
-            <PublishedMenu menus={pulicList} currentSalonId={currentSalonId} />
+            <PublishedMenu
+              menus={pulicList}
+              currentSalonId={currentSalonId}
+              onRefetchList={handleRefetchList}
+            />
             <UnpublishedMenu
               menus={privateList}
               currentSalonId={currentSalonId}
+              onRefetchList={handleRefetchList}
             />
           </>
         ) : (

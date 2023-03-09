@@ -9,14 +9,25 @@ import styles from '../styles';
 interface PublishedMenuProps {
   menus: IMenu[];
   currentSalonId: string;
+  onRefetchList: () => void;
 }
-const PublishedMenu = ({ menus, currentSalonId }: PublishedMenuProps) => {
+const PublishedMenu = ({
+  menus,
+  currentSalonId,
+  onRefetchList,
+}: PublishedMenuProps) => {
   return (
     <CommonSection title="掲載中のメニュー一覧">
       <Box width="100%" pt={30}>
         <Box p={{ xs: 20, tablet: 0 }}>
           {menus && menus.length ? (
-            menus.map((menu: IMenu) => <MenuCard key={menu._id} menu={menu} />)
+            menus.map((menu: IMenu) => (
+              <MenuCard
+                key={menu._id}
+                menu={menu}
+                onRefetchList={onRefetchList}
+              />
+            ))
           ) : (
             <Typography variant="subtitle1" sx={styles.emptyText}>
               空のリスト

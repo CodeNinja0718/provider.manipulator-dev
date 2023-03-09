@@ -1,7 +1,9 @@
 import ArrowRight from '@icons/arrow-right.svg';
 import DeleteIcon from '@icons/icon_trashbox.svg';
 import { Box, Button } from '@mui/material';
+import { useGlobalState, useMutate } from 'hooks';
 import type { IMenu } from 'models/menu/interface';
+import menuQuery from 'models/menu/query';
 import { useRouter } from 'next/router';
 
 import styles from '../styles';
@@ -10,11 +12,36 @@ import TicketLine from './TicketLine';
 
 interface CardBodyProps {
   data: IMenu;
+  onRefetchList: () => void;
 }
-const CardBody = ({ data }: CardBodyProps) => {
+const CardBody = ({ data, onRefetchList }: CardBodyProps) => {
   const router = useRouter();
+  const { setConfirmModal } = useGlobalState();
   const handleOpenDetail = () => {
     router.push(`${router.pathname}/${data?.salonId}/${data?._id}`);
+  };
+  const { mutateAsync: handleDeleteMenu } = useMutate(
+    menuQuery.deleteMenu(data?.salonId, data?._id),
+  );
+
+  // Handle Delete Menu
+  const handleConfirmDeleteMenu = () => {
+    handleDeleteMenu(
+      {},
+      {
+        onSuccess: () => {
+          onRefetchList();
+        },
+      },
+    );
+  };
+
+  const showConfirmLogout = () => {
+    setConfirmModal({
+      title: 'メニュー削除',
+      onConfirm: handleConfirmDeleteMenu,
+      content: '本当に削除しますか？',
+    });
   };
 
   return (
@@ -32,7 +59,11 @@ const CardBody = ({ data }: CardBodyProps) => {
         </Button>
       </Box>
       <Box display="flex" justifyContent={'center'}>
-        <Button sx={styles.buttonDelete} startIcon={<DeleteIcon />}>
+        <Button
+          sx={styles.buttonDelete}
+          startIcon={<DeleteIcon />}
+          onClick={showConfirmLogout}
+        >
           削除
         </Button>
       </Box>

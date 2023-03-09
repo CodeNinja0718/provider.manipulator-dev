@@ -9,8 +9,13 @@ import styles from '../styles';
 interface UnpublishedMenuProps {
   menus: IMenu[];
   currentSalonId: string;
+  onRefetchList: () => void;
 }
-const UnpublishedMenu = ({ menus, currentSalonId }: UnpublishedMenuProps) => {
+const UnpublishedMenu = ({
+  menus,
+  currentSalonId,
+  onRefetchList,
+}: UnpublishedMenuProps) => {
   return (
     <CommonSection
       title="非掲載のメニュー"
@@ -20,7 +25,12 @@ const UnpublishedMenu = ({ menus, currentSalonId }: UnpublishedMenuProps) => {
         <Box p={{ xs: 20, tablet: 0 }}>
           {menus && menus.length ? (
             menus.map((menu: IMenu) => (
-              <MenuCard key={menu._id} menu={menu} isUnpublished={true} />
+              <MenuCard
+                key={menu._id}
+                menu={menu}
+                isUnpublished={true}
+                onRefetchList={onRefetchList}
+              />
             ))
           ) : (
             <Typography variant="subtitle1" sx={styles.emptyText}>
