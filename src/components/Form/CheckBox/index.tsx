@@ -30,6 +30,7 @@ interface CheckBoxFieldProps<TFormValues extends FieldValues>
   formControlProps?: FormControlProps;
   fixedHelperText?: boolean;
   spacing?: number;
+  disabled?: boolean;
 }
 
 const CheckBox = <TFormValues extends FieldValues>({
@@ -43,6 +44,7 @@ const CheckBox = <TFormValues extends FieldValues>({
   columns,
   formControlProps,
   spacing,
+  disabled = false,
 }: CheckBoxFieldProps<TFormValues>) => {
   const {
     field: { value = [], onChange },
@@ -66,6 +68,7 @@ const CheckBox = <TFormValues extends FieldValues>({
           {showSelectAll && !isEmpty(data) && (
             <Grid item xs={12} sm={12}>
               <FormControlLabel
+                disabled={disabled}
                 sx={{ whiteSpace: 'pre-line' }}
                 control={
                   <CheckboxBase
@@ -92,6 +95,7 @@ const CheckBox = <TFormValues extends FieldValues>({
                 xs={columns || (layout === 'vertical' ? 12 : 6)}
               >
                 <FormControlLabel
+                  disabled={disabled}
                   sx={{
                     whiteSpace: 'pre-line',
                     m: 0,
