@@ -12,29 +12,26 @@ const Reservation = ({
   res: object | any;
   reservationList: Array<IReservationItem[]>;
 }) => {
-  return res?.totalDocs > 0 ? (
-    <Box
-      sx={{
-        overflow: 'auto',
-        height: { xs: 'initial', tablet: '80vh' },
-      }}
-    >
-      {reservationList.map((items: IReservationItem[]) => (
-        <ReservationSection
-          key={items[0]?.manipulatorInfo?.manipulatorId}
-          title={items[0]?.manipulatorInfo?.name || ''}
-          avatar={items[0]?.manipulatorInfo?.photos[0]?.url || ''}
-        >
-          {items.map((item: IReservationItem) => (
-            <ReservationCart key={item._id} data={item} />
-          ))}
-        </ReservationSection>
-      ))}
+  return (
+    <Box sx={styles.wrapper}>
+      {res?.totalDocs > 0 ? (
+        reservationList.map((items: IReservationItem[]) => (
+          <ReservationSection
+            key={items[0]?.manipulatorInfo?.manipulatorId}
+            title={items[0]?.manipulatorInfo?.name || ''}
+            avatar={items[0]?.manipulatorInfo?.photos[0]?.url || ''}
+          >
+            {items.map((item: IReservationItem) => (
+              <ReservationCart key={item._id} data={item} />
+            ))}
+          </ReservationSection>
+        ))
+      ) : (
+        <Typography variant="subtitle1" sx={styles.emptyText}>
+          空のリスト
+        </Typography>
+      )}
     </Box>
-  ) : (
-    <Typography variant="subtitle1" sx={styles.emptyText}>
-      空のリスト
-    </Typography>
   );
 };
 
