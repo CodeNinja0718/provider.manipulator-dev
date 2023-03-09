@@ -263,3 +263,8 @@ export const UNIT = {
 };
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
+
+export const RESERVATION_STATUS = {
+  DONE: 'DONE',
+  RESERVED: 'RESERVED',
+};

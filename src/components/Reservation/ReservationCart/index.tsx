@@ -5,6 +5,7 @@ import { Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import type { IReservationItem } from 'models/reservation/interface';
 import React from 'react';
+import { RESERVATION_STATUS } from 'utils/const';
 
 import styles from './styles';
 
@@ -34,9 +35,10 @@ const ReservationCart: React.FC<ReservationCartProps> = ({ data }) => {
           <Stack spacing={12} divider={<Divider flexItem />}>
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={20}>
               <Box>
-                {`${dayjs(data.startTime).format('hh:mm')} ~ ${dayjs(
-                  data.endTime,
-                ).format('hh:mm')}`}
+                {`${dayjs.utc(data.startTime).tz().format('hh:mm')} ~ ${dayjs
+                  .utc(data.endTime)
+                  .tz()
+                  .format('hh:mm')}`}
               </Box>
               <Typography fontSize={18} fontWeight={600}>
                 {data.customerInfo?.name}
@@ -70,20 +72,15 @@ const ReservationCart: React.FC<ReservationCartProps> = ({ data }) => {
                 variant="contained"
                 onClick={() => {}}
                 sx={styles.button}
-                className="btn-done"
-                startIcon={<CheckIcon />}
-                disabled={true}
-              >
-                済み
-              </Button>
-              {/* <Button
-                size="small"
-                variant="contained"
-                onClick={() => {}}
-                sx={styles.button}
+                className={`${
+                  RESERVATION_STATUS.DONE === data?.status ? 'btn-done' : {}
+                }`}
+                startIcon={
+                  RESERVATION_STATUS.DONE === data?.status && <CheckIcon />
+                }
               >
                 完了
-              </Button> */}
+              </Button>
             </Stack>
           </Box>
         </Grid>
