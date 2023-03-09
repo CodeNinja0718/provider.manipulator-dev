@@ -4,7 +4,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import type { IReservationItem } from 'models/reservation/interface';
-import React from 'react';
+import { useRouter } from 'next/router';
 import { RESERVATION_STATUS } from 'utils/const';
 
 import styles from './styles';
@@ -14,6 +14,13 @@ interface ReservationCartProps {
 }
 
 const ReservationCart: React.FC<ReservationCartProps> = ({ data }) => {
+  const router = useRouter();
+
+  const handleOpenReservationDetail = () => {
+    const { pathname } = router;
+    router.push(`${pathname}/${data?._id}`);
+  };
+
   return (
     <Box sx={styles.reservationCartWrapper}>
       <Grid container gap={10}>
@@ -61,7 +68,7 @@ const ReservationCart: React.FC<ReservationCartProps> = ({ data }) => {
               <Button
                 size="small"
                 variant="outlined"
-                onClick={() => {}}
+                onClick={handleOpenReservationDetail}
                 sx={styles.button}
                 endIcon={<ArrowRight />}
               >
