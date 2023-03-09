@@ -47,7 +47,11 @@ const ReservationPage = () => {
         {res ? (
           <Reservation res={res} reservationList={reservationList} />
         ) : (
-          <Stack alignItems="center" justifyContent="center">
+          <Stack
+            alignItems="center"
+            justifyContent="flex-start"
+            sx={styles.wrapper}
+          >
             <CircularProgress />
           </Stack>
         )}

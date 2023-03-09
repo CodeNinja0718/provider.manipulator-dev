@@ -7,6 +7,10 @@ const styles: Record<string, SxProps> = {
     mb: 30,
     fontSize: 24,
   },
+  wrapper: {
+    overflow: 'auto',
+    height: { xs: 'initial', tablet: '80vh' },
+  },
 };
 
 export default styles;
