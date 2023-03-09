@@ -69,6 +69,7 @@ const MenuDetailSection: React.FC<IMenuFormProps> = ({
             spacing={10}
             label={MENU_INFO.MENU_TYPE}
             required
+            disabled
           />
         </Box>
         <NumberField
