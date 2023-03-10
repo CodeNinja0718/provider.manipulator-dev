@@ -1,9 +1,7 @@
-import IconChatSvg from '@icons/icon_chat_white.svg';
 import { Box, Grid, Stack, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
 import React from 'react';
 
-import IconText from './IconText';
 import styles from './styles';
 
 interface CustomerDetailProps {}
@@ -28,9 +26,6 @@ const CustomerDetail: React.FC<CustomerDetailProps> = () => {
               </Typography>
               <Typography fontSize={16}>09012345678</Typography>
             </Stack>
-          </Grid>
-          <Grid item xs={4} tablet={6} textAlign="right">
-            <IconText bgColor="#377ed1" label="チャット" icon={IconChatSvg} />
           </Grid>
         </Grid>
       </Box>
