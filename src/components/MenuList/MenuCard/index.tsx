@@ -8,12 +8,13 @@ import styles from './styles';
 interface MenuCardProps {
   menu: IMenu;
   isUnpublished?: boolean;
+  onRefetchList: () => void;
 }
-const MenuCard = ({ menu, isUnpublished }: MenuCardProps) => {
+const MenuCard = ({ menu, isUnpublished, onRefetchList }: MenuCardProps) => {
   return (
     <Box sx={styles.menuCardWrapper}>
       <CardHeader title={menu.name} isUnpublished={isUnpublished} />
-      <CardBody data={menu} />
+      <CardBody data={menu} onRefetchList={onRefetchList} />
     </Box>
   );
 };
