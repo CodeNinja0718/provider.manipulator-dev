@@ -10,6 +10,10 @@ const styles: Record<string, SxProps<Theme>> = {
     p: '10px 20px',
     cursor: 'pointer',
   },
+  avatar: {
+    width: 35,
+    height: 35,
+  },
 };
 
 export default styles;

@@ -4,7 +4,7 @@ const styles = {
   loadingBox: {
     display: 'flex',
     width: '100%',
-    height: '50',
+    minHeight: { xs: 500, tablet: 1012 },
     justifyContent: 'center',
     alignItems: 'center',
   },

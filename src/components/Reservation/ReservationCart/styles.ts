@@ -26,6 +26,14 @@ const styles: Record<string, SxProps<Theme>> = {
       backgroundColor: '#929292',
     },
   },
+  scheduleIcon: {
+    pt: 1,
+    svg: {
+      width: 20,
+      height: 20,
+      path: { fill: '#6b6b6b !important' },
+    },
+  },
 };
 
 export default styles;

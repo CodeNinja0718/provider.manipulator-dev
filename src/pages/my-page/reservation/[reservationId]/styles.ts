@@ -27,6 +27,9 @@ const styles: Record<string, SxProps> = {
   backButtonBox: {
     p: { xs: 15, tablet: 0 },
   },
+  title: {
+    m: '24px 0px 0',
+  },
 };
 
 export default styles;

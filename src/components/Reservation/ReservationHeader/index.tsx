@@ -22,7 +22,7 @@ const ReservationHeader: React.FC<ReservationHeaderProps> = ({
     <Grid container onClick={onClick} sx={styles.reservationHeaderWrapper}>
       <Grid item xs>
         <Stack direction={'row'} spacing={12} alignItems="center">
-          <Avatar alt="" src={avatar} sx={{ width: 35, height: 35 }} />
+          <Avatar alt="" src={avatar} sx={styles.avatar} />
           <Typography fontSize={18} fontWeight={600}>
             {title}
           </Typography>
