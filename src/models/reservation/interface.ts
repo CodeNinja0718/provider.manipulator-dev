@@ -14,6 +14,8 @@ export interface IReservationItem {
 export interface ICustomerInfo {
   name: string;
   nameKana: string;
+  email: string;
+  phone: string;
 }
 
 export interface IManipulatorInfo {
@@ -37,8 +39,11 @@ interface IMenuItem {
   estimatedTime: number;
   price: number;
   currency: string;
+  menuId: string;
+  order: number;
+  status: string;
 }
-interface ResultMenu {
+export interface ResultMenu {
   menuId: string;
   menuInfo: IMenuItem;
   amount: number;
@@ -46,7 +51,7 @@ interface ResultMenu {
   discountAmount: number;
 }
 
-interface ISalonInfo {
+export interface ISalonInfo {
   salonId: string;
   name: string;
   nameKana: string;

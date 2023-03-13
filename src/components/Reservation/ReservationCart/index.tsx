@@ -25,16 +25,7 @@ const ReservationCart: React.FC<ReservationCartProps> = ({ data }) => {
     <Box sx={styles.reservationCartWrapper}>
       <Grid container gap={10}>
         <Grid item xs="auto">
-          <Box
-            sx={{
-              pt: 1,
-              svg: {
-                width: 20,
-                height: 20,
-                path: { fill: '#6b6b6b !important' },
-              },
-            }}
-          >
+          <Box sx={styles.scheduleIcon}>
             <ScheduleSvg />
           </Box>
         </Grid>

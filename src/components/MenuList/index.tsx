@@ -101,7 +101,11 @@ const MenuList = () => {
             />
           </>
         ) : (
-          <Stack alignItems="center" justifyContent="center" minHeight={570}>
+          <Stack
+            alignItems="center"
+            justifyContent="flex-start"
+            minHeight={570}
+          >
             <CircularProgress />
           </Stack>
         )}

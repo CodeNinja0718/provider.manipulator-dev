@@ -8,6 +8,11 @@ const reservationQuery = {
       limit: 1000,
     },
   }),
+  reservationDetail: (id: string | any) => ({
+    apiUrl: `/reservation/manipulator/reservations/${id}`,
+    queryKey: ['reservation-detail', id],
+    enabled: !!id,
+  }),
 };
 
 export default reservationQuery;

@@ -4,22 +4,38 @@ import BackButton from 'components/BackButton';
 import Layout from 'components/Layout';
 import CustomerDetail from 'components/Reservation/ReservationDetail/CustomerDetail';
 import ReservationContent from 'components/Reservation/ReservationDetail/ReservationContent';
+import { useFetch } from 'hooks';
+import type { IReservationItem } from 'models/reservation/interface';
+import reservationQuery from 'models/reservation/query';
+import { useRouter } from 'next/router';
 
 import styles from './styles';
 
 const ReservationDetailPage = () => {
+  const router = useRouter();
+  const { data: res } = useFetch<IReservationItem | any>(
+    reservationQuery.reservationDetail(router?.query?.reservationId),
+  );
+  const reservationData = {
+    ...res?.result,
+    startTime: res?.startTime,
+    endTime: res?.endTime,
+    salonInfo: res?.salonInfo,
+  };
+
   return (
     <Box sx={styles.reservationDetailWrapper}>
       <Box sx={styles.backButtonBox}>
         <BackButton />
       </Box>
-      <Box display="flex" justifyContent="center" margin={'24px 0px 0'}>
+      <Box display="flex" justifyContent="center" sx={styles.title}>
         <Typography variant="title">予約詳細</Typography>
       </Box>
 
       <Box display="flex" flexDirection="column" sx={styles.contentBox}>
+        {/* Customer Info */}
         <Box>
-          <CustomerDetail />
+          <CustomerDetail {...res?.customerInfo} />
           <Box textAlign={'center'}>
             <Button
               variant="outlined"
@@ -31,7 +47,8 @@ const ReservationDetailPage = () => {
             </Button>
           </Box>
         </Box>
-        <ReservationContent />
+        {/* Reservation Info */}
+        <ReservationContent {...reservationData} />
         <Stack spacing={20} direction="column" alignItems="center">
           <Button
             variant="contained"
@@ -40,14 +57,6 @@ const ReservationDetailPage = () => {
             onClick={() => {}}
           >
             完了報告する
-          </Button>
-          <Button
-            variant="outlined"
-            endIcon={<ArrowRight />}
-            sx={styles.button}
-            onClick={() => {}}
-          >
-            予約をキャンセルする
           </Button>
         </Stack>
         <Box textAlign={'center'} mb={30}>
