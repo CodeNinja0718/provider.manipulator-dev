@@ -10,7 +10,7 @@ const CustomerDetail: React.FC<ICustomerInfo> = ({ name, nameKana, phone }) => {
     <CommonSection title="顧客詳細">
       <Box sx={styles.detailWarpper}>
         <Grid container>
-          <Grid item xs={8} tablet={6}>
+          <Grid item xs={12}>
             <Stack spacing={6}>
               <Typography fontSize={18} fontWeight={500}>
                 {name}

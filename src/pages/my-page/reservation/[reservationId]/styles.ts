@@ -22,7 +22,6 @@ const styles: Record<string, SxProps> = {
     px: { xs: 0, tablet: 40 },
     py: 40,
     pt: { xs: 46, tablet: 40 },
-    gap: 40,
   },
   backButtonBox: {
     p: { xs: 15, tablet: 0 },

@@ -4,10 +4,12 @@ import BackButton from 'components/BackButton';
 import Layout from 'components/Layout';
 import CustomerDetail from 'components/Reservation/ReservationDetail/CustomerDetail';
 import ReservationContent from 'components/Reservation/ReservationDetail/ReservationContent';
+import ReservationTreatment from 'components/ReservationTreatment';
 import { useFetch } from 'hooks';
 import type { IReservationItem } from 'models/reservation/interface';
 import reservationQuery from 'models/reservation/query';
 import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 
 import styles from './styles';
 
@@ -22,49 +24,63 @@ const ReservationDetailPage = () => {
     endTime: res?.endTime,
     salonInfo: res?.salonInfo,
   };
+  const isShowTreatment = useMemo(() => {
+    return router?.query?.isShowTreatment;
+  }, [router]);
+  const titleText = isShowTreatment ? '施術完了' : '予約詳細';
+  const Component = () => {
+    return isShowTreatment ? (
+      <ReservationTreatment {...reservationData} />
+    ) : (
+      <ReservationContent {...reservationData} />
+    );
+  };
 
   return (
     <Box sx={styles.reservationDetailWrapper}>
-      <Box sx={styles.backButtonBox}>
-        <BackButton />
-      </Box>
+      {!isShowTreatment && (
+        <Box sx={styles.backButtonBox}>
+          <BackButton />
+        </Box>
+      )}
       <Box display="flex" justifyContent="center" sx={styles.title}>
-        <Typography variant="title">予約詳細</Typography>
+        <Typography variant="title">{titleText}</Typography>
       </Box>
 
       <Box display="flex" flexDirection="column" sx={styles.contentBox}>
         {/* Customer Info */}
         <Box>
           <CustomerDetail {...res?.customerInfo} />
-          <Box textAlign={'center'}>
-            <Button
-              variant="outlined"
-              endIcon={<ArrowRight />}
-              sx={styles.buttonViewDetail}
-              onClick={() => {}}
-            >
-              詳細を見る
-            </Button>
-          </Box>
         </Box>
-        {/* Reservation Info */}
-        <ReservationContent {...reservationData} />
-        <Stack spacing={20} direction="column" alignItems="center">
+
+        {/* Reservation Info/ Treatment Info */}
+        <Box mt={isShowTreatment ? 0 : 40}>
+          <Component />
+        </Box>
+
+        <Stack spacing={20} mt={40} direction="column" alignItems="center">
           <Button
             variant="contained"
             endIcon={<ArrowRight />}
             sx={styles.button}
-            onClick={() => {}}
+            onClick={() =>
+              !isShowTreatment &&
+              router.push(
+                `/my-page/reservation/${router?.query?.reservationId}?isShowTreatment=true`,
+              )
+            }
           >
-            完了報告する
+            {isShowTreatment ? '決済確認へ' : '完了報告する'}
           </Button>
         </Stack>
-        <Box textAlign={'center'} mb={30}>
-          <BackButton
-            isHideArrow
-            {...{ fontSize: 16, textDecoration: 'underline' }}
-          />
-        </Box>
+        {!isShowTreatment && (
+          <Box textAlign={'center'} mb={30} mt={40}>
+            <BackButton
+              isHideArrow
+              {...{ fontSize: 16, textDecoration: 'underline' }}
+            />
+          </Box>
+        )}
       </Box>
     </Box>
   );
