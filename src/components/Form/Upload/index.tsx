@@ -1,3 +1,5 @@
+import CloseIcon from '@icons/close.svg';
+import AttachmentSvg from '@icons/icon_attachment.svg';
 import PlusSvg from '@icons/icon_plus.svg';
 import TrashBoxSvg from '@icons/icon_trashbox.svg';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -9,10 +11,12 @@ import { set } from 'lodash';
 import resourceQuery from 'models/resource/query';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import Link from 'next/link';
 import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import type { Control, FieldValues, Path } from 'react-hook-form';
 import { useController } from 'react-hook-form';
+import { FILE_TYPES } from 'utils/const';
 import Helper from 'utils/helpers';
 
 import HelperText from '../HelperText';
@@ -85,7 +89,7 @@ const Upload = <TFormValues extends FieldValues>({
 
   const handleRemoveImage = (image: { key: string; originUrl: string }) => {
     if (maxItems === 1) {
-      onChange(undefined);
+      onChange([]);
     } else {
       const newValue = value.filter(
         (item: { key: string; url: string }) => item.key !== image.key,
@@ -137,18 +141,23 @@ const Upload = <TFormValues extends FieldValues>({
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       if (file) {
-        if (!Helper.checkValidImage(file)) {
-          return;
-        }
-        const imageDataUrl = await readFile(file);
-        if (isAvatar) {
-          setImageSrc({
-            base64: imageDataUrl as string,
-            fileName: file.name,
-            contentType: file.type,
-          });
-        } else {
-          handleSave({ file });
+        const isDocument = Helper.detectFileType(file);
+
+        if (isDocument.includes(FILE_TYPES.DOCUMENT)) {
+          if (Helper.checkValidDocument(file)) {
+            handleSave({ file });
+          }
+        } else if (Helper.checkValidImage(file)) {
+          const imageDataUrl = await readFile(file);
+          if (isAvatar) {
+            setImageSrc({
+              base64: imageDataUrl as string,
+              fileName: file.name,
+              contentType: file.type,
+            });
+          } else {
+            handleSave({ file });
+          }
         }
       }
     }
@@ -156,25 +165,61 @@ const Upload = <TFormValues extends FieldValues>({
   };
 
   const renderImagePreview = () => {
-    return value.map((image: { key: string; originUrl: string }) => (
-      <Box position="relative" key={image.key} className="image-preview-item">
-        <Image
-          sizes="100vw"
-          src={image.originUrl}
-          alt={image.key}
-          fill
-          objectFit="contain"
-        />
-        <IconButton
-          onClick={() => handleRemoveImage(image)}
-          size="small"
-          disabled={loading}
-          className="delete-btn"
-        >
-          <TrashBoxSvg />
-        </IconButton>
-      </Box>
-    ));
+    return value.map(
+      (image: {
+        key: string;
+        originUrl: string;
+        contentType: string;
+        originalName: string;
+      }) => {
+        const isDocument = Helper.detectFileType({
+          type: image?.contentType || '',
+        });
+        return isDocument === FILE_TYPES.DOCUMENT ? (
+          <Box key={image.key} className="document-preview-item">
+            <Box sx={{ display: 'inherit', alignItems: 'inherit' }}>
+              <AttachmentSvg />
+              <Link href={image.originUrl} target="_blank">
+                {image?.originalName}
+              </Link>
+            </Box>
+            <IconButton
+              style={{
+                pointerEvents: 'auto',
+                padding: 0,
+              }}
+              onClick={() => handleRemoveImage(image)}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        ) : (
+          <Box className="image-preview-wrapper">
+            <Box
+              position="relative"
+              key={image.key}
+              className="image-preview-item"
+            >
+              <Image
+                sizes="100vw"
+                src={image.originUrl}
+                alt={image.key}
+                fill
+                objectFit="contain"
+              />
+              <IconButton
+                onClick={() => handleRemoveImage(image)}
+                size="small"
+                disabled={loading}
+                className="delete-btn"
+              >
+                <TrashBoxSvg />
+              </IconButton>
+            </Box>
+          </Box>
+        );
+      },
+    );
   };
 
   const renderUploadButton = () => {
@@ -195,7 +240,7 @@ const Upload = <TFormValues extends FieldValues>({
           name={name}
           disabled={loading}
           onChange={onFileChange}
-          accept="image/*"
+          accept="image/*, .doc, .docx, .pdf"
           hidden
         />
       </LoadingButton>
@@ -216,7 +261,7 @@ const Upload = <TFormValues extends FieldValues>({
         direction="column"
         gap={20}
         alignItems="center"
-        sx={styles.imageUpload}
+        sx={styles.upload}
         data-avatar-upload={isAvatar}
       >
         {renderImagePreview()}

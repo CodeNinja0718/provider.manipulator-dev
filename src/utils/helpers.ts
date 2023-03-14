@@ -9,7 +9,7 @@ import process from 'process';
 import type { ToastContent, ToastOptions } from 'react-toastify';
 import { toast } from 'react-toastify';
 
-import { DATE_FORMAT } from './const';
+import { DATE_FORMAT, DOCUMENT_TYPES, FILE_TYPES } from './const';
 
 const Helper = {
   getWebCookie: (
@@ -74,6 +74,32 @@ const Helper = {
       return false;
     }
     return true;
+  },
+  checkValidDocument: (
+    file: File,
+    config?: { maxSize: number; type: string[] },
+  ) => {
+    const maxSize = config?.maxSize || 5;
+    const type = config?.type || DOCUMENT_TYPES;
+    const currentType: string = file?.type.split('/')?.[1] || '';
+
+    if (!type.includes(currentType)) {
+      Helper.toast('Invalid', { type: 'error' });
+      return false;
+    }
+    if (file.size > 1000000 * maxSize) {
+      Helper.toast('invalid size', {
+        type: 'error',
+      });
+      return false;
+    }
+    return true;
+  },
+  detectFileType: (file: File | any) => {
+    const currentType: string = file?.type.split('/')?.[1] || '';
+    return DOCUMENT_TYPES.includes(currentType)
+      ? FILE_TYPES.DOCUMENT
+      : FILE_TYPES.IMAGE;
   },
   formatUrl: (url: string) => {
     if (typeof url !== 'string') {

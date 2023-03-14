@@ -25,6 +25,11 @@ export const Regex = {
     /^〒?[0-9０-９]{3}[-－]?[0-9０-９]{4}$/,
 };
 
+export const DOCUMENT_TYPES = ['doc', 'docx', 'pdf'];
+export const FILE_TYPES = {
+  IMAGE: 'image',
+  DOCUMENT: 'document',
+};
 export enum DateFormat {
   MONTH_YEAR_SHORT = 'MM/YY',
   YEAR_MONTH_DATE = 'YYYY/MM/DD',

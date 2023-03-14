@@ -18,6 +18,11 @@ const styles: Record<string, SxProps> = {
     width: '100%',
     m: 'auto',
   },
+  submitBtn: {
+    maxWidth: 323,
+    width: '100%',
+    m: 'auto',
+  },
   contentBox: {
     px: { xs: 0, tablet: 40 },
     py: 40,

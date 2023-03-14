@@ -1,7 +1,7 @@
 import type { SxProps } from '@mui/material';
 
 const styles: Record<string, SxProps> = {
-  paymentConfirmationWrapper: {
+  reservationDetailWrapper: {
     p: { xs: 0, tablet: 20 },
   },
   buttonViewDetail: {
@@ -18,11 +18,15 @@ const styles: Record<string, SxProps> = {
     width: '100%',
     m: 'auto',
   },
+  submitBtn: {
+    maxWidth: 323,
+    width: '100%',
+    m: 'auto',
+  },
   contentBox: {
     px: { xs: 0, tablet: 40 },
     py: 40,
     pt: { xs: 46, tablet: 40 },
-    gap: 40,
   },
   backButtonBox: {
     p: { xs: 15, tablet: 0 },

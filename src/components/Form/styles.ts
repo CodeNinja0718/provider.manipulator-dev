@@ -67,15 +67,35 @@ const styles = {
     },
   },
 
-  imageUpload: {
+  upload: {
     backgroundColor: 'brightGraySolid',
-    padding: '20px 18px',
-    '.image-preview-item': {
-      overflow: 'hidden',
-      paddingTop: 'calc(9 / 16 * 100%)',
+    '.image-preview-wrapper': {
       width: '100%',
-      position: 'relative',
-      backgroundColor: 'white',
+      height: '100%',
+      p: '20px 18px',
+      '.image-preview-item': {
+        overflow: 'hidden',
+        paddingTop: 'calc(9 / 16 * 100%)',
+        width: '100%',
+        position: 'relative',
+        backgroundColor: 'white',
+      },
+    },
+    '.document-preview-item': {
+      color: 'black',
+      width: '100%',
+      fontSize: 14,
+      p: 11,
+      bgcolor: 'nyanza',
+      borderRadius: '5px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 4,
+      a: {
+        color: 'black',
+        pl: 10,
+      },
     },
     '.delete-btn': {
       position: 'absolute',
@@ -90,6 +110,7 @@ const styles = {
       backgroundColor: 'white',
       maxWidth: 226,
       width: '100%',
+      m: '20px 18px',
       gap: 8,
       svg: {
         width: 18,
