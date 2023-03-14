@@ -5,12 +5,18 @@ interface ContentLineProps {
   start: string;
   center?: string;
   end?: React.ReactNode;
+  isAlignRightCenter?: boolean;
 }
 
-const ContentLine: React.FC<ContentLineProps> = ({ start, center, end }) => {
+const ContentLine: React.FC<ContentLineProps> = ({
+  start,
+  center,
+  end,
+  isAlignRightCenter,
+}) => {
   return (
     <Grid container alignItems={'center'}>
-      <Grid item xs={!center ? 6 : 12} tablet={'auto'}>
+      <Grid item xs={!center ? 8 : 12} tablet={'auto'}>
         <Box width={{ xs: '100%', tablet: 126 }}>
           <Typography fontSize={16} fontWeight={500}>
             {start}
@@ -22,11 +28,19 @@ const ContentLine: React.FC<ContentLineProps> = ({ start, center, end }) => {
           <Typography fontSize={16}>{center}</Typography>
         </Grid>
       ) : (
-        <Grid item xs={center ? 6 : false} tablet={true}>
+        <Grid
+          item
+          xs={center ? 8 : false}
+          tablet={true}
+          textAlign={{
+            xs: 'left',
+            tablet: isAlignRightCenter ? 'right' : 'left',
+          }}
+        >
           <Typography fontSize={16}>{center}</Typography>
         </Grid>
       )}
-      <Grid item xs={6} tablet={'auto'} textAlign="right">
+      <Grid item xs={4} tablet={'auto'} textAlign="right">
         <Box width={{ xs: '100%', tablet: 110 }}>{end}</Box>
       </Grid>
     </Grid>
