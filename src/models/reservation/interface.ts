@@ -34,7 +34,7 @@ interface Photo {
   objectKey: string;
 }
 
-interface IMenuItem {
+export interface IMenuItem {
   name: string;
   estimatedTime: number;
   price: number;
