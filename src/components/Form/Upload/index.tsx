@@ -16,7 +16,7 @@ import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import type { Control, FieldValues, Path } from 'react-hook-form';
 import { useController } from 'react-hook-form';
-import { FILE_TYPES } from 'utils/const';
+import { ACCEPT_FILE_TYPES, FILE_TYPES } from 'utils/const';
 import Helper from 'utils/helpers';
 
 import HelperText from '../HelperText';
@@ -142,8 +142,7 @@ const Upload = <TFormValues extends FieldValues>({
       const file = e.target.files[0];
       if (file) {
         const isDocument = Helper.detectFileType(file);
-
-        if (isDocument.includes(FILE_TYPES.DOCUMENT)) {
+        if (isDocument === FILE_TYPES.DOCUMENT) {
           if (Helper.checkValidDocument(file)) {
             handleSave({ file });
           }
@@ -240,7 +239,7 @@ const Upload = <TFormValues extends FieldValues>({
           name={name}
           disabled={loading}
           onChange={onFileChange}
-          accept="image/*, .doc, .docx, .pdf"
+          accept={ACCEPT_FILE_TYPES}
           hidden
         />
       </LoadingButton>

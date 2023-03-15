@@ -64,7 +64,7 @@ const Helper = {
     const maxSize = config?.maxSize || 5;
     const type = config?.type || 'image';
     if (!file.type.startsWith(type)) {
-      Helper.toast('Invalid', { type: 'error' });
+      Helper.toast('Invalid format', { type: 'error' });
       return false;
     }
     if (file.size > 1000000 * maxSize) {
@@ -84,7 +84,7 @@ const Helper = {
     const currentType: string = file?.type.split('/')?.[1] || '';
 
     if (!type.includes(currentType)) {
-      Helper.toast('Invalid', { type: 'error' });
+      Helper.toast('Invalid format', { type: 'error' });
       return false;
     }
     if (file.size > 1000000 * maxSize) {

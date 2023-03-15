@@ -25,7 +25,9 @@ export const Regex = {
     /^〒?[0-9０-９]{3}[-－]?[0-9０-９]{4}$/,
 };
 
-export const DOCUMENT_TYPES = ['doc', 'docx', 'pdf'];
+export const DOCUMENT_TYPES = ['doc', 'docx', 'pdf', 'ping'];
+export const IMAGE_TYPES = 'image/*';
+export const ACCEPT_FILE_TYPES = `image/*, ${DOCUMENT_TYPES.join(', ')}`;
 export const FILE_TYPES = {
   IMAGE: 'image',
   DOCUMENT: 'document',
