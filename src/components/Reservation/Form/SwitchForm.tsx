@@ -27,6 +27,7 @@ const SwitchForm = ({
     if (isPaymentConfirmation) {
       return <PaymentDetail {...reservationData} />;
     }
+
     return (
       <ReservationTreatment
         control={control}

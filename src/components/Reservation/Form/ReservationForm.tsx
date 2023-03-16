@@ -67,6 +67,10 @@ const ReservationForm = ({
             endIcon={<ArrowRight />}
             loadingPosition="end"
             sx={styles.submitBtn}
+            onClick={() =>
+              isPaymentConfirmation &&
+              router.push('/my-page/reservation/complete-payment')
+            }
           >
             確認する
           </LoadingButton>
