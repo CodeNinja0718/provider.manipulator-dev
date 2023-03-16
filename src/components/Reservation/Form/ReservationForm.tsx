@@ -3,8 +3,12 @@ import ArrowRight from '@icons/arrow-right.svg';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Stack } from '@mui/material';
 import BackButton from 'components/BackButton';
+import { useMutate } from 'hooks';
+import _omit from 'lodash/omit';
 import type { ISalonInfo } from 'models/reservation/interface';
+import reservationQuery from 'models/reservation/query';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import type { Control, UseFormSetValue } from 'react-hook-form';
 
 import type { TreatmentFormValues } from '../ReservationTreatment/models/schema';
@@ -32,11 +36,38 @@ const ReservationForm = ({
   onBackTreatmentForm,
   treatmentData,
 }: IReservationForm) => {
+  const [disabled, setDisabled] = useState(false);
   const router = useRouter();
   /**
    * isShowTreatment: Show treatment form
    * isPaymentConfirmation: Show on Payment confirmation form
    */
+  const { mutateAsync: handleReservationCompleted, isLoading } = useMutate(
+    reservationQuery.reservationComplete(router?.query?.reservationId),
+  );
+
+  const handleSubmit = () => {
+    const params = _omit(initialTreatmentValues, ['treatmentFile']);
+    const file = initialTreatmentValues?.treatmentFile?.[0];
+
+    handleReservationCompleted(
+      {
+        ...params,
+        amount: 1,
+        treatmentFile: {
+          name: file?.originalName || '',
+          objectKey: file?.key || '',
+        },
+      },
+      {
+        onSuccess: () => {
+          setDisabled(true);
+          router.push('/my-page/reservation/complete-payment');
+        },
+      },
+    );
+  };
+
   return (
     <>
       <Box mt={isShowTreatment ? 0 : 40} width="100%">
@@ -67,10 +98,9 @@ const ReservationForm = ({
             endIcon={<ArrowRight />}
             loadingPosition="end"
             sx={styles.submitBtn}
-            onClick={() =>
-              isPaymentConfirmation &&
-              router.push('/my-page/reservation/complete-payment')
-            }
+            disabled={disabled}
+            loading={isPaymentConfirmation && isLoading}
+            onClick={() => isPaymentConfirmation && handleSubmit()}
           >
             確認する
           </LoadingButton>
@@ -95,6 +125,7 @@ const ReservationForm = ({
             startIcon={<ArrowLeft />}
             sx={styles.button}
             onClick={() => onBackTreatmentForm(treatmentData)}
+            disabled={disabled}
           >
             修正する
           </Button>

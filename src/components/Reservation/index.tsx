@@ -19,7 +19,7 @@ const Reservation = ({
           <ReservationSection
             key={items[0]?.manipulatorInfo?.manipulatorId}
             title={items[0]?.manipulatorInfo?.name || ''}
-            avatar={items[0]?.manipulatorInfo?.photos[0]?.url || ''}
+            avatar={items[0]?.manipulatorInfo?.photos?.[0]?.url || ''}
           >
             {items.map((item: IReservationItem) => (
               <ReservationCart key={item._id} data={item} />

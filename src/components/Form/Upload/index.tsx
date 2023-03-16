@@ -164,22 +164,30 @@ const Upload = <TFormValues extends FieldValues>({
   };
 
   const renderImagePreview = () => {
-    return value.map(
+    const currentValue = Array.isArray(value) ? value : [value];
+    return currentValue.map(
       (image: {
         key: string;
         originUrl: string;
         contentType: string;
         originalName: string;
+        objectKey: string;
+        fileUrl: string;
+        name: string;
       }) => {
         const isDocument = Helper.detectFileType({
-          type: image?.contentType || '',
+          type: image?.objectKey?.split('.')?.[1] || image?.contentType || '',
         });
+
         return isDocument === FILE_TYPES.DOCUMENT ? (
           <Box key={image.key} className="document-preview-item">
             <Box sx={{ display: 'inherit', alignItems: 'inherit' }}>
               <AttachmentSvg />
-              <Link href={image.originUrl} target="_blank">
-                {image?.originalName}
+              <Link
+                href={image?.originUrl || image?.fileUrl || '/'}
+                target="_blank"
+              >
+                {image?.originalName || image?.name}
               </Link>
             </Box>
             <IconButton
@@ -196,13 +204,13 @@ const Upload = <TFormValues extends FieldValues>({
           <Box className="image-preview-wrapper">
             <Box
               position="relative"
-              key={image.key}
+              key={image?.objectKey || image.key}
               className="image-preview-item"
             >
               <Image
                 sizes="100vw"
-                src={image.originUrl}
-                alt={image.key}
+                src={image?.fileUrl || image.originUrl}
+                alt={image?.objectKey || image.key}
                 fill
                 objectFit="contain"
               />

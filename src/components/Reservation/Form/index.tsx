@@ -40,21 +40,24 @@ const Form = () => {
     return '予約詳細';
   };
 
-  const reservationData = isShowTreatment
-    ? {
-        salonInfo: res?.salonInfo,
-      }
-    : {
-        ...res?.result,
-        startTime: res?.startTime,
-        endTime: res?.endTime,
-        salonInfo: res?.salonInfo,
-      };
+  const reservationData =
+    isShowTreatment && !isPaymentConfirmation
+      ? {
+          salonInfo: res?.salonInfo,
+        }
+      : {
+          ...res?.result,
+          startTime: res?.startTime,
+          endTime: res?.endTime,
+          salonInfo: res?.salonInfo,
+        };
   const initialTreatmentValues = {
     price: treatmentData?.price || res?.plan?.menuInfo?.price,
-    treatmentInfo: treatmentData?.treatmentInfo || '',
+    treatmentInfo:
+      treatmentData?.treatmentInfo || res?.treatmentInfo?.treatmentInfo || '',
     menuId: treatmentData?.menuId || res?.plan?.menuId,
-    treatmentFile: treatmentData?.treatmentFile || [],
+    treatmentFile:
+      treatmentData?.treatmentFile || res?.treatmentInfo?.treatmentFile || [],
   };
 
   const { control, handleSubmit, setValue } = useForm<TreatmentFormValues>({

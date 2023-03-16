@@ -97,7 +97,8 @@ const Helper = {
   },
   detectFileType: (file: File | any) => {
     const currentType: string = file?.type.split('/')?.[1] || '';
-    return DOCUMENT_TYPES.includes(currentType)
+    return DOCUMENT_TYPES.includes(file?.type) ||
+      DOCUMENT_TYPES.includes(currentType)
       ? FILE_TYPES.DOCUMENT
       : FILE_TYPES.IMAGE;
   },

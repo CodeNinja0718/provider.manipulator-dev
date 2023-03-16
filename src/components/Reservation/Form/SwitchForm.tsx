@@ -25,7 +25,12 @@ const SwitchForm = ({
 }: ISwitchForm) => {
   if (isShowTreatment) {
     if (isPaymentConfirmation) {
-      return <PaymentDetail {...reservationData} />;
+      return (
+        <PaymentDetail
+          {...reservationData}
+          initialTreatmentValues={initialTreatmentValues}
+        />
+      );
     }
 
     return (
