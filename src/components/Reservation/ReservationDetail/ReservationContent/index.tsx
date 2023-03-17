@@ -37,7 +37,7 @@ const ReservationContent: React.FC<IReservationContent> = ({
           <ContentLine start="整体師" center={salonInfo?.name} />
           <ContentLine
             start="予約メニュー"
-            center={`時間予約コース ${menuInfo?.estimatedTime || 0}分`}
+            center={`${menuInfo?.name} ${menuInfo?.estimatedTime || 0}分`}
             end={<Typography>{`${menuInfo?.price || 0} 円`}</Typography>}
           />
           {/* Coupon */}

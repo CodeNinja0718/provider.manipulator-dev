@@ -55,7 +55,7 @@ const PaymentDetail: React.FC<IPaymentDetail> = ({
           />
           <ContentLine
             start="予約コース"
-            center={`時間予約コース ${
+            center={`${menuInfo?.name} ${
               currentMenu?.[0]?.estimatedTime || menuInfo?.estimatedTime || 0
             }分`}
             end={
