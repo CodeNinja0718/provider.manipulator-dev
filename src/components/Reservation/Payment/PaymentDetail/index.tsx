@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import type { ISalonInfo, ResultMenu } from 'models/reservation/interface';
 import React from 'react';
 import { DATE_FORMAT } from 'utils/const';
+import queryClient from 'utils/queryClient';
 
 import PaymentFee from '../PaymentFee';
 import TreatmentDetail from '../TreatmentDetail';
@@ -27,6 +28,19 @@ const PaymentDetail: React.FC<IPaymentDetail> = ({
 }) => {
   const valueDate =
     startTime || endTime ? dayjs(startTime || endTime) : dayjs();
+  const queryMenuList =
+    queryClient
+      .getQueryCache()
+      .findAll(['menu', 'list', 'salonId'])
+      .map((each) => {
+        return each?.state?.data;
+      }) || [];
+
+  const menuListData: any = queryMenuList?.[0];
+  const currentList = menuListData?.docs || [];
+  const currentMenu = currentList.filter(
+    (item: any) => item._id === initialTreatmentValues?.menuId,
+  );
   return (
     <CommonSection title="予約内容">
       <Box sx={styles.contentWarpper}>
@@ -41,7 +55,9 @@ const PaymentDetail: React.FC<IPaymentDetail> = ({
           />
           <ContentLine
             start="予約コース"
-            center={`時間予約コース ${menuInfo?.estimatedTime || 0}分`}
+            center={`時間予約コース ${
+              currentMenu?.[0]?.estimatedTime || menuInfo?.estimatedTime || 0
+            }分`}
             end={
               <Typography>{`${
                 initialTreatmentValues?.price || 0
