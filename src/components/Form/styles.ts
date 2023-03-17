@@ -157,6 +157,9 @@ const styles = {
         },
       },
     },
+    '& .MuiInputBase-input': {
+      padding: '15px 14px',
+    },
   },
   adornmentPassword: {
     mr: '4px',

@@ -1,4 +1,5 @@
 import FacebookIcon from '@icons/facebook_icon.svg';
+import AddReservationSvg from '@icons/icon_add_reservation_green.svg';
 import ListSvg from '@icons/icon_list.svg';
 import ReservationSvg from '@icons/icon_reservation.svg';
 import ScheduleSvg from '@icons/icon_schedule.svg';
@@ -77,6 +78,11 @@ export const PROVIDER_NAVIGATION: {
     href: '/my-page/reservation',
     label: '予約リスト',
     icon: <ReservationSvg />,
+  },
+  {
+    href: '/my-page/registration-reservation',
+    label: '予約登録',
+    icon: <AddReservationSvg />,
   },
 ];
 
