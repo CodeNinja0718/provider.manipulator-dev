@@ -19,8 +19,12 @@ const ReservationPage = () => {
   const { date } = router.query;
   const validDate = useMemo(() => {
     const currentDate = date || dayjs().format(DATE_FORMAT);
+
+    if (!router?.query?.date) {
+      router.replace(`${router?.pathname}/?date=${currentDate}`);
+    }
     return helpers.getValidDate(currentDate);
-  }, [date]);
+  }, [date, router]);
 
   const { data: res } = useFetch<IReservationItem | any>(
     reservationQuery.getReservationList(validDate),
