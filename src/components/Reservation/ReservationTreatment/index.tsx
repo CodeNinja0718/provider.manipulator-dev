@@ -76,6 +76,7 @@ const ReservationTreatment: React.FC<IReservationTreatment> = ({
             control={control}
             placeholder="自由にご記入ください"
             multiline
+            required
             rows={6}
           />
 

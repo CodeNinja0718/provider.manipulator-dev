@@ -4,6 +4,7 @@ import ReservationTreatment from 'components/Reservation/ReservationTreatment';
 import type { TreatmentFormValues } from 'components/Reservation/ReservationTreatment/models/schema';
 import type { ISalonInfo } from 'models/reservation/interface';
 import type { Control, UseFormSetValue } from 'react-hook-form';
+import { RESERVATION_STATUS } from 'utils/const';
 
 interface ISwitchForm {
   isShowTreatment: string | any;
@@ -23,9 +24,17 @@ const SwitchForm = ({
   setValue,
   reservationData,
 }: ISwitchForm) => {
+  if (reservationData?.status === RESERVATION_STATUS.DONE) {
+    return <ReservationContent {...reservationData} />;
+  }
   if (isShowTreatment) {
     if (isPaymentConfirmation) {
-      return <PaymentDetail {...reservationData} />;
+      return (
+        <PaymentDetail
+          {...reservationData}
+          initialTreatmentValues={initialTreatmentValues}
+        />
+      );
     }
 
     return (

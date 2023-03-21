@@ -10,6 +10,7 @@ import reservationQuery from 'models/reservation/query';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { RESERVATION_STATUS } from 'utils/const';
 
 import ReservationForm from './ReservationForm';
 import styles from './styles';
@@ -35,26 +36,32 @@ const Form = () => {
   }, [isShowTreatment]);
 
   const renderTitleText = () => {
+    if (res?.status === RESERVATION_STATUS.DONE) return '予約詳細';
     if (isPaymentConfirmation) return '決済';
     if (isShowTreatment) return '施術完了';
     return '予約詳細';
   };
 
-  const reservationData = isShowTreatment
-    ? {
-        salonInfo: res?.salonInfo,
-      }
-    : {
-        ...res?.result,
-        startTime: res?.startTime,
-        endTime: res?.endTime,
-        salonInfo: res?.salonInfo,
-      };
+  const reservationData =
+    isShowTreatment && !isPaymentConfirmation
+      ? {
+          salonInfo: res?.salonInfo,
+          status: res?.status,
+        }
+      : {
+          ...res?.result,
+          startTime: res?.startTime,
+          endTime: res?.endTime,
+          salonInfo: res?.salonInfo,
+          status: res?.status,
+        };
   const initialTreatmentValues = {
     price: treatmentData?.price || res?.plan?.menuInfo?.price,
-    treatmentInfo: treatmentData?.treatmentInfo || '',
+    treatmentInfo:
+      treatmentData?.treatmentInfo || res?.treatmentInfo?.treatmentInfo || '',
     menuId: treatmentData?.menuId || res?.plan?.menuId,
-    treatmentFile: treatmentData?.treatmentFile || [],
+    treatmentFile:
+      treatmentData?.treatmentFile || res?.treatmentInfo?.treatmentFile || [],
   };
 
   const { control, handleSubmit, setValue } = useForm<TreatmentFormValues>({

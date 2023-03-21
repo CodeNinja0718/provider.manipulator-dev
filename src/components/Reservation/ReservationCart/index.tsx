@@ -21,6 +21,11 @@ const ReservationCart: React.FC<ReservationCartProps> = ({ data }) => {
     router.push(`${pathname}/${data?._id}`);
   };
 
+  const handleOpenTreatmentReservation = () => {
+    const { pathname } = router;
+    router.push(`${pathname}/${data?._id}/?isShowTreatment=true`);
+  };
+
   return (
     <Box sx={styles.reservationCartWrapper}>
       <Grid container gap={10}>
@@ -68,8 +73,9 @@ const ReservationCart: React.FC<ReservationCartProps> = ({ data }) => {
               <Button
                 size="small"
                 variant="contained"
-                onClick={() => {}}
+                onClick={handleOpenTreatmentReservation}
                 sx={styles.button}
+                disabled={RESERVATION_STATUS.DONE === data?.status}
                 className={`${
                   RESERVATION_STATUS.DONE === data?.status ? 'btn-done' : {}
                 }`}

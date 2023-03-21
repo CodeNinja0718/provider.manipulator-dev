@@ -13,6 +13,12 @@ const reservationQuery = {
     queryKey: ['reservation-detail', id],
     enabled: !!id,
   }),
+  reservationComplete: (reservationId: string | any) => ({
+    apiUrl: `/reservation/manipulator/reservations/${reservationId}/complete`,
+    method: 'put',
+    successMessage: '編集メニュー成功',
+    enabled: !!reservationId,
+  }),
 };
 
 export default reservationQuery;
