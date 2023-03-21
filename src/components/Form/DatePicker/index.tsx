@@ -1,18 +1,13 @@
 import CalendarIcon from '@icons/calendar.svg';
-import { Box, SvgIcon, TextField } from '@mui/material';
+import type { FormControlProps } from '@mui/material';
+import { Box, FormControl, SvgIcon, TextField } from '@mui/material';
 import type { DesktopDatePickerProps } from '@mui/x-date-pickers/DesktopDatePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import useBreakpoint from 'hooks/useBreakpoint';
 import { omit } from 'lodash';
-import type { ReactNode } from 'react';
-import type {
-  Control,
-  FieldValues,
-  Path,
-  UnPackAsyncDefaultValues,
-} from 'react-hook-form';
+import type { Control, FieldValues, Path } from 'react-hook-form';
 import { useController } from 'react-hook-form';
 import { DateFormat } from 'utils/const';
 
@@ -25,14 +20,15 @@ interface DatePickerProps<TFormValues extends FieldValues>
     DesktopDatePickerProps<Date | Dayjs, Date | Dayjs>,
     'onChange' | 'renderInput' | 'value'
   > {
-  name: Path<UnPackAsyncDefaultValues<TFormValues>>;
+  name: Path<TFormValues>;
   control: Control<TFormValues>;
   required?: boolean;
   labelCol?: number;
   columns?: number;
   placeholder?: string;
   label?: string;
-  extraLabel?: string | ReactNode;
+  formControlProps?: FormControlProps;
+  // extraLabel?: string | ReactNode;
 }
 
 const DatePicker = <TFormValues extends FieldValues>({
@@ -42,7 +38,8 @@ const DatePicker = <TFormValues extends FieldValues>({
   name,
   placeholder,
   inputFormat = DateFormat.YEAR_MONTH_DATE,
-  extraLabel,
+  // extraLabel,
+  formControlProps,
   ...props
 }: DatePickerProps<TFormValues>) => {
   const isBreakpoint = useBreakpoint({});
@@ -55,10 +52,14 @@ const DatePicker = <TFormValues extends FieldValues>({
   });
 
   return (
-    <div>
-      {label && (
-        <Label label={label} required={required} extraLabel={extraLabel} />
-      )}
+    <FormControl
+      fullWidth
+      variant="standard"
+      sx={styles.formControlWrapper}
+      error={!!error}
+      {...formControlProps}
+    >
+      {label && <Label label={label} required={required} />}
 
       <Box display="flex" alignItems="center" width={1}>
         <DesktopDatePicker
@@ -102,7 +103,7 @@ const DatePicker = <TFormValues extends FieldValues>({
       </Box>
 
       <HelperText error={error?.message} />
-    </div>
+    </FormControl>
   );
 };
 
