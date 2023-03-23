@@ -4,18 +4,23 @@ const scheduleQuery = {
     queryKey: ['salon', 'schedule'],
     customParams: params,
   }),
-  getWorkingTime: (date: string | any) => ({
-    queryKey: ['working-time', 'me', date],
-    apiUrl: `schedule/me/schedules-within-date?date=${date}`,
+  getWorkingTime: (
+    date: string | any,
+    salonId: string | any,
+    enabledRequest: boolean,
+  ) => ({
+    queryKey: ['working-time', 'salonId', date],
+    apiUrl: `schedule/${salonId}/schedules-within-date?date=${date}`,
     useUrlQuery: false,
-    enabled: !!date,
+    enabled: enabledRequest,
     cacheTime: 0,
   }),
-  updateWorkingTime: () => ({
-    queryKey: ['working-time', 'me', 'update'],
-    apiUrl: 'schedule/me/schedules-within-date',
+  updateWorkingTime: (salonId: string | any, enabledRequest: boolean) => ({
+    queryKey: ['working-time', 'salonId', 'update'],
+    apiUrl: `schedule/${salonId}/schedules-within-date`,
     useUrlQuery: false,
     method: 'put',
+    enabled: enabledRequest,
     successMessage: '編集スケジュール成功',
   }),
 };
