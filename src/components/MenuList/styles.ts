@@ -9,6 +9,7 @@ const styles = {
     '.customHeadingClass': {
       background: (theme: Theme) => theme.palette.placeholder,
     },
+    overflow: 'hidden',
   },
   emptyText: {
     textAlign: 'center',

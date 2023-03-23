@@ -14,7 +14,9 @@ const CardHeader = ({ title, isUnpublished }: CardHeaderProps) => {
         ...{ bgcolor: isUnpublished ? 'placeholder' : 'secondary.main' },
       }}
     >
-      <Typography component={'h3'}>{title}</Typography>
+      <Typography component={'h3'} noWrap={true} title={title}>
+        {title}
+      </Typography>
     </Box>
   );
 };
