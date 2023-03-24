@@ -44,9 +44,8 @@ const styles = {
     '& .MuiFormControl-fullWidth': {
       maxWidth: 123,
     },
-    textAlign: { xs: 'center', tablet: 'left' },
     '& > div': {
-      alignItems: { xs: 'center', tablet: 'start' },
+      alignItems: { xs: 'start' },
       '& > div': {
         minWidth: { xs: 280, normalMobile: 340, tablet: 'auto' },
         backgroundColor: 'transparent',

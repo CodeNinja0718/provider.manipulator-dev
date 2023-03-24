@@ -62,6 +62,7 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
                     xs: 100,
                     tablet: 180,
                   },
+                  minWidth: 100,
                 },
               }}
               disabled={isDayOff}
@@ -85,6 +86,7 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
                     xs: 100,
                     tablet: 180,
                   },
+                  minWidth: 100,
                 },
               }}
               disabled={isDayOff}
