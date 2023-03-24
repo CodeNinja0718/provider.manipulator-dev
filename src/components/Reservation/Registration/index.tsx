@@ -3,7 +3,6 @@ import ArrowRight from '@icons/arrow-right.svg';
 import { LoadingButton } from '@mui/lab';
 import { Box } from '@mui/material';
 import React from 'react';
-import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
 import BasicInfoForm from './BasicInfoForm';
@@ -21,17 +20,13 @@ const Registration: React.FC<IRegistration> = () => {
     mode: 'onBlur',
     defaultValues: {},
   });
-  const handleOnSubmit: SubmitHandler<RegistrationFormValues> = (
-    values: RegistrationFormValues,
-  ) => {
-    console.log('valuesvalues', values);
-  };
+  // const handleOnSubmit: SubmitHandler<RegistrationFormValues> = (
+  //   values: RegistrationFormValues,
+  // ) => {
+  //   console.log('valuesvalues', values);
+  // };
   return (
-    <Box
-      color={'black'}
-      component="form"
-      onSubmit={handleSubmit(handleOnSubmit)}
-    >
+    <Box color={'black'} component="form" onSubmit={handleSubmit(() => {})}>
       <BasicInfoForm control={control} />
       <ReservationForm control={control} />
       <PriceInfo />
