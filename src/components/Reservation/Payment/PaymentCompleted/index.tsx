@@ -30,7 +30,7 @@ const PaymentCompleted: React.FC<IPaymentCompleted> = () => {
         sx={styles.button}
         onClick={() => {}}
       >
-        完了報告する
+        次回予約登録
       </Button>
     </Box>
   );
