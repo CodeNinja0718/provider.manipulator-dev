@@ -69,13 +69,8 @@ const WorkingTime = ({
                 component="form"
                 onSubmit={handleSubmit(onSubmit)}
               >
-                <Grid container>
-                  <Grid
-                    item
-                    xs={12}
-                    tablet={4}
-                    textAlign={{ xs: 'center', tablet: 'left' }}
-                  >
+                <Grid container px={20}>
+                  <Grid item xs={12} tablet={4}>
                     <Typography component={'h3'} sx={styles.labelText}>
                       本日の営業時間
                     </Typography>
