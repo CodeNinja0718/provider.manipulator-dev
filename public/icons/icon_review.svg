@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44.5" height="34.924" viewBox="0 0 44.5 34.924">
+    <path data-name="合体 3" d="M18.917 22.26H1.5a1.5 1.5 0 0 1-1.5-1.5V1.5A1.5 1.5 0 0 1 1.5 0h38A1.5 1.5 0 0 1 41 1.5v19.26a1.5 1.5 0 0 1-1.5 1.5H25.773V29z" transform="translate(1.75 1.75)" style="fill:#fff;stroke:#659d3b;stroke-width:3.5px"/>
+    <g data-name="グループ 1493" transform="translate(8.908 10.067)">
+        <ellipse data-name="楕円形 8" cx="3.254" cy="3.199" rx="3.254" ry="3.199" style="fill:#659d3b"/>
+        <ellipse data-name="楕円形 9" cx="3.254" cy="3.199" rx="3.254" ry="3.199" transform="translate(10.413)" style="fill:#659d3b"/>
+        <ellipse data-name="楕円形 10" cx="3.254" cy="3.199" rx="3.254" ry="3.199" transform="translate(20.825)" style="fill:#659d3b"/>
+    </g>
+</svg>
