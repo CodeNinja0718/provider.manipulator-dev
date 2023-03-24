@@ -18,9 +18,13 @@ export function middleware(req: NextRequest) {
     token,
   });
   if (redirectUrl) {
-    return NextResponse.redirect(new URL(redirectUrl, req.url));
+    const response = NextResponse.redirect(new URL(redirectUrl, req.url));
+    response.headers.set('x-middleware-cache', 'no-cache');
+    return response;
   }
-  return NextResponse.next();
+  const response = NextResponse.next();
+  response.headers.set('x-middleware-cache', 'no-cache');
+  return response;
 }
 
 export const config = {

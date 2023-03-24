@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="46" height="33.5" viewBox="0 0 46 33.5">
+    <g data-name="グループ 7106">
+        <g data-name="グループ 1532">
+            <path data-name="線 27" transform="translate(33.402 2.822)" style="stroke:#659d3b;stroke-linecap:round;fill:none;stroke-linejoin:round;stroke-width:3px" d="M0 0h11.099"/>
+            <path data-name="線 28" transform="translate(33.402 9.951)" style="stroke:#659d3b;stroke-linecap:round;fill:none;stroke-linejoin:round;stroke-width:3px" d="M0 0h11.099"/>
+            <path data-name="パス 838" d="M5.074 110.537A2.537 2.537 0 1 1 2.537 108a2.537 2.537 0 0 1 2.537 2.537" transform="translate(23.888 -100.128)" style="fill:#659d3b"/>
+            <path data-name="パス 839" d="M5.074 56.537A2.537 2.537 0 1 1 2.537 54a2.537 2.537 0 0 1 2.537 2.537" transform="translate(23.888 -54)" style="fill:#659d3b"/>
+        </g>
+    </g>
+    <g data-name="グループ 7107">
+        <g data-name="グループ 37">
+            <path data-name="楕円形 8" d="M-1.848-9C2.1-9 5.3-5.525 5.3-1.254S2.1 6.492-1.848 6.492-9 3.018-9-1.254-5.792-9-1.848-9zm0 13.279A5.339 5.339 0 0 0 3.26-1.254a5.339 5.339 0 0 0-5.108-5.533 5.339 5.339 0 0 0-5.109 5.533 5.339 5.339 0 0 0 5.109 5.533z" transform="translate(15.033 15.045)" style="fill:#659d3b;stroke:#659d3b;stroke-linecap:round"/>
+            <path data-name="パス 780" d="M24.312 121.279a1.083 1.083 0 0 1-1.057-1.107c0-6.236-3.161-9.959-8.456-9.959h-4.228c-5.3 0-8.456 3.723-8.456 9.959a1.083 1.083 0 0 1-1.057 1.107A1.083 1.083 0 0 1 0 120.173C0 112.778 4.149 108 10.571 108H14.8c6.421 0 10.571 4.778 10.571 12.173a1.083 1.083 0 0 1-1.059 1.106z" transform="translate(.5 -88.279)" style="fill:#659d3b;stroke:#659d3b;stroke-linecap:round"/>
+        </g>
+    </g>
+</svg>

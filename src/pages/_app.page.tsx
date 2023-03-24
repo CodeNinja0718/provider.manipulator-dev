@@ -19,7 +19,6 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import type { ReactElement, ReactNode } from 'react';
 import { useState } from 'react';
@@ -88,6 +87,4 @@ function MyApp(
   );
 }
 
-export default dynamic(() => Promise.resolve(MyApp), {
-  ssr: false,
-});
+export default MyApp;
