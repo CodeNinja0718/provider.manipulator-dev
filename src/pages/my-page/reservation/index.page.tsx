@@ -8,7 +8,7 @@ import { groupBy, values } from 'lodash';
 import type { IReservationItem } from 'models/reservation/interface';
 import reservationQuery from 'models/reservation/query';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { DATE_FORMAT } from 'utils/const';
 import helpers from 'utils/helpers';
 
@@ -20,10 +20,15 @@ const ReservationPage = () => {
   const validDate = useMemo(() => {
     const currentDate = date || dayjs().format(DATE_FORMAT);
 
+    return helpers.getValidDate(currentDate);
+  }, [date]);
+
+  useEffect(() => {
+    const currentDate = date || dayjs().format(DATE_FORMAT);
+
     if (!router?.query?.date) {
       router.replace(`${router?.pathname}/?date=${currentDate}`);
     }
-    return helpers.getValidDate(currentDate);
   }, [date, router]);
 
   const { data: res } = useFetch<IReservationItem | any>(
