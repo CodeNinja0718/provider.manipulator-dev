@@ -76,7 +76,12 @@ const AreaStationSection: React.FC<AreaStationSectionProps> = ({
 
   return (
     <CommonSection title="エリア/駅">
-      <Stack sx={styles.sectionContentWrapper}>
+      <Stack
+        sx={styles.sectionContentWrapper}
+        direction={{ xs: 'column', tablet: 'row' }}
+        gap={{ xs: 0, tablet: 60 }}
+        pb={24}
+      >
         <Select
           label="エリア"
           required
@@ -90,7 +95,7 @@ const AreaStationSection: React.FC<AreaStationSectionProps> = ({
             },
           }}
         />
-        <Stack>
+        <Stack flexGrow={1}>
           <Label label="駅" required />
           <Stack sx={styles.stationCheckboxWrapper} direction="row">
             <Box sx={styles.checkboxSideContent}>

@@ -3,9 +3,12 @@ import ArrowRight from '@icons/arrow-right.svg';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, Stack, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
+import { useFetch } from 'hooks';
 import get from 'lodash/get';
+import type { IPrefectureItem, IStationItem } from 'models/resource/interface';
+import resourceQuery from 'models/resource/query';
 import Image from 'next/image';
-import React from 'react';
+import { useMemo } from 'react';
 import { FEATURES_DATA, WEEKDAYS_WORK_TIME } from 'utils/const';
 
 import type { ProfileFormValues } from '../Form/schema';
@@ -61,6 +64,27 @@ const SalonProfile: React.FC<SalonProfileProps> = ({
   handleConfirm,
   handleCancel,
 }) => {
+  const { data: areas } = useFetch<{ result: IPrefectureItem[] }>(
+    resourceQuery.prefectureAreas({ provinceId: 1 }),
+  );
+  const { data: stationLines } = useFetch<{
+    result: IStationItem[];
+  }>({
+    ...resourceQuery.stationLines({
+      _id: data.stationSelected,
+    }),
+    enabled: !!data.stationSelected,
+  });
+
+  const selectedArea = useMemo(() => {
+    return areas?.result.find((area) => area._id === Number(data.areaId));
+  }, [areas?.result, data.areaId]);
+  const selectedStation = useMemo(() => {
+    return stationLines?.result.filter((line) =>
+      data.stationIds.includes(line._id.toString()),
+    );
+  }, [data.stationIds, stationLines?.result]);
+
   return (
     <Stack alignItems="center" sx={styles.salonProfileWrapper}>
       <CommonSection title="整体院情報">
@@ -113,6 +137,18 @@ const SalonProfile: React.FC<SalonProfileProps> = ({
           </FieldItem>
           <FieldItem label="整体院について・注意事項">
             <Typography>{data?.description}</Typography>
+          </FieldItem>
+        </Stack>
+      </CommonSection>
+      <CommonSection title="エリア/駅">
+        <Stack sx={styles.sectionContentWrapper} gap={20} py={20}>
+          <FieldItem label="エリア">
+            <Typography>{selectedArea?.name}</Typography>
+          </FieldItem>
+          <FieldItem label="駅">
+            <Typography>
+              {selectedStation?.map((station) => station.name).join('\n')}
+            </Typography>
           </FieldItem>
         </Stack>
       </CommonSection>

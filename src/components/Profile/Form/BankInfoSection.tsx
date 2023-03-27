@@ -66,8 +66,8 @@ const BankInfoSection: React.FC<BankInfoSectionProps> = ({
             }
           />
           <AutocompleteField
-            label="銀行"
-            placerholder="〇〇銀行"
+            label="支店"
+            placerholder="〇〇支店"
             required
             name="branch"
             control={control}

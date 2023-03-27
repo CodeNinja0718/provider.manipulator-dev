@@ -30,7 +30,7 @@ const CompleteProfilePage = () => {
     };
   }, [router.events]);
 
-  const businessHours = useMemo(
+  const initBusinessHours = useMemo(
     () =>
       range(7).map((index) => ({
         weekDay: index,
@@ -64,6 +64,7 @@ const CompleteProfilePage = () => {
         areaId,
         stationIds,
         zipcode,
+        businessHours,
         ...rest
       } = previewData;
       handleCreateSalon(
@@ -97,6 +98,12 @@ const CompleteProfilePage = () => {
               address,
             },
           ],
+          businessHours: businessHours.map((businessHour) => ({
+            ...businessHour,
+            hours: businessHour.hours?.filter(
+              ({ startTime, endTime }) => startTime && endTime,
+            ),
+          })),
         },
         {
           onSuccess: async () => {
@@ -152,7 +159,7 @@ const CompleteProfilePage = () => {
               accountNumber: get(previewData, 'bankInfo.accountNumber', ''),
               accountName: get(previewData, 'bankInfo.accountName', ''),
             },
-            businessHours: get(previewData, 'businessHours', businessHours),
+            businessHours: get(previewData, 'businessHours', initBusinessHours),
           }}
           onSubmit={handleSubmit}
         />
