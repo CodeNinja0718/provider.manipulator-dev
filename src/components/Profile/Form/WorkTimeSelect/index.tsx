@@ -51,11 +51,11 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
           <Stack direction="row" alignItems="start" gap={10} key={field.id}>
             <Select
               control={control}
-              placeholder="Time"
+              placeholder="時間"
               name={`businessHours.${weekDayId}.hours.${index}.startTime`}
               data={startTimeOptions}
               fixedHelperText={false}
-              handleChange={index > 0 ? handleChange : undefined}
+              handleChange={handleChange}
               formControlProps={{
                 sx: {
                   maxWidth: {
@@ -71,11 +71,11 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
             </Typography>
             <Select
               control={control}
-              placeholder="Time"
+              placeholder="時間"
               name={`businessHours.${weekDayId}.hours.${index}.endTime`}
               data={startTimeOptions}
               fixedHelperText={false}
-              handleChange={index > 0 ? handleChange : undefined}
+              handleChange={handleChange}
               formControlProps={{
                 sx: {
                   maxWidth: {
@@ -113,7 +113,7 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
           onClick={() => {
             append({ startTime: '', endTime: '' });
           }}
-          disabled={businessHour?.isHoliday}
+          disabled={businessHour?.isHoliday || fields.length > 2}
           variant="outlined"
           size="small"
         >

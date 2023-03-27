@@ -29,7 +29,7 @@ export interface IBankBranchItem {
 }
 
 export interface IPrefectureItem {
-  _id: string;
+  _id: number;
   name: string;
   provinceId: string;
   provinceName: string;

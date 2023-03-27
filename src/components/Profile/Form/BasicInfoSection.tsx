@@ -4,6 +4,7 @@ import axios from 'axios';
 import CommonSection from 'components/CommonSection';
 import { CheckBox, TextField, Upload } from 'components/Form';
 import { useFetch } from 'hooks';
+import useBreakpoint from 'hooks/useBreakpoint';
 import isEmpty from 'lodash/isEmpty';
 import type { IFeatureItem } from 'models/resource/interface';
 import resourceQuery from 'models/resource/query';
@@ -34,6 +35,7 @@ const BasisInfoSection: React.FC<BasisInfoSectionProps> = ({
   setValue,
   errors,
 }) => {
+  const isMobile = useBreakpoint({});
   const [loading, setLoading] = useState<boolean>(false);
   const { data: featureList } = useFetch<{ result: IFeatureItem[] }>(
     resourceQuery.features,
@@ -148,7 +150,14 @@ const BasisInfoSection: React.FC<BasisInfoSectionProps> = ({
           control={control}
           data={featureOptions}
           layout="horizontal"
-          columns={3}
+          columns={isMobile ? 6 : 3}
+          formControlProps={{
+            sx: {
+              '.MuiGrid-root .MuiTypography-root': {
+                wordBreak: 'keep-all',
+              },
+            },
+          }}
         />
         <Upload label="写真" name="photos" control={control} />
         <TextField

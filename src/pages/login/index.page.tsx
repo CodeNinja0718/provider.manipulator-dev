@@ -67,12 +67,14 @@ const LoginPage = () => {
       <TextField
         size="large"
         label="メールアドレス"
+        placeholder="メールアドレス"
         name="email"
         control={control}
       />
       <TextField
         size="large"
         label="パスワード"
+        placeholder="パスワード"
         name="password"
         control={control}
         type="password"
