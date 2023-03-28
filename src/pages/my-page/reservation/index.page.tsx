@@ -2,14 +2,12 @@ import { Box, CircularProgress, Stack, Typography } from '@mui/material';
 import ChangeDate from 'components/ChangeDate';
 import Layout from 'components/Layout';
 import Reservation from 'components/Reservation';
-import dayjs from 'dayjs';
 import { useFetch } from 'hooks';
 import { groupBy, values } from 'lodash';
 import type { IReservationItem } from 'models/reservation/interface';
 import reservationQuery from 'models/reservation/query';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo } from 'react';
-import { DATE_FORMAT } from 'utils/const';
+import { useMemo } from 'react';
 import helpers from 'utils/helpers';
 
 import styles from './styles';
@@ -17,20 +15,7 @@ import styles from './styles';
 const ReservationPage = () => {
   const router = useRouter();
   const { date } = router.query;
-  const validDate = useMemo(() => {
-    const currentDate = date || dayjs().format(DATE_FORMAT);
-
-    return helpers.getValidDate(currentDate);
-  }, [date]);
-
-  useEffect(() => {
-    const currentDate = date || dayjs().format(DATE_FORMAT);
-
-    if (!router?.query?.date) {
-      router.replace(`${router?.pathname}/?date=${currentDate}`);
-    }
-  }, [date, router]);
-
+  const validDate = helpers.getValidDate(date);
   const { data: res } = useFetch<IReservationItem | any>(
     reservationQuery.getReservationList(validDate),
   );

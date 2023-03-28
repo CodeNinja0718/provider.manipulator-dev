@@ -12,11 +12,17 @@ import PaymentFee from '../PaymentFee';
 import TreatmentDetail from '../TreatmentDetail';
 import styles from './styles';
 
+interface IMenuList {
+  id: string | number;
+  name: string | number;
+}
+
 interface IPaymentDetail extends ResultMenu {
   startTime: string;
   endTime: string;
   salonInfo: ISalonInfo;
   initialTreatmentValues: TreatmentFormValues;
+  menuUpdatingInfo: IMenuList[];
 }
 
 const PaymentDetail: React.FC<IPaymentDetail> = ({
@@ -25,6 +31,7 @@ const PaymentDetail: React.FC<IPaymentDetail> = ({
   endTime,
   salonInfo,
   initialTreatmentValues,
+  menuUpdatingInfo,
 }) => {
   const valueDate =
     startTime || endTime ? dayjs(startTime || endTime) : dayjs();
@@ -41,6 +48,7 @@ const PaymentDetail: React.FC<IPaymentDetail> = ({
   const currentMenu = currentList.filter(
     (item: any) => item._id === initialTreatmentValues?.menuId,
   );
+
   return (
     <CommonSection title="予約内容">
       <Box sx={styles.contentWarpper}>
@@ -55,7 +63,7 @@ const PaymentDetail: React.FC<IPaymentDetail> = ({
           />
           <ContentLine
             start="予約コース"
-            center={`${menuInfo?.name} ${
+            center={`${menuUpdatingInfo?.[0]?.name || menuInfo?.name} ${
               currentMenu?.[0]?.estimatedTime || menuInfo?.estimatedTime || 0
             }分`}
             end={
