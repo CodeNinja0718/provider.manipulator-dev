@@ -2,9 +2,18 @@ import PaymentDetail from 'components/Reservation/Payment/PaymentDetail';
 import ReservationContent from 'components/Reservation/ReservationDetail/ReservationContent';
 import ReservationTreatment from 'components/Reservation/ReservationTreatment';
 import type { TreatmentFormValues } from 'components/Reservation/ReservationTreatment/models/schema';
+import { useFetch } from 'hooks';
+import type { IMenu } from 'models/menu/interface';
+import menuQuery from 'models/menu/query';
 import type { ISalonInfo } from 'models/reservation/interface';
+import { useMemo } from 'react';
 import type { Control, UseFormSetValue } from 'react-hook-form';
-import { RESERVATION_STATUS } from 'utils/const';
+import { MENU_STATUS, RESERVATION_STATUS } from 'utils/const';
+
+interface IMenuList {
+  id: string | number;
+  name: string | number;
+}
 
 interface ISwitchForm {
   isShowTreatment: string | any;
@@ -24,15 +33,39 @@ const SwitchForm = ({
   setValue,
   reservationData,
 }: ISwitchForm) => {
+  const { data: res } = useFetch<IMenu | any>(
+    menuQuery.getManiplatorList(reservationData?.salonInfo?.salonId),
+  );
+
+  const menuList = useMemo(() => {
+    const data = res?.docs || [];
+    return data
+      .filter((item: IMenu) => item.status === MENU_STATUS.PUBLIC)
+      .map((item: IMenu) => {
+        return {
+          id: item._id,
+          name: item.name,
+        };
+      });
+  }, [res]);
+
   if (reservationData?.status === RESERVATION_STATUS.DONE) {
     return <ReservationContent {...reservationData} />;
   }
+
   if (isShowTreatment) {
     if (isPaymentConfirmation) {
+      const menuUpdatingInfo = menuList
+        .filter((item: IMenuList) => item.id === initialTreatmentValues.menuId)
+        .map((item: IMenuList) => {
+          return item;
+        });
+
       return (
         <PaymentDetail
           {...reservationData}
           initialTreatmentValues={initialTreatmentValues}
+          menuUpdatingInfo={menuUpdatingInfo}
         />
       );
     }
@@ -43,6 +76,7 @@ const SwitchForm = ({
         {...reservationData}
         initialTreatmentValues={initialTreatmentValues}
         setValue={setValue}
+        menuList={menuList}
       />
     );
   }

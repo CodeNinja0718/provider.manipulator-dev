@@ -2,45 +2,30 @@ import { Box, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
 import { Select, TextField, Upload } from 'components/Form';
 import NumberField from 'components/Form/NumberField';
-import { useFetch } from 'hooks';
-import type { IMenu } from 'models/menu/interface';
-import menuQuery from 'models/menu/query';
-import type { ISalonInfo } from 'models/reservation/interface';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import type { Control, UseFormSetValue } from 'react-hook-form';
-import { MENU_STATUS, UNIT } from 'utils/const';
+import { UNIT } from 'utils/const';
 
 import type { TreatmentFormValues } from './models/schema';
 import styles from './styles';
 
+interface IMenuList {
+  id: string | number;
+  name: string | number;
+}
 interface IReservationTreatment {
-  salonInfo: ISalonInfo;
+  menuList: IMenuList[];
   control: Control<TreatmentFormValues>;
   initialTreatmentValues: TreatmentFormValues;
   setValue: UseFormSetValue<TreatmentFormValues>;
 }
 
 const ReservationTreatment: React.FC<IReservationTreatment> = ({
-  salonInfo,
+  menuList,
   control,
   initialTreatmentValues,
   setValue,
 }) => {
-  const { data: res } = useFetch<IMenu | any>(
-    menuQuery.getManiplatorList(salonInfo?.salonId),
-  );
-  const menuList = useMemo(() => {
-    const data = res?.docs || [];
-    return data
-      .filter((item: IMenu) => item.status === MENU_STATUS.PUBLIC)
-      .map((item: IMenu) => {
-        return {
-          id: item._id,
-          name: item.name,
-        };
-      });
-  }, [res]);
-
   useEffect(() => {
     if (initialTreatmentValues) {
       Object.entries(initialTreatmentValues).map(([name, value]) =>
