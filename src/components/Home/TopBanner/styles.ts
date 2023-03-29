@@ -79,7 +79,7 @@ const styles: Record<string, SxProps<Theme>> = {
         xs: 110,
         tablet: 129,
       },
-      '&:first-child': {
+      '&:first-of-type': {
         width: {
           xs: 125,
           tablet: 129,

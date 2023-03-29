@@ -1,5 +1,9 @@
 import ArrowDownSvg from '@icons/arrow-down.svg';
-import type { AutocompleteProps, FormControlProps } from '@mui/material';
+import type {
+  AutocompleteProps,
+  AutocompleteValue,
+  FormControlProps,
+} from '@mui/material';
 import { Autocomplete, FormControl, OutlinedInput } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import type { Control, FieldValues, Path } from 'react-hook-form';
@@ -29,6 +33,9 @@ interface AutocompleteFieldProps<
   showError?: boolean;
   formControlProps?: FormControlProps;
   fixedHelperText?: boolean;
+  handleChange?: (
+    values: AutocompleteValue<IOptions, Multiple, DisableClearable, FreeSolo>,
+  ) => void;
 }
 
 const AutocompleteField = <
@@ -48,6 +55,7 @@ const AutocompleteField = <
   showError = true,
   formControlProps,
   fixedHelperText = true,
+  handleChange,
   ...props
 }: AutocompleteFieldProps<
   TFormValues,
@@ -78,6 +86,7 @@ const AutocompleteField = <
         value={value as any}
         placeholder="text"
         onChange={(_e, newValue) => {
+          if (handleChange) handleChange(newValue);
           otherField.onChange(newValue);
         }}
         data-disabled={disabled}

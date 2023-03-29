@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import ArrowLeft from '@icons/arrow-left.svg';
 import ArrowRight from '@icons/arrow-right.svg';
 import { LoadingButton } from '@mui/lab';
 import { Stack } from '@mui/material';
@@ -18,12 +19,14 @@ interface ProfileFormProps {
   onSubmit: SubmitHandler<ProfileFormValues>;
   initialValues: ProfileFormValues;
   loading?: boolean;
+  handleCancel?: () => void;
 }
 
 const ProfileForm: React.FC<ProfileFormProps> = ({
   onSubmit,
   initialValues,
   loading,
+  handleCancel,
 }) => {
   const {
     control,
@@ -78,18 +81,30 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         errors={errors}
         trigger={trigger}
       />
-      <LoadingButton
-        size="medium"
-        color="primary"
-        variant="contained"
-        type="submit"
-        endIcon={<ArrowRight />}
-        loadingPosition="end"
-        sx={styles.submitBtn}
-        loading={loading}
-      >
-        確認画面へ
-      </LoadingButton>
+      <Stack sx={styles.actionBtnGroup} gap={20} mt={20}>
+        <LoadingButton
+          size="medium"
+          color="primary"
+          variant="contained"
+          type="submit"
+          endIcon={<ArrowRight />}
+          loadingPosition="end"
+          loading={loading}
+        >
+          確認画面へ
+        </LoadingButton>
+        {handleCancel && (
+          <LoadingButton
+            variant="outlined"
+            fullWidth
+            loading={loading}
+            startIcon={<ArrowLeft />}
+            onClick={handleCancel}
+          >
+            修正する
+          </LoadingButton>
+        )}
+      </Stack>
     </Stack>
   );
 };

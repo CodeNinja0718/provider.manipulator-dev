@@ -1,6 +1,7 @@
 import FacebookIcon from '@icons/facebook_icon.svg';
 import AddReservationSvg from '@icons/icon_add_reservation_green.svg';
 import ListSvg from '@icons/icon_list.svg';
+import MembershipSvg from '@icons/icon_membership.svg';
 import ReservationSvg from '@icons/icon_reservation.svg';
 import ScheduleSvg from '@icons/icon_schedule.svg';
 import InstagramIcon from '@icons/instagram_icon.svg';
@@ -73,6 +74,11 @@ export const PROVIDER_NAVIGATION: {
     href: '/my-page/menu',
     label: 'メニュー管理',
     icon: <ListSvg />,
+  },
+  {
+    href: '/my-page/profile',
+    label: '会員情報',
+    icon: <MembershipSvg />,
   },
   {
     href: '/my-page/reservation',

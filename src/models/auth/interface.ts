@@ -9,6 +9,12 @@ export interface IProvider {
     total: number;
     averageRating: number;
   };
+  salon: {
+    salonId: string;
+    name: string;
+    nameKana: string;
+    access: string[];
+  }[];
   menus: any[];
   isNewRegistration: boolean;
   isPublished: boolean;
