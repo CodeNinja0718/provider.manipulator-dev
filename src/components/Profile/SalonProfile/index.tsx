@@ -54,6 +54,7 @@ const WorkTimeItem: React.FC<any> = ({ content }) => {
 interface SalonProfileProps {
   data: ProfileFormValues;
   handleConfirm?: () => void;
+  confirmText?: string;
   handleCancel?: () => void;
   loading?: boolean;
 }
@@ -62,6 +63,7 @@ const SalonProfile: React.FC<SalonProfileProps> = ({
   data,
   loading,
   handleConfirm,
+  confirmText = '登録する',
   handleCancel,
 }) => {
   const { data: areas } = useFetch<{ result: IPrefectureItem[] }>(
@@ -81,7 +83,7 @@ const SalonProfile: React.FC<SalonProfileProps> = ({
   }, [areas?.result, data.areaId]);
   const selectedStation = useMemo(() => {
     return stationLines?.result.filter((line) =>
-      data.stationIds.includes(line._id.toString()),
+      data.stationIds.includes(line._id),
     );
   }, [data.stationIds, stationLines?.result]);
 
@@ -192,24 +194,28 @@ const SalonProfile: React.FC<SalonProfileProps> = ({
         </Stack>
       </CommonSection>
       <Stack sx={styles.actionBtnGroup} gap={20} mt={40}>
-        <LoadingButton
-          variant="contained"
-          fullWidth
-          endIcon={<ArrowRight />}
-          onClick={handleConfirm}
-          loading={loading}
-        >
-          登録する
-        </LoadingButton>
-        <LoadingButton
-          variant="outlined"
-          fullWidth
-          loading={loading}
-          startIcon={<ArrowLeft />}
-          onClick={handleCancel}
-        >
-          修正する
-        </LoadingButton>
+        {handleConfirm && (
+          <LoadingButton
+            variant="contained"
+            fullWidth
+            endIcon={<ArrowRight />}
+            onClick={handleConfirm}
+            loading={loading}
+          >
+            {confirmText}
+          </LoadingButton>
+        )}
+        {handleCancel && (
+          <LoadingButton
+            variant="outlined"
+            fullWidth
+            loading={loading}
+            startIcon={<ArrowLeft />}
+            onClick={handleCancel}
+          >
+            修正する
+          </LoadingButton>
+        )}
       </Stack>
     </Stack>
   );

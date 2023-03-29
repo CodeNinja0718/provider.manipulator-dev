@@ -90,11 +90,10 @@ const styles: Record<string, SxProps> = {
     justifyContent: 'center',
     borderRadius: '5px',
   },
-
-  submitBtn: {
-    maxWidth: 323,
+  actionBtnGroup: {
+    maxWidth: 363,
+    px: 20,
     width: '100%',
-    marginTop: 20,
   },
 };
 

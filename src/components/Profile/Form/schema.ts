@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { Regex } from 'utils/const';
 import type { InferType } from 'yup';
-import { array, boolean, number, object, string } from 'yup';
+import { array, boolean, mixed, number, object, string } from 'yup';
 
 const parseTimeSlot = (time: string | undefined) => {
   const timeSplit = time?.split(':');
@@ -36,8 +36,8 @@ const schema = object({
   areaId: string().required(),
   stationSelected: string(),
   stationIds: array().min(1, 'この項目は入力必須です。').required(),
-  bank: object().nullable(true).required(),
-  branch: object().nullable(true).required(),
+  bank: mixed().nullable(true).required(),
+  branch: mixed().nullable(true).required(),
   bankInfo: object({
     transferType: string().required(),
     accountNumber: string()

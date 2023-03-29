@@ -5,7 +5,7 @@ import { useFetch } from 'hooks';
 import { isEmpty } from 'lodash';
 import type { IBankBranchItem, IBankItem } from 'models/resource/interface';
 import resourceQuery from 'models/resource/query';
-import React, { useEffect } from 'react';
+import React from 'react';
 import type {
   Control,
   FieldErrors,
@@ -43,12 +43,6 @@ const BankInfoSection: React.FC<BankInfoSectionProps> = ({
     enabled: !isEmpty(watchBank),
   });
 
-  useEffect(() => {
-    if (watchBank?._id !== watchBranch?.bankRef) {
-      setValue('branch', null as any);
-    }
-  }, [setValue, watchBank, watchBranch]);
-
   return (
     <CommonSection title="口座情報">
       <Stack sx={styles.sectionContentWrapper}>
@@ -64,6 +58,11 @@ const BankInfoSection: React.FC<BankInfoSectionProps> = ({
             isOptionEqualToValue={(option, selected) =>
               selected._id === option._id || selected === option
             }
+            handleChange={(bank) => {
+              if (bank?._id !== watchBranch?.bankRef) {
+                setValue('branch', null as any);
+              }
+            }}
           />
           <AutocompleteField
             label="支店"

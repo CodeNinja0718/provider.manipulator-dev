@@ -24,7 +24,7 @@ const AddressField: React.FC<AddressFieldProps> = ({ control }) => {
   const prefectureOptions = useMemo(
     () =>
       (prefectureList?.result || []).map((prefecture) => ({
-        id: prefecture.provinceId,
+        id: `${prefecture.provinceId}`,
         name: prefecture.provinceName,
       })),
     [prefectureList],
