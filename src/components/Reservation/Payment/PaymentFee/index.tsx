@@ -2,6 +2,7 @@ import { Box, Divider, Stack, Typography } from '@mui/material';
 import ContentLine from 'components/Reservation/ReservationDetail/ReservationContent/ContentLine';
 import type { TreatmentFormValues } from 'components/Reservation/ReservationTreatment/models/schema';
 import React from 'react';
+import { NumericFormat } from 'react-number-format';
 
 import styles from './styles';
 
@@ -27,9 +28,16 @@ const PaymentFee: React.FC<IPaymentFee> = ({ initialTreatmentValues }) => {
           end={
             <Typography fontWeight={600}>
               <Box display={'inline-block'} fontSize={26}>
-                {initialTreatmentValues?.price || 0}
+                <NumericFormat
+                  value={initialTreatmentValues?.price || 0}
+                  thousandSeparator=","
+                  suffix="円"
+                  displayType="text"
+                  renderText={(value) => {
+                    return value;
+                  }}
+                />
               </Box>
-              円
             </Typography>
           }
         />

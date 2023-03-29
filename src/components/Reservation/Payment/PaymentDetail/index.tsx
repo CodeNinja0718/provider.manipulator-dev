@@ -5,6 +5,7 @@ import type { TreatmentFormValues } from 'components/Reservation/ReservationTrea
 import dayjs from 'dayjs';
 import type { ISalonInfo, ResultMenu } from 'models/reservation/interface';
 import React from 'react';
+import { NumericFormat } from 'react-number-format';
 import { DATE_FORMAT } from 'utils/const';
 import queryClient from 'utils/queryClient';
 
@@ -59,7 +60,7 @@ const PaymentDetail: React.FC<IPaymentDetail> = ({
             center={`${valueDate.format(DATE_FORMAT)}(月) ${dayjs
               .utc(startTime)
               .tz()
-              .format('hh:mm')} ~ ${dayjs.utc(endTime).tz().format('hh:mm')}`}
+              .format('HH:mm')} ~ ${dayjs.utc(endTime).tz().format('HH:mm')}`}
           />
           <ContentLine
             start="予約コース"
@@ -67,9 +68,15 @@ const PaymentDetail: React.FC<IPaymentDetail> = ({
               currentMenu?.[0]?.estimatedTime || menuInfo?.estimatedTime || 0
             }分`}
             end={
-              <Typography>{`${
-                initialTreatmentValues?.price || 0
-              } 円`}</Typography>
+              <NumericFormat
+                value={initialTreatmentValues?.price || 0}
+                thousandSeparator=","
+                suffix="円"
+                displayType="text"
+                renderText={(value) => (
+                  <Typography color="black">{value}</Typography>
+                )}
+              />
             }
           />
         </Stack>

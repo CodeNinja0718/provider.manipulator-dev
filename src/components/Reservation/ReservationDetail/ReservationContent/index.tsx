@@ -3,6 +3,7 @@ import CommonSection from 'components/CommonSection';
 import dayjs from 'dayjs';
 import type { ISalonInfo, ResultMenu } from 'models/reservation/interface';
 import React from 'react';
+import { NumericFormat } from 'react-number-format';
 import { DATE_FORMAT } from 'utils/const';
 
 import ContentLine from './ContentLine';
@@ -32,13 +33,25 @@ const ReservationContent: React.FC<IReservationContent> = ({
             center={`${valueDate.format(DATE_FORMAT)}(月) ${dayjs
               .utc(startTime)
               .tz()
-              .format('hh:mm')} ~ ${dayjs.utc(endTime).tz().format('hh:mm')}`}
+              .format('HH:mm')} ~ ${dayjs.utc(endTime).tz().format('HH:mm')}`}
           />
           <ContentLine start="整体師" center={salonInfo?.name} />
           <ContentLine
             start="予約メニュー"
             center={`${menuInfo?.name} ${menuInfo?.estimatedTime || 0}分`}
-            end={<Typography>{`${menuInfo?.price || 0} 円`}</Typography>}
+            end={
+              <Typography>
+                <NumericFormat
+                  value={menuInfo?.price || 0}
+                  thousandSeparator=","
+                  suffix="円"
+                  displayType="text"
+                  renderText={(value) => {
+                    return value;
+                  }}
+                />
+              </Typography>
+            }
           />
           {/* Coupon */}
           {/* <ContentLine start="回数券利用" center="1回" /> */}
@@ -48,9 +61,16 @@ const ReservationContent: React.FC<IReservationContent> = ({
             end={
               <Typography fontWeight={600}>
                 <Box display={'inline-block'} fontSize={26}>
-                  {menuInfo?.price || 0}
+                  <NumericFormat
+                    value={menuInfo?.price || 0}
+                    thousandSeparator=","
+                    suffix="円"
+                    displayType="text"
+                    renderText={(value) => {
+                      return value;
+                    }}
+                  />
                 </Box>
-                円
               </Typography>
             }
           />

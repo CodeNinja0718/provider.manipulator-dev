@@ -58,6 +58,7 @@
     "react-hook-form": "^7.43.1",
     "react-indiana-drag-scroll": "^3.0.3-alpha",
     "react-intersection-observer": "^9.4.1",
+    "react-number-format": "^5.1.4",
     "react-scroll": "^1.8.9",
     "react-toastify": "^9.1.1",
     "sharp": "^0.31.2",

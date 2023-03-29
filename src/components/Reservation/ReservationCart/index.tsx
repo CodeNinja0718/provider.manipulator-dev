@@ -5,6 +5,7 @@ import { Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import type { IReservationItem } from 'models/reservation/interface';
 import { useRouter } from 'next/router';
+import { NumericFormat } from 'react-number-format';
 import { RESERVATION_STATUS } from 'utils/const';
 
 import styles from './styles';
@@ -38,10 +39,10 @@ const ReservationCart: React.FC<ReservationCartProps> = ({ data }) => {
           <Stack spacing={12} divider={<Divider flexItem />}>
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={20}>
               <Box>
-                {`${dayjs.utc(data.startTime).tz().format('hh:mm')} ~ ${dayjs
+                {`${dayjs.utc(data.startTime).tz().format('HH:mm')} ~ ${dayjs
                   .utc(data.endTime)
                   .tz()
-                  .format('hh:mm')}`}
+                  .format('HH:mm')}`}
               </Box>
               <Typography fontSize={18} fontWeight={600}>
                 {data.customerInfo?.name}
@@ -53,7 +54,17 @@ const ReservationCart: React.FC<ReservationCartProps> = ({ data }) => {
               </Typography>
               <Stack spacing={20} direction={'row'}>
                 <Box>{data.result?.menuInfo?.estimatedTime}分</Box>
-                <Box>{data.result?.menuInfo?.price}円</Box>
+                <Box>
+                  <NumericFormat
+                    value={data.result?.menuInfo?.price || 0}
+                    thousandSeparator=","
+                    suffix="円"
+                    displayType="text"
+                    renderText={(value) => {
+                      return value;
+                    }}
+                  />
+                </Box>
               </Stack>
             </Stack>
           </Stack>

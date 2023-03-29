@@ -1,5 +1,5 @@
 import FacebookIcon from '@icons/facebook_icon.svg';
-import AddReservationSvg from '@icons/icon_add_reservation_green.svg';
+// import AddReservationSvg from '@icons/icon_add_reservation_green.svg';
 import ListSvg from '@icons/icon_list.svg';
 import MembershipSvg from '@icons/icon_membership.svg';
 import ReservationSvg from '@icons/icon_reservation.svg';
@@ -85,11 +85,11 @@ export const PROVIDER_NAVIGATION: {
     label: '予約リスト',
     icon: <ReservationSvg />,
   },
-  {
-    href: '/my-page/registration-reservation',
-    label: '予約登録',
-    icon: <AddReservationSvg />,
-  },
+  // {
+  //   href: '/my-page/registration-reservation',
+  //   label: '予約登録',
+  //   icon: <AddReservationSvg />,
+  // },
 ];
 
 export const FOOTER_ITEMS = [
