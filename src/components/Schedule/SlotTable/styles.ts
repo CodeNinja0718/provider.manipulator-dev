@@ -58,7 +58,7 @@ const styles: Record<string, SxProps> = {
     justifyContent: 'center',
     fontSize: 12,
     alignItems: 'center',
-    zIndex: 1,
+    zIndex: 0,
     pointerEvents: 'normal',
   },
 };

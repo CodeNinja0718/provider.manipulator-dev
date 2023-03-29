@@ -44,8 +44,11 @@ const AccessField: React.FC<AccessFieldProps> = ({ control }) => {
       <Button
         sx={styles.appendButton}
         onClick={() => {
-          append({ value: '' });
+          if (fields.length < 5) {
+            append({ value: '' });
+          }
         }}
+        disabled={fields.length > 4}
         variant="outlined"
         size="small"
       >

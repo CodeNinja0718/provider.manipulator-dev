@@ -39,8 +39,8 @@ const SchedulePage = () => {
     staleTime: 1000 * 60 * 2,
   });
 
-  const nextDay = helpers.getValidDate(date, 1);
-  const previousDay = helpers.getValidDate(date, -1);
+  const nextDay = helpers.getValidDate(validDate, 1);
+  const previousDay = helpers.getValidDate(validDate, -1);
 
   return (
     <Stack alignItems="center" sx={styles.scheduleListWrapper}>

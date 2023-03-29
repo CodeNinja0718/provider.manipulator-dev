@@ -61,9 +61,7 @@ const SlotColumn: React.FC<SlotColumnProps> = ({ data, date }) => {
         <Typography>{data.manipulatorName}</Typography>
       </Box>
       {WORK_TIME_RANGE.map((range, index) => {
-        const isAvailable =
-          availableTimeSlots.includes(range[0] || '') &&
-          availableTimeSlots.includes(range[1] || '');
+        const isAvailable = availableTimeSlots.includes(range[0] || '');
         const isBooked = reservations.timeBooked.includes(range[0] || '');
         const reservation: IReservationItem | undefined =
           reservations.startSlot[range[0] || ''];
@@ -79,7 +77,10 @@ const SlotColumn: React.FC<SlotColumnProps> = ({ data, date }) => {
             {reservation && (
               <Box
                 sx={styles.slotBooked}
-                height={reservationSlot * 36 + reservationSlot}
+                height={
+                  reservationSlot * 36 +
+                  (reservationSlot > 1 ? reservationSlot * 2 : 0)
+                }
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
