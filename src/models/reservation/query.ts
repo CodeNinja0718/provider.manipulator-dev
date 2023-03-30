@@ -19,6 +19,12 @@ const reservationQuery = {
     successMessage: '編集メニュー成功',
     enabled: !!reservationId,
   }),
+  reservationRegistration: (reservationId: string | any) => ({
+    apiUrl: `/reservation/manipulator/reservations/${reservationId}/next-reservation`,
+    method: 'post',
+    successMessage: '予約登録成功',
+    enabled: !!reservationId,
+  }),
 };
 
 export default reservationQuery;

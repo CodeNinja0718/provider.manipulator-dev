@@ -1,11 +1,12 @@
 import { Box } from '@mui/material';
 import { useMutate } from 'hooks';
 import _omit from 'lodash/omit';
-import type { ISalonInfo } from 'models/reservation/interface';
+import type { ICustomerInfo, ISalonInfo } from 'models/reservation/interface';
 import reservationQuery from 'models/reservation/query';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import type { Control, UseFormSetValue } from 'react-hook-form';
+import Helper from 'utils/helpers';
 
 import type { TreatmentFormValues } from '../ReservationTreatment/models/schema';
 import ButtonForm from './ButtonForm';
@@ -20,6 +21,7 @@ interface IReservationForm {
   reservationData: ISalonInfo | TreatmentFormValues | any;
   onBackTreatmentForm: (value: TreatmentFormValues | any) => void;
   treatmentData?: TreatmentFormValues | any;
+  customerInfo: ICustomerInfo;
 }
 
 const ReservationForm = ({
@@ -31,6 +33,7 @@ const ReservationForm = ({
   setValue,
   onBackTreatmentForm,
   treatmentData,
+  customerInfo,
 }: IReservationForm) => {
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
@@ -45,6 +48,12 @@ const ReservationForm = ({
   const handleSubmit = () => {
     const params = _omit(initialTreatmentValues, ['treatmentFile']);
     const file = initialTreatmentValues?.treatmentFile?.[0];
+    const registrationParams = {
+      amount: 0,
+      menuId: initialTreatmentValues?.menuId,
+      reservationId: router?.query?.reservationId,
+      customerName: customerInfo?.name || '',
+    };
 
     handleReservationCompleted(
       {
@@ -58,7 +67,12 @@ const ReservationForm = ({
       {
         onSuccess: () => {
           setDisabled(true);
-          router.push('/my-page/reservation/complete-payment');
+          router.push(
+            `${Helper.parseURLByParams(
+              registrationParams,
+              `/my-page/reservation/complete-payment`,
+            )}`,
+          );
         },
       },
     );

@@ -117,6 +117,7 @@ const Form = () => {
             initialTreatmentValues={initialTreatmentValues}
             onBackTreatmentForm={handleBackTreatmentForm}
             treatmentData={treatmentData}
+            customerInfo={res?.customerInfo}
           />
         </Stack>
       </Box>

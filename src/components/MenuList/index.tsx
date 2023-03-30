@@ -18,29 +18,14 @@ import queryClient from 'utils/queryClient';
 import PublishedMenu from './PublishedMenu';
 import styles from './styles';
 
-const getSalonInfo = () => {
-  // Salon info
-  const currentUserQuery = queryClient
-    .getQueryCache()
-    .findAll(['currentUser'])
-    .map((each) => {
-      return each?.state?.data;
-    });
-  const salonList: any[] = [];
-  currentUserQuery.filter(Boolean).map((item: any) => {
-    return salonList.push(...(item.salon || []));
-  });
-  return salonList || [];
-};
-
 const MenuList = () => {
-  useUser({ enabled: false });
-  const salonList = getSalonInfo();
+  const { data } = useUser();
+  const salonList = data?.salon;
   const { data: res } = useFetch<IMenu | any>(
-    menuQuery.getManiplatorList(salonList[0]?.salonId),
+    menuQuery.getManiplatorList(salonList?.[0]?.salonId),
   );
   const currentSalonId = useMemo(() => {
-    return salonList[0]?.salonId || '';
+    return salonList?.[0]?.salonId || '';
   }, [salonList]);
 
   // List
@@ -52,14 +37,14 @@ const MenuList = () => {
     const list = res?.docs || [];
     return list.filter((item: IMenu) => item?.status === MENU_STATUS.PUBLIC);
   }, [res?.docs]);
-  const salonNameList = salonList.map((item) => {
+  const salonNameList = salonList?.map((item) => {
     return { id: item.salonId, name: item.name };
   });
 
   // Re-fetch list
   const handleRefetchList = () => {
     queryClient.prefetchQuery({
-      queryKey: ['menu', 'list', 'salonId', salonList[0]?.salonId],
+      queryKey: ['menu', 'list', 'salonId', salonList?.[0]?.salonId],
     });
   };
 
@@ -78,7 +63,7 @@ const MenuList = () => {
                 整体師で絞り込む
               </Typography>
               <Select value={currentSalonId} readOnly>
-                {salonNameList.map((salon) => (
+                {salonNameList?.map((salon) => (
                   <MenuItem key={salon.id} value={salon.id}>
                     {salon.name}
                   </MenuItem>

@@ -1,4 +1,4 @@
-import { Box, Grid, Stack, Typography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import Select from 'components/Form/Select';
 import TextField from 'components/Form/TextField';
 import React from 'react';
@@ -9,11 +9,12 @@ import styles from './styles';
 
 interface IBasicInfoForm {
   control: Control<RegistrationFormValues>;
+  salonList: { id: string | number; name: string | number }[];
 }
 
-const BasicInfoForm: React.FC<IBasicInfoForm> = ({ control }) => {
+const BasicInfoForm: React.FC<IBasicInfoForm> = ({ control, salonList }) => {
   return (
-    <Box mb="40px" sx={styles.wrapper}>
+    <Box sx={styles.wrapper}>
       <Grid container spacing={{ xs: 0, tablet: 20 }}>
         <Grid item xs={12} tablet={6}>
           <Select
@@ -21,7 +22,8 @@ const BasicInfoForm: React.FC<IBasicInfoForm> = ({ control }) => {
             name="manipulatorId"
             control={control}
             placeholder="選択してください"
-            data={[]}
+            data={salonList}
+            required
           />
         </Grid>
         <Grid item xs={12} tablet={6}>
@@ -33,12 +35,12 @@ const BasicInfoForm: React.FC<IBasicInfoForm> = ({ control }) => {
           />
         </Grid>
       </Grid>
-      <Stack spacing={6}>
+      {/* <Stack spacing={6}>
         <Typography fontWeight={500} fontSize={18}>
           山田 花子
         </Typography>
         <Typography fontSize={14}>前回来院日: 2022/11/20</Typography>
-      </Stack>
+      </Stack> */}
     </Box>
   );
 };
