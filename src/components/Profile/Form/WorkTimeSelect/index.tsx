@@ -111,9 +111,9 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
             padding: 8,
           }}
           onClick={() => {
-            append({ startTime: '', endTime: '' });
+            if (fields.length < 2) append({ startTime: '', endTime: '' });
           }}
-          disabled={businessHour?.isHoliday || fields.length > 2}
+          disabled={businessHour?.isHoliday || fields.length > 1}
           variant="outlined"
           size="small"
         >

@@ -18,7 +18,7 @@ const styles: Record<string, SxProps<Theme>> = {
       objectPosition: {
         xs: 'right -80px top 0',
         sm: 'right 0px top 0',
-        tablet: 'center top',
+        tablet: 'center',
       },
       borderRadius: {
         xs: '150px 0 150px 0',

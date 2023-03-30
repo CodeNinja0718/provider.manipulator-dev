@@ -31,7 +31,7 @@ const styles: Record<string, SxProps<Theme>> = {
     top: 0,
     boxShadow: 'none',
     padding: '0 15px 0 24px',
-    zIndex: 1,
+    zIndex: 1000,
     justifyContent: {
       xs: 'center',
       tablet: 'flex-end',
