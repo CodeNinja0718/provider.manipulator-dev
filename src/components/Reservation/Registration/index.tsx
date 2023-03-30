@@ -40,9 +40,7 @@ const Registration: React.FC<IRegistration> = () => {
   const { data } = useUser();
   const router = useRouter();
   const salonList = data?.salon;
-  const [currentMenu, setCurrentMenu] = useState<string | any>(
-    router?.query?.menuId,
-  );
+  const [currentMenu, setCurrentMenu] = useState<string | any>();
   const [disabled, setDisabled] = useState(false);
 
   // Get Salon list
@@ -94,6 +92,12 @@ const Registration: React.FC<IRegistration> = () => {
     return list;
   }, [salonList]);
 
+  const currentMenuInfo = useMemo(() => {
+    const menuData = res?.docs || [];
+    const result = menuData.filter((item: any) => item._id === currentMenu);
+
+    return result;
+  }, [currentMenu, res?.docs]);
   const { mutateAsync: handleReservationCompleted, isLoading } = useMutate(
     reservationQuery.reservationRegistration(router?.query?.reservationId),
   );
@@ -108,9 +112,10 @@ const Registration: React.FC<IRegistration> = () => {
     handleReservationCompleted(
       {
         ...params,
-        amount: 0,
+        amount: currentMenuInfo?.[0]?.price || 0,
         startTime,
         endTime,
+        menuId: currentMenu,
       },
       {
         onSuccess: () => {
@@ -129,13 +134,6 @@ const Registration: React.FC<IRegistration> = () => {
     const value = getValues('menuId') || router?.query?.menuId;
     setCurrentMenu(value);
   };
-
-  const currentMenuInfo = useMemo(() => {
-    const menuData = res?.docs || [];
-    const result = menuData.filter((item: any) => item._id === currentMenu);
-
-    return result;
-  }, [currentMenu, res?.docs]);
 
   return (
     <Box
