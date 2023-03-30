@@ -46,10 +46,9 @@ const ReservationForm = ({
   );
 
   const handleSubmit = () => {
-    const params = _omit(initialTreatmentValues, ['treatmentFile']);
+    const params = _omit(initialTreatmentValues, ['treatmentFile', 'price']);
     const file = initialTreatmentValues?.treatmentFile?.[0];
     const registrationParams = {
-      amount: 0,
       menuId: initialTreatmentValues?.menuId,
       reservationId: router?.query?.reservationId,
       customerName: customerInfo?.name || '',
@@ -58,7 +57,7 @@ const ReservationForm = ({
     handleReservationCompleted(
       {
         ...params,
-        amount: 0,
+        amount: initialTreatmentValues.price || 0,
         treatmentFile: {
           name: file?.originalName || '',
           objectKey: file?.key || '',
