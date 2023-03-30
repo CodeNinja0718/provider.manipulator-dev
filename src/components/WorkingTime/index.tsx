@@ -53,100 +53,104 @@ const WorkingTime = ({
   }, [initialValues?.isDayOff]);
 
   return (
-    <Box sx={styles.wrapper}>
-      <Box display="flex" justifyContent="center">
-        <Typography variant="title">営業時間変更</Typography>
-      </Box>
+    <Stack alignItems="center" sx={styles.workingTimeWrapper}>
+      <Typography variant="title">営業時間変更</Typography>
 
-      <Box display="flex" mt={40} flexDirection="column" gap={40}>
-        {initialValues ? (
-          <>
-            <ChangeDate />
-            <CommonSection title="掲載中のメニュー一覧">
-              <Box
-                width="100%"
-                pt={20}
-                component="form"
-                onSubmit={handleSubmit(onSubmit)}
-              >
-                <Grid container px={20}>
-                  <Grid item xs={12} tablet={4}>
-                    <Typography component={'h3'} sx={styles.labelText}>
-                      本日の営業時間
-                    </Typography>
-                    <Stack>
-                      {initialValues?.workingTime?.map(
-                        (time: any, index: number) => (
-                          <Typography
-                            key={`time-${index}`}
-                            fontSize={16}
-                            fontWeight={500}
-                          >
-                            {`${time?.startTime} ～ ${time?.endTime}`}
-                          </Typography>
-                        ),
-                      )}
-                    </Stack>
-                  </Grid>
-                  <Grid item xs={12} tablet={1}>
-                    <Box
-                      sx={{
-                        svg: {
-                          transform: {
-                            xs: 'rotate(0deg)',
-                            tablet: 'rotate(-90deg)',
-                          },
-                        },
-                      }}
-                      textAlign={{ xs: 'center', tablet: 'left' }}
-                    >
-                      <ArrowChange />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} tablet={7} sx={styles.timeWrapper}>
-                    <Typography component={'h3'} sx={styles.labelText}>
-                      変更後の営業時間
-                    </Typography>
-                    <WorkTimeSelect
-                      register={register}
-                      errorMessage={_get(errors, `workingTime.message`)}
-                      control={control as any}
-                      isDayOff={isDayoff}
-                      handleDayOff={(e) => {
-                        setValue('isDayOff', e.target.checked);
-                        setIsDayoff(e.target.checked);
-                      }}
-                      onChange={(name) => {
-                        trigger(name);
-                      }}
-                    />
-                  </Grid>
+      <Box display="flex" mt={40} flexDirection="column" gap={40} width="100%">
+        <ChangeDate />
+        <CommonSection title="掲載中のメニュー一覧">
+          {initialValues ? (
+            <Box
+              width="100%"
+              pt={20}
+              component="form"
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <Grid container px={{ xs: 20, tablet: 0 }}>
+                <Grid item xs={12} tablet={5}>
+                  <Typography component={'h3'} sx={styles.labelText}>
+                    本日の営業時間
+                  </Typography>
+                  <Stack>
+                    {initialValues?.workingTime?.map(
+                      (time: any, index: number) => (
+                        <Typography
+                          key={`time-${index}`}
+                          fontSize={16}
+                          fontWeight={500}
+                        >
+                          {`${time?.startTime} ～ ${time?.endTime}`}
+                        </Typography>
+                      ),
+                    )}
+                  </Stack>
                 </Grid>
-                <Box textAlign={'center'}>
-                  <LoadingButton
-                    size="medium"
-                    color="primary"
-                    variant="contained"
-                    type="submit"
-                    endIcon={<ArrowRight />}
-                    loadingPosition="end"
-                    sx={styles.button}
-                    loading={loading}
-                    disabled={disabled}
-                  >
-                    変更する
-                  </LoadingButton>
-                </Box>
+                <Grid
+                  item
+                  xs={12}
+                  tablet={1}
+                  sx={{
+                    padding: {
+                      xs: '16px 0 20px',
+                      tablet: '48px 0 0',
+                    },
+                    textAlign: {
+                      xs: 'center',
+                      tablet: 'left',
+                    },
+                    svg: {
+                      transform: {
+                        xs: 'rotate(0deg)',
+                        tablet: 'rotate(-90deg)',
+                      },
+                    },
+                  }}
+                >
+                  <ArrowChange />
+                </Grid>
+                <Grid item xs={12} tablet={6} sx={styles.timeWrapper}>
+                  <Typography component={'h3'} sx={styles.labelText}>
+                    変更後の営業時間
+                  </Typography>
+                  <WorkTimeSelect
+                    register={register}
+                    errorMessage={_get(errors, `workingTime.message`)}
+                    control={control as any}
+                    isDayOff={isDayoff}
+                    handleDayOff={(e) => {
+                      setValue('isDayOff', e.target.checked);
+                      setIsDayoff(e.target.checked);
+                    }}
+                    handleChange={() => {
+                      trigger('workingTime');
+                    }}
+                  />
+                </Grid>
+              </Grid>
+              <Box textAlign={'center'}>
+                <LoadingButton
+                  size="medium"
+                  color="primary"
+                  variant="contained"
+                  type="submit"
+                  endIcon={<ArrowRight />}
+                  loadingPosition="end"
+                  sx={styles.button}
+                  loading={loading}
+                  disabled={disabled}
+                >
+                  変更する
+                </LoadingButton>
               </Box>
-            </CommonSection>
-          </>
-        ) : (
-          <Box sx={styles.loadingBox}>
-            <CircularProgress size="small" sx={styles.loading} />
-          </Box>
-        )}
+            </Box>
+          ) : (
+            <Box sx={styles.loadingBox}>
+              <CircularProgress size="small" sx={styles.loading} />
+            </Box>
+          )}
+        </CommonSection>
       </Box>
-    </Box>
+    </Stack>
   );
 };
 

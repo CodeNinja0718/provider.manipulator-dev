@@ -25,7 +25,7 @@ const styles = {
     display: 'block',
     width: { xs: '100%' },
     margin: 'auto',
-    px: { xs: 15, mobile: 0 },
+    px: { xs: 15, tablet: 0 },
     py: 0,
   },
 } as Record<string, SxProps<Theme>>;

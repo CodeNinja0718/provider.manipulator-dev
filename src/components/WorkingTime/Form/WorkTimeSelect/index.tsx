@@ -17,7 +17,7 @@ interface WorkTimeSelectProps {
   control: Control<WorkingTimeFormValues>;
   isDayOff: boolean;
   handleDayOff: (e: ChangeEvent<HTMLInputElement>) => void;
-  onChange: (name: string | any) => void;
+  handleChange: () => void;
   register: UseFormRegister<WorkingTimeFormValues>;
   errorMessage?: string;
 }
@@ -26,7 +26,7 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
   control,
   isDayOff,
   handleDayOff,
-  onChange,
+  handleChange,
   register,
   errorMessage,
 }) => {
@@ -66,7 +66,7 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
                 },
               }}
               disabled={isDayOff}
-              handleChange={() => onChange(`workingTime.${index}.startTime`)}
+              handleChange={handleChange}
             />
             <Typography color="black" mt={14}>
               ～
@@ -90,7 +90,7 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
                 },
               }}
               disabled={isDayOff}
-              handleChange={() => onChange(`workingTime.${index}.endTime`)}
+              handleChange={handleChange}
             />
             {index > 0 && (
               <IconButton
@@ -117,9 +117,9 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
             padding: 8,
           }}
           onClick={() => {
-            append({ startTime: '', endTime: '' });
+            if (fields.length < 2) append({ startTime: '', endTime: '' });
           }}
-          disabled={isDayOff}
+          disabled={isDayOff || fields.length > 1}
           variant="outlined"
           size="small"
         >

@@ -59,7 +59,7 @@ const ProfilePage = () => {
       description: salonDetail?.description || '',
       areaId: toString(addresses?.areaId) || '',
       stationSelected: toString(addresses?.lineId) || '',
-      stationIds: addresses?.stationIds || [],
+      stationIds: addresses?.stationIds.map((id) => `${id}`) || [],
       bank: salonDetail
         ? {
             _id: salonDetail?.bankInfo.bankId,

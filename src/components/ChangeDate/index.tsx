@@ -12,9 +12,9 @@ import styles from './styles';
 const ChangeDate = () => {
   const router = useRouter();
   const { date } = router.query;
-  const nextDay = Helper.getValidDate(date, 1);
-  const previousDay = Helper.getValidDate(date, -1);
   const validDate = Helper.getValidDate(date);
+  const nextDay = Helper.getValidDate(validDate, 1);
+  const previousDay = Helper.getValidDate(validDate, -1);
   const isLoading = false;
 
   return (

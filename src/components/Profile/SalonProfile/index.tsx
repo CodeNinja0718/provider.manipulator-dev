@@ -83,7 +83,7 @@ const SalonProfile: React.FC<SalonProfileProps> = ({
   }, [areas?.result, data.areaId]);
   const selectedStation = useMemo(() => {
     return stationLines?.result.filter((line) =>
-      data.stationIds.includes(line._id),
+      data.stationIds.includes(`${line._id}`),
     );
   }, [data.stationIds, stationLines?.result]);
 

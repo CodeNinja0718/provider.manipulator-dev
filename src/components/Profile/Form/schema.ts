@@ -35,7 +35,10 @@ const schema = object({
   description: string(),
   areaId: string().required(),
   stationSelected: string(),
-  stationIds: array().min(1, 'この項目は入力必須です。').required(),
+  stationIds: array()
+    .of(string())
+    .min(1, 'この項目は入力必須です。')
+    .required(),
   bank: mixed().nullable(true).required(),
   branch: mixed().nullable(true).required(),
   bankInfo: object({

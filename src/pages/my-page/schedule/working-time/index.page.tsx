@@ -11,33 +11,21 @@ import queryClient from 'utils/queryClient';
 
 const WorkingTimePage = () => {
   const router = useRouter();
-  useUser({ enabled: false });
-  const currentUserQuery = queryClient
-    .getQueryCache()
-    .findAll(['currentUser'])
-    .map((each) => {
-      return each?.state?.data;
-    });
+  const { data: currentUserData } = useUser();
+
   const { date } = router.query;
   const validDate = helpers.getValidDate(date);
   const [disabled, setDisabled] = useState(false);
-  const salonInfo: any = currentUserQuery?.[0];
-  const enabledRequest =
-    !!validDate && !!(salonInfo?.salon?.[0]?.salonId || '');
+  const salonInfo = currentUserData?.salon[0];
+
+  const enabledRequest = !!validDate && !!(salonInfo?.salonId || '');
 
   const { data: res } = useFetch<IWorkingTime>(
-    scheduleQuery.getWorkingTime(
-      validDate,
-      salonInfo?.salon?.[0]?.salonId,
-      enabledRequest,
-    ),
+    scheduleQuery.getWorkingTime(validDate, salonInfo?.salonId, enabledRequest),
   );
 
   const { mutateAsync: handleUpdateMenu, isLoading } = useMutate(
-    scheduleQuery.updateWorkingTime(
-      salonInfo?.salon?.[0]?.salonId,
-      enabledRequest,
-    ),
+    scheduleQuery.updateWorkingTime(salonInfo?.salonId, enabledRequest),
   );
 
   const handleSubmit = (values: WorkingTimeFormValues) => {
@@ -47,8 +35,17 @@ const WorkingTimePage = () => {
       },
       {
         onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['salon', 'schedule'],
+            exact: true,
+          });
           setDisabled(true);
-          router.replace('/my-page/schedule');
+          router.push({
+            pathname: '/my-page/schedule',
+            query: {
+              date: validDate,
+            },
+          });
         },
       },
     );

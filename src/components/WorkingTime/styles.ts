@@ -1,13 +1,13 @@
 import type { SxProps, Theme } from '@mui/material/styles';
 
 const styles = {
-  wrapper: {
-    px: { xs: 0, tablet: 60 },
-    py: 60,
-    pb: 54,
-
-    '.customHeadingClass': {
-      background: (theme: Theme) => theme.palette.placeholder,
+  workingTimeWrapper: {
+    maxWidth: 570,
+    width: '100%',
+    margin: '0 auto',
+    padding: {
+      xs: '60px 0',
+      tablet: '64px 0',
     },
   },
   emptyText: {
@@ -20,12 +20,12 @@ const styles = {
     color: 'secondary.main',
     fontWeight: 600,
     fontSize: 16,
-    marginBottom: 20,
+    marginBottom: 16,
   },
   loadingBox: {
     display: 'flex',
     width: '100%',
-    height: '50',
+    height: 282,
     justifyContent: 'center',
     alignItems: 'center',
   },
