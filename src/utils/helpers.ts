@@ -10,6 +10,7 @@ import type { ToastContent, ToastOptions } from 'react-toastify';
 import { toast } from 'react-toastify';
 
 import { DATE_FORMAT, DOCUMENT_TYPES, FILE_TYPES } from './const';
+import queryClient from './queryClient';
 
 const Helper = {
   getWebCookie: (
@@ -180,6 +181,21 @@ const Helper = {
       return currentDate.format(DATE_FORMAT);
     }
     return dayjs().format(DATE_FORMAT);
+  },
+
+  getSalonInfo: () => {
+    // Salon info
+    const currentUserQuery = queryClient
+      .getQueryCache()
+      .findAll(['currentUser'])
+      .map((each) => {
+        return each?.state?.data;
+      });
+    const salonList: any[] = [];
+    currentUserQuery.filter(Boolean).map((item: any) => {
+      return salonList.push(...(item.salon || []));
+    });
+    return salonList || [];
   },
 };
 

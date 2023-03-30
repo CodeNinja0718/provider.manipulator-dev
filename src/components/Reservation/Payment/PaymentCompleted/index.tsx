@@ -1,12 +1,15 @@
 import ArrowRight from '@icons/arrow-right.svg';
 import { Box, Button, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 import React from 'react';
+import Helper from 'utils/helpers';
 
 import styles from './styles';
 
 interface IPaymentCompleted {}
 
 const PaymentCompleted: React.FC<IPaymentCompleted> = () => {
+  const router = useRouter();
   return (
     <Box sx={styles.contentWarpper}>
       <Box display="flex" justifyContent="center" sx={styles.title}>
@@ -28,7 +31,14 @@ const PaymentCompleted: React.FC<IPaymentCompleted> = () => {
         variant="contained"
         endIcon={<ArrowRight />}
         sx={styles.button}
-        onClick={() => {}}
+        onClick={() =>
+          router.push(
+            `${Helper.parseURLByParams(
+              router?.query,
+              `/my-page/registration-reservation`,
+            )}`,
+          )
+        }
       >
         次回予約登録
       </Button>

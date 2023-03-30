@@ -282,6 +282,8 @@ export const UNIT = {
 };
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
+export const DATE_LONG_FORMAT = 'LL HH:mm:ss';
+export const GTM_JP = 'GMT+9';
 
 export const RESERVATION_STATUS = {
   DONE: 'DONE',

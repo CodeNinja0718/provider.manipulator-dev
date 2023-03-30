@@ -1,25 +1,42 @@
 import { Box, Grid, Stack, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
 import { DatePicker, Select } from 'components/Form';
-import React, { useMemo } from 'react';
+import type { IMenu } from 'models/menu/interface';
+import React, { useMemo, useRef } from 'react';
 import type { Control } from 'react-hook-form';
 import { WORK_TIMES } from 'utils/const';
 
-import FormCoupon from './FormCoupon';
+// import FormCoupon from './FormCoupon';
 import type { RegistrationFormValues } from './models/schema';
 import styles from './styles';
 
 interface IReservationForm {
   control: Control<RegistrationFormValues>;
+  menu: IMenu[];
+  onChangeMenu: () => void;
 }
 
-const ReservationForm: React.FC<IReservationForm> = ({ control }) => {
+const ReservationForm: React.FC<IReservationForm> = ({
+  control,
+  menu,
+  onChangeMenu,
+}) => {
   const timeOptions = useMemo(() => {
     return WORK_TIMES.map((time) => ({
       id: time,
       name: time,
     }));
   }, []);
+
+  const menuList = useMemo(() => {
+    return menu.map((item: IMenu) => ({
+      id: item._id,
+      name: item.name,
+    }));
+  }, [menu]);
+
+  const menuIdRef = useRef(null);
+
   return (
     <CommonSection title="予約内容">
       <Box py={20} sx={styles.wrapper}>
@@ -30,6 +47,8 @@ const ReservationForm: React.FC<IReservationForm> = ({ control }) => {
               control={control}
               name="date"
               label="予約日時"
+              disablePast
+              required
             />
           </Grid>
           <Grid item xs={12} tablet={'auto'}>
@@ -67,13 +86,16 @@ const ReservationForm: React.FC<IReservationForm> = ({ control }) => {
               name="menuId"
               control={control}
               placeholder="選択してください"
-              data={[]}
+              data={menuList}
+              required
+              inputRef={menuIdRef}
+              handleChange={onChangeMenu}
             />
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <FormCoupon control={control} />
-          </Grid>
-          <Grid item xs={12}>
+          </Grid> */}
+          {/* <Grid item xs={12}>
             <Select
               label="クーポン"
               name="couponId"
@@ -81,7 +103,7 @@ const ReservationForm: React.FC<IReservationForm> = ({ control }) => {
               placeholder="選択してください"
               data={[]}
             />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Box>
     </CommonSection>
