@@ -95,7 +95,9 @@ const FAQ = () => {
                   color="black"
                   fontWeight="bold"
                 >
-                  <Box className="question-mark">Q</Box>
+                  <Box className="question-mark" component="span">
+                    Q
+                  </Box>
                   {context.title}
                   {checked.includes(index) ? (
                     <RemoveIcon className="end-icon" />
@@ -105,7 +107,9 @@ const FAQ = () => {
                 </Typography>
                 <Collapse in={checked.includes(index)}>
                   <Typography color="black" sx={styles.answerContent}>
-                    <Box className="answer-mark">A</Box>
+                    <Box className="answer-mark" component="span">
+                      A
+                    </Box>
                     {context.content}
                   </Typography>
                 </Collapse>

@@ -6,7 +6,7 @@ import Layout from 'components/Layout';
 import dynamic from 'next/dynamic';
 
 const Membership = dynamic(() => import('components/Home/Membership'));
-const FAQ = dynamic(() => import('components/Home/FAQ'), { ssr: false });
+const FAQ = dynamic(() => import('components/Home/FAQ'));
 
 const HomePage = () => {
   return (
