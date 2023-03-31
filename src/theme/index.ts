@@ -1,6 +1,10 @@
 import type { PaletteOptions as MuiPaletteOptions } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
-import { Kiwi_Maru, Noto_Sans_JP } from '@next/font/google';
+import {
+  Kiwi_Maru,
+  Noto_Sans_JP,
+  Zen_Kaku_Gothic_Antique,
+} from '@next/font/google';
 
 import components from './components';
 
@@ -13,6 +17,13 @@ export const noto = Noto_Sans_JP({
 
 export const kiwi = Kiwi_Maru({
   weight: ['300', '400', '500'],
+  subsets: ['latin', 'japanese'],
+  display: 'swap',
+  fallback: ['sans-serif'],
+});
+
+export const zen = Zen_Kaku_Gothic_Antique({
+  weight: ['400', '500', '700'],
   subsets: ['latin', 'japanese'],
   display: 'swap',
   fallback: ['sans-serif'],

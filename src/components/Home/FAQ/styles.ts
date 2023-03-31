@@ -1,4 +1,5 @@
 import type { SxProps, Theme } from '@mui/material';
+import { zen } from 'theme';
 
 const styles: Record<string, SxProps<Theme>> = {
   faqWrapper: {
@@ -51,6 +52,31 @@ const styles: Record<string, SxProps<Theme>> = {
     display: 'flex',
     alignItems: 'center',
     position: 'relative',
+    gap: 18,
+    '.question-mark': {
+      fontFamily: zen.style.fontFamily,
+      height: 31,
+      width: 31,
+      lineHeight: 1,
+      display: 'flex',
+      justifyContent: 'center',
+      pt: 5,
+      fontSize: 19,
+      backgroundColor: 'primary.main',
+      color: 'white',
+      borderRadius: '50%',
+      position: 'relative',
+      '&:after': {
+        content: "''",
+        width: 4,
+        height: 4,
+        transform: 'rotate(0deg) skew(15deg,15deg)',
+        position: 'absolute',
+        right: 2,
+        bottom: 2,
+        backgroundColor: 'primary.main',
+      },
+    },
     '.end-icon': {
       width: 24,
       height: 24,
@@ -61,6 +87,18 @@ const styles: Record<string, SxProps<Theme>> = {
   },
   answerContent: {
     color: 'black',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 18,
+    '.answer-mark': {
+      fontFamily: zen.style.fontFamily,
+      color: '#EA6500',
+      fontWeight: 'bold',
+      fontSize: 19,
+      width: 31,
+      display: 'flex',
+      justifyContent: 'center',
+    },
   },
 };
 
