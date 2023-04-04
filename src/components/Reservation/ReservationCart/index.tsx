@@ -37,7 +37,11 @@ const ReservationCart: React.FC<ReservationCartProps> = ({ data }) => {
         </Grid>
         <Grid item xs={true}>
           <Stack spacing={12} divider={<Divider flexItem />}>
-            <Stack direction={{ xs: 'column', md: 'row' }} spacing={20}>
+            <Stack
+              direction={{ xs: 'column', md: 'row' }}
+              alignItems={{ xs: 'start', md: 'center' }}
+              spacing={20}
+            >
               <Box>
                 {`${dayjs.utc(data.startTime).tz().format('HH:mm')} ~ ${dayjs
                   .utc(data.endTime)
@@ -94,7 +98,7 @@ const ReservationCart: React.FC<ReservationCartProps> = ({ data }) => {
                   RESERVATION_STATUS.DONE === data?.status && <CheckIcon />
                 }
               >
-                完了
+                {RESERVATION_STATUS.DONE === data?.status ? '済み' : '完了'}
               </Button>
             </Stack>
           </Box>
