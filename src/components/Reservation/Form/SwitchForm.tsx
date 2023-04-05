@@ -10,11 +10,6 @@ import { useMemo } from 'react';
 import type { Control, UseFormSetValue } from 'react-hook-form';
 import { MENU_STATUS, RESERVATION_STATUS } from 'utils/const';
 
-interface IMenuList {
-  id: string | number;
-  name: string | number;
-}
-
 interface ISwitchForm {
   isShowTreatment: string | any;
   isPaymentConfirmation: boolean;
@@ -55,9 +50,9 @@ const SwitchForm = ({
 
   if (isShowTreatment) {
     if (isPaymentConfirmation) {
-      const menuUpdatingInfo = menuList
-        .filter((item: IMenuList) => item.id === initialTreatmentValues.menuId)
-        .map((item: IMenuList) => {
+      const menuUpdatingInfo = res?.docs
+        .filter((item: IMenu) => item._id === initialTreatmentValues.menuId)
+        .map((item: IMenu) => {
           return item;
         });
 
