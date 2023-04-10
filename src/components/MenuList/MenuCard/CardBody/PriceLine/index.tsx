@@ -1,5 +1,6 @@
 import { Divider, Grid, Stack, Typography } from '@mui/material';
 import type { IMenu } from 'models/menu/interface';
+import { MENU_TYPE } from 'utils/const';
 import Helper from 'utils/helpers';
 
 import styles from '../../styles';
@@ -11,7 +12,7 @@ const PriceLine = ({ data }: PriceLineProps) => {
   const numberOfTicket = data?.ticket?.numberOfTicket || 1;
   const priceOfTicket = data?.ticket?.price || 1;
   const totalPrice = numberOfTicket * priceOfTicket;
-  const isTicket = data?.ticket;
+  const hasCoupon = data?.menuTypes?.includes(MENU_TYPE[1]?.id || '');
 
   return (
     <Grid container marginBottom={10} gap={{ xs: 10, tablet: 0 }}>
@@ -48,7 +49,7 @@ const PriceLine = ({ data }: PriceLineProps) => {
         tablet={4}
         sx={{ display: { xs: 'none', tablet: 'inline' } }}
       ></Grid>
-      {isTicket ? (
+      {hasCoupon ? (
         <Grid item xs={12} tablet={8} sx={styles.couponWrapper}>
           <Stack
             direction={{ xs: 'column', tablet: 'row' }}
