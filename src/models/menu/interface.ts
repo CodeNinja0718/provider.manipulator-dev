@@ -1,7 +1,9 @@
 interface ITicket {
   price: number;
-  amout: number;
+  numberOfTicket: number;
+  expiryMonth: number;
 }
+
 export interface IMenu {
   _id: string;
   salonId: string;

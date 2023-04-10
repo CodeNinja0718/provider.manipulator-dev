@@ -3,10 +3,11 @@ import UnCheckedIcon from '@icons/uncheck.svg';
 import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
 import { CheckBox, Radio, TextField } from 'components/Form';
-// import Label from 'components/Form/Label';
+import Label from 'components/Form/Label';
 import NumberField from 'components/Form/NumberField';
 import type { IMenuFormProps } from 'components/MenuForm/models/interface';
 import styles from 'components/MenuForm/styles';
+import { useWatch } from 'react-hook-form';
 import { MENU_INFO, MENU_STATUS_LIST, MENU_TYPE, UNIT } from 'utils/const';
 
 const MenuDetailSection: React.FC<IMenuFormProps> = ({
@@ -15,6 +16,10 @@ const MenuDetailSection: React.FC<IMenuFormProps> = ({
   timeDisplay,
   onSetTimeDisplay,
 }) => {
+  const isCouponEnabled = (
+    useWatch({ control, name: 'menuTypes' }) || []
+  ).includes(MENU_TYPE[1]?.id);
+
   return (
     <CommonSection title="メニュー詳細">
       <Box sx={styles.sectionItem}>
@@ -69,7 +74,6 @@ const MenuDetailSection: React.FC<IMenuFormProps> = ({
             spacing={10}
             label={MENU_INFO.MENU_TYPE}
             required
-            disabled
           />
         </Box>
         <NumberField
@@ -88,74 +92,76 @@ const MenuDetailSection: React.FC<IMenuFormProps> = ({
           }
         />
         {/* Field for Ticket/ Coupon */}
-        {/* <Box display="flex" flexWrap="wrap">
-          <Box
-            display="flex"
-            flexDirection="column"
-            position="relative"
-            mr={{
-              xs: 0,
-              mobile: 40,
-            }}
-          >
-            <Box mb={10}>
-              <Label label={MENU_INFO.COUPON_TIKET} required />
+        {isCouponEnabled && (
+          <Box display="flex" flexWrap="wrap">
+            <Box
+              display="flex"
+              flexDirection="column"
+              position="relative"
+              mr={{
+                xs: 0,
+                mobile: 40,
+              }}
+            >
+              <Box mb={10}>
+                <Label label={MENU_INFO.COUPON_TIKET} required />
+              </Box>
+              <Box display="flex">
+                <Box>
+                  <NumberField
+                    name="ticketMount"
+                    control={control}
+                    showEndAdornment={true}
+                    className="maxHeight"
+                    sx={styles.numberField}
+                    unitLabel={
+                      <Typography sx={{ ...styles.unitLabel, mx: 9 }}>
+                        {UNIT.SHEET} ×
+                      </Typography>
+                    }
+                  />
+                </Box>
+
+                <Box>
+                  <NumberField
+                    name="ticketPrice"
+                    control={control}
+                    placeholder="1枚あたりの料金"
+                    required
+                    className="maxHeight maxWidth"
+                    sx={styles.numberField}
+                    showEndAdornment={false}
+                    unitLabel={
+                      <Typography sx={{ ...styles.unitLabel, mx: 9 }}>
+                        {UNIT.YEN}
+                      </Typography>
+                    }
+                  />
+                </Box>
+              </Box>
             </Box>
-            <Box display="flex">
+
+            <Box>
+              <Box mb={10}>
+                <Label label={MENU_INFO.EXPIRATION_COUPON_DATE} required />
+              </Box>
               <Box>
                 <NumberField
-                  name="ticketMount"
+                  name="couponExpirationDate"
                   control={control}
                   showEndAdornment={true}
                   className="maxHeight"
                   sx={styles.numberField}
                   unitLabel={
                     <Typography sx={{ ...styles.unitLabel, mx: 9 }}>
-                      {UNIT.SHEET} ×
-                    </Typography>
-                  }
-                />
-              </Box>
-
-              <Box>
-                <NumberField
-                  name="ticketPrice"
-                  control={control}
-                  placeholder="1枚あたりの料金"
-                  required
-                  className="maxHeight maxWidth"
-                  sx={styles.numberField}
-                  showEndAdornment={false}
-                  unitLabel={
-                    <Typography sx={{ ...styles.unitLabel, mx: 9 }}>
-                      {UNIT.YEN}
+                      {UNIT.MONTH}
                     </Typography>
                   }
                 />
               </Box>
             </Box>
           </Box>
-
-          <Box>
-            <Box mb={10}>
-              <Label label={MENU_INFO.EXPIRATION_COUPON_DATE} required />
-            </Box>
-            <Box>
-              <NumberField
-                name="couponExpirationDate"
-                control={control}
-                showEndAdornment={true}
-                className="maxHeight"
-                sx={styles.numberField}
-                unitLabel={
-                  <Typography sx={{ ...styles.unitLabel, mx: 9 }}>
-                    {UNIT.MONTH}
-                  </Typography>
-                }
-              />
-            </Box>
-          </Box>
-        </Box> */}
+        )}
 
         <Box display="flex" width="100%" sx={styles.checkboxArea}>
           <Radio

@@ -31,12 +31,15 @@ const MenuReview = () => {
     menuQuery.createMenu(currentSalonId),
   );
   const initialValues = useInitValue();
-  // const handleCouponTicketFee = (ticketMount: number, ticketPrice: number) => {
-  //   const value = ticketMount * ticketPrice;
-  //   return `${Helper.addComma(value)}円 (${ticketMount}枚 x ${Helper.addComma(
-  //     ticketPrice,
-  //   )}円)`;
-  // };
+
+  const isCouponEnabled = initialValues.menuTypes.includes(MENU_TYPE[1]?.id);
+
+  const handleCouponTicketFee = (ticketMount: number, ticketPrice: number) => {
+    const value = ticketMount * ticketPrice;
+    return `${Helper.addComma(value)}円 (${ticketMount}枚 x ${Helper.addComma(
+      ticketPrice,
+    )}円)`;
+  };
 
   const handleGetStatus = (value: string) => {
     const status = MENU_STATUS_LIST.filter((item) => item.id === value).map(
@@ -73,18 +76,17 @@ const MenuReview = () => {
         'ticketMount',
         'ticketPrice',
       ]),
-      tiket: {
+      ticket: {
         price: initialValues?.ticketPrice || 0,
-        amout: initialValues?.ticketMount || 0,
+        numberOfTicket: initialValues?.ticketMount || 0,
+        expiryMonth: initialValues?.couponExpirationDate || 1,
       },
       manipulatorIds: [router?.query?.manipulatorIds].filter(Boolean),
       currency: router?.query?.currency,
     };
 
     handleCreateMenu(
-      {
-        ...data,
-      },
+      !isCouponEnabled ? { ..._omit(data, 'ticket') } : { ...data },
       {
         onSuccess: () => {
           setDisabled(true);
@@ -131,15 +133,19 @@ const MenuReview = () => {
             initialValues?.price,
           )}円`}</RowItem>
           {/* Field for Ticket/ Coupon */}
-          {/* <RowItem label="回数券料金">
-            {handleCouponTicketFee(
-              initialValues?.ticketMount,
-              initialValues?.ticketPrice,
-            )}
-          </RowItem>
-          <RowItem label="回数券の有効期限">
-            {`${initialValues?.couponExpirationDate}か月`}
-          </RowItem> */}
+          {isCouponEnabled && (
+            <>
+              <RowItem label="回数券料金">
+                {handleCouponTicketFee(
+                  initialValues?.ticketMount,
+                  initialValues?.ticketPrice,
+                )}
+              </RowItem>
+              <RowItem label="回数券の有効期限">
+                {`${initialValues?.couponExpirationDate}か月`}
+              </RowItem>
+            </>
+          )}
           <RowItem label={MENU_INFO.PUBLISH_STATUS} customItemRow="borderNone">
             {handleGetStatus(initialValues?.status)}
           </RowItem>
