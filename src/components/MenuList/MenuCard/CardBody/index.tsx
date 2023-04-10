@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 
 import styles from '../styles';
 import PriceLine from './PriceLine';
-import TicketLine from './TicketLine';
 
 interface CardBodyProps {
   data: IMenu;
@@ -47,7 +46,6 @@ const CardBody = ({ data, onRefetchList }: CardBodyProps) => {
   return (
     <Box sx={styles.menuCardBody}>
       <PriceLine data={data} />
-      {data.menuTypes.includes('ticket') && <TicketLine />}
       <Box display="flex">
         <Button
           variant="outlined"

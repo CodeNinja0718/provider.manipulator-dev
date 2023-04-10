@@ -23,7 +23,7 @@ const useInitValue = () => {
         : 0,
       couponExpirationDate: router?.query?.couponExpirationDate
         ? Number(router?.query?.couponExpirationDate)
-        : 0,
+        : 1,
       status: router?.query?.status ? String(router.query.status) : 'public',
       timeDisplay: router?.query?.timeDisplay
         ? Boolean(router?.query?.timeDisplay)

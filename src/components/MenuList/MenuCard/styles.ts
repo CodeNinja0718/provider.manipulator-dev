@@ -23,6 +23,7 @@ const styles = {
   },
   textWrapper: {
     minWidth: 66,
+    fontWeight: 'bold',
   },
   button: {
     maxWidth: 256,
@@ -53,9 +54,11 @@ const styles = {
     marginRight: 20,
     display: { xs: 'block', tablet: 'none' },
   },
-  lineCream: {
-    py: { xs: 5, tablet: 10 },
+  couponWrapper: {
+    px: 20,
+    py: 12,
     bgcolor: 'cream',
+    mt: { xs: 0, tablet: 12 },
   },
 } as Record<string, SxProps<Theme>>;
 

@@ -243,10 +243,10 @@ export const MENU_TYPE = [
     id: 'one_time',
     name: '単発',
   },
-  // {
-  //   id: 'coupon',
-  //   name: '回数券',
-  // },
+  {
+    id: 'coupon',
+    name: '回数券',
+  },
 ];
 
 export const AVAILABEL_STAFF = [
