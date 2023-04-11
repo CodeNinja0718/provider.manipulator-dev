@@ -31,9 +31,10 @@ const MenuDetailPage = () => {
         'currency',
         'timeDisplay',
       ]),
-      tiket: {
+      ticket: {
         price: params?.ticketPrice || 0,
-        amout: params?.ticketMount || 0,
+        numberOfTicket: params?.ticketMount || 0,
+        expiryMonth: params?.couponExpirationDate || 1,
       },
       manipulatorIds: res?.manipulatorIds,
     };
@@ -50,7 +51,16 @@ const MenuDetailPage = () => {
     );
   };
 
-  if (res) return <MenuForm onSubmit={handleSubmit} defaultValues={res} />;
+  if (res) {
+    const defaultFormData = {
+      ...res,
+      ticketPrice: res?.ticket?.price || 0,
+      ticketMount: res?.ticket?.numberOfTicket || 0,
+      couponExpirationDate: res?.ticket?.expiryMonth || 1,
+    };
+    return <MenuForm onSubmit={handleSubmit} defaultValues={defaultFormData} />;
+  }
+
   return (
     <Box sx={styles.loadingBox}>
       <CircularProgress size="small" sx={styles.loading} />
