@@ -1,6 +1,7 @@
 import SearchIcon from '@icons/search.svg';
 import {
   Box,
+  CircularProgress,
   InputAdornment,
   Stack,
   SvgIcon,
@@ -10,69 +11,71 @@ import {
 import Layout from 'components/Layout';
 import ListPagination from 'components/ListPagination';
 import TicketList from 'components/TicketList';
+import { useList, useUser } from 'hooks';
+import debounce from 'lodash/debounce';
+import get from 'lodash/get';
+import type { ICustomerTickets } from 'models/tickets/interface';
+import ticketQuery from 'models/tickets/query';
+import { useRouter } from 'next/router';
+import type { ChangeEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import styles from './styles';
 
-const MOCK_DATA = [
-  {
-    id: 'cus1',
-    customerName: 'unknown 1',
-    customerNameKana: 'unknown 1',
-    tickets: [
-      {
-        ticketId: 'tick1',
-        name: '山田 花子',
-        expiredAt: '2023-04-15T02:40:40.002Z',
-        availableCount: 4,
-      },
-      {
-        ticketId: 'tick2',
-        name: '山田 太郎',
-        expiredAt: '2023-04-12T02:40:40.002Z',
-        availableCount: 2,
-      },
-      {
-        ticketId: 'tick3',
-        name: '小林 次郎',
-        expiredAt: '2023-04-16T02:40:40.002Z',
-        availableCount: 6,
-      },
-      {
-        ticketId: 'tick6',
-        name: '山田 花子',
-        expiredAt: '2023-04-28T02:40:40.002Z',
-        availableCount: 10,
-      },
-    ],
-  },
-  {
-    id: 'cus2',
-    customerName: 'unknown 2',
-    customerNameKana: 'unknown 2',
-    tickets: [
-      {
-        ticketId: 'tick4',
-        name: 'Ticket 1',
-        expiredAt: '2023-04-15T02:40:40.002Z',
-        availableCount: 4,
-      },
-      {
-        ticketId: 'tick5',
-        name: 'Ticket 2',
-        expiredAt: '2023-04-18T02:40:40.002Z',
-        availableCount: 2,
-      },
-    ],
-  },
-  {
-    id: 'cus3',
-    customerName: 'unknown 3',
-    customerNameKana: 'unknown 3',
-    tickets: [],
-  },
-];
-
 const TicketsPage = () => {
+  const router = useRouter();
+  const { keyword, page } = router.query;
+  const [searchText, setSearchText] = useState('');
+  const { data } = useUser();
+
+  useEffect(() => {
+    setSearchText(typeof keyword === 'string' ? keyword : '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
+
+  const {
+    list,
+    isLoading,
+    page: currentPage,
+    total,
+  } = useList<ICustomerTickets>({
+    ...ticketQuery.getSalonTickets({
+      salonId: get(data, 'salon[0].salonId'),
+      keyword,
+      page: typeof page === 'string' ? page : 1,
+    }),
+    enabled: !!data,
+    staleTime: 1000 * 60 * 2,
+  });
+
+  const debounceRedirect = useRef(
+    debounce(
+      (queryValue) =>
+        router.push(
+          {
+            pathname: router.pathname,
+            query: queryValue,
+          },
+          undefined,
+          { shallow: true },
+        ),
+      500,
+    ),
+  ).current;
+
+  const onTextChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value);
+
+    const currentQuery = { ...router.query };
+    if (!e.target.value) {
+      delete currentQuery.keyword;
+    } else {
+      currentQuery.keyword = e.target.value;
+    }
+
+    debounceRedirect(currentQuery);
+  };
+
   return (
     <Stack alignItems={'center'} sx={styles.ticketListContainer}>
       <Box display={'flex'} justifyContent={'center'}>
@@ -90,7 +93,8 @@ const TicketsPage = () => {
         <TextField
           fullWidth
           placeholder="顧客検索"
-          onChange={() => {}}
+          value={searchText}
+          onChange={onTextChange}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end" sx={styles.inputIcon}>
@@ -103,9 +107,20 @@ const TicketsPage = () => {
           ※リストをタップすると、お客様とのチャット画面が開きます。
         </Typography>
       </Box>
-      <TicketList data={MOCK_DATA} />
+      {isLoading ? (
+        <Stack
+          alignItems="center"
+          justifyContent="flex-start"
+          minHeight={570}
+          paddingTop={24}
+        >
+          <CircularProgress />
+        </Stack>
+      ) : (
+        <TicketList data={list} />
+      )}
       <Box display={'flex'}>
-        <ListPagination total={0} />
+        <ListPagination total={total} page={currentPage} />
       </Box>
     </Stack>
   );

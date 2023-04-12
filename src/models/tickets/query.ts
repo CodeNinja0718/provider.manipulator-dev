@@ -1,7 +1,7 @@
 const ticketQuery = {
   getSalonTickets: ({ salonId, ...args }: Record<string, unknown>) => ({
     apiUrl: `coupon/manipulator/tickets/${salonId}`,
-    queryKey: [],
+    queryKey: ['salon-tickets', salonId],
     customParams: args,
   }),
 };

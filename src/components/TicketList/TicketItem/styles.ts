@@ -6,6 +6,7 @@ const styles: Record<string, SxProps> = {
     px: 20,
     py: 16,
     color: 'white',
+    cursor: 'pointer',
   },
   arrow: {
     transition: 'transform 300ms',
