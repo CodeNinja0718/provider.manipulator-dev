@@ -1,4 +1,5 @@
 import FacebookIcon from '@icons/facebook_icon.svg';
+import CustomerListIcon from '@icons/icon_customer_list.svg';
 // import AddReservationSvg from '@icons/icon_add_reservation_green.svg';
 import ListSvg from '@icons/icon_list.svg';
 import MembershipSvg from '@icons/icon_membership.svg';
@@ -84,6 +85,11 @@ export const PROVIDER_NAVIGATION: {
     href: '/my-page/reservation',
     label: '予約リスト',
     icon: <ReservationSvg />,
+  },
+  {
+    href: '/my-page/tickets',
+    label: '回数券管理',
+    icon: <CustomerListIcon />,
   },
   // {
   //   href: '/my-page/registration-reservation',
