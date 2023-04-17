@@ -13,6 +13,8 @@ interface IReservationContent extends ResultMenu {
   startTime: string;
   endTime: string;
   salonInfo: ISalonInfo;
+  ticketUsed?: number;
+  couponDiscount?: number;
 }
 
 const ReservationContent: React.FC<IReservationContent> = ({
@@ -20,6 +22,8 @@ const ReservationContent: React.FC<IReservationContent> = ({
   startTime,
   endTime,
   salonInfo,
+  ticketUsed,
+  couponDiscount,
 }) => {
   const valueDate =
     startTime || endTime ? dayjs(startTime || endTime) : dayjs();
@@ -54,8 +58,14 @@ const ReservationContent: React.FC<IReservationContent> = ({
             }
           />
           {/* Coupon */}
-          {/* <ContentLine start="回数券利用" center="1回" /> */}
-          {/* <ContentLine start="クーポン" center="-" /> */}
+          <ContentLine
+            start="回数券利用"
+            center={ticketUsed ? `${ticketUsed.toString()}回` : '-'}
+          />
+          <ContentLine
+            start="クーポン"
+            center={couponDiscount ? couponDiscount.toString() : '-'}
+          />
           <ContentLine
             start="お支払い金額"
             end={
