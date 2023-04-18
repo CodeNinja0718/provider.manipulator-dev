@@ -54,6 +54,8 @@ const Form = () => {
           endTime: res?.endTime,
           salonInfo: res?.salonInfo,
           status: res?.status,
+          ticketUsed: res?.ticketUsed,
+          couponDiscount: res?.couponDiscount,
         };
   const initialTreatmentValues = {
     price: treatmentData?.price || res?.plan?.menuInfo?.price,
