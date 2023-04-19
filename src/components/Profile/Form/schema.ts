@@ -16,7 +16,7 @@ const schema = object({
   nameKana: string()
     .trim()
     .required()
-    .matches(Regex.KATAKANA, '無効な形式です。'),
+    .matches(Regex.FURAGANA, '無効な形式です。'),
   email: string().required().matches(Regex.EMAIL, '無効な形式です。'),
   phone: string().trim().required().matches(Regex.PHONE, '無効な形式です。'),
   zipcode: string().required().matches(Regex.JP_ZIPCODE, '無効な形式です。'),
