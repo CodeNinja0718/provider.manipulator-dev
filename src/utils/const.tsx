@@ -344,3 +344,9 @@ export const FILTER_ITEMS = [
     label: `腰の症状`,
   },
 ];
+
+export const MANIPULATOR_STATUS = {
+  POSTING: '掲載中',
+  STOPPED: '停止中',
+  UNDER_REVIEW: '審査中',
+};
