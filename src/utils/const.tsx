@@ -3,6 +3,7 @@ import CustomerListIcon from '@icons/icon_customer_list.svg';
 // import AddReservationSvg from '@icons/icon_add_reservation_green.svg';
 import ListSvg from '@icons/icon_list.svg';
 import MembershipSvg from '@icons/icon_membership.svg';
+import RegisterSvg from '@icons/icon_profile.svg';
 import ReservationSvg from '@icons/icon_reservation.svg';
 import ScheduleSvg from '@icons/icon_schedule.svg';
 import InstagramIcon from '@icons/instagram_icon.svg';
@@ -71,6 +72,11 @@ export const PROVIDER_NAVIGATION: {
     href: '/my-page/schedule',
     label: 'スケジュール',
     icon: <ScheduleSvg />,
+  },
+  {
+    href: '/my-page/manipulator',
+    label: '整体師一覧',
+    icon: <RegisterSvg />,
   },
   {
     href: '/my-page/menu',
@@ -296,3 +302,45 @@ export const RESERVATION_STATUS = {
   DONE: 'DONE',
   RESERVED: 'RESERVED',
 };
+
+export const QUALIFICATION = [
+  {
+    id: 'judo_therapist',
+    name: '柔道整復師',
+  },
+  {
+    id: 'acupuncturist',
+    name: '鍼灸師',
+  },
+  {
+    id: 'physical_therapist',
+    name: '理学療法士',
+  },
+  {
+    id: 'occupational_therapist',
+    name: '作業療法士',
+  },
+];
+
+export const FILTER_ITEMS = [
+  {
+    _id: 1,
+    label: `自律神経`,
+  },
+  {
+    _id: 2,
+    label: `首・肩`,
+  },
+  {
+    _id: 3,
+    label: `股関節・膝・足の症状`,
+  },
+  {
+    _id: 4,
+    label: `スポーツ障害`,
+  },
+  {
+    _id: 5,
+    label: `腰の症状`,
+  },
+];
