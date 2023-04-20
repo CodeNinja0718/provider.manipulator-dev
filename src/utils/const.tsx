@@ -2,6 +2,7 @@ import FacebookIcon from '@icons/facebook_icon.svg';
 // import AddReservationSvg from '@icons/icon_add_reservation_green.svg';
 import ListSvg from '@icons/icon_list.svg';
 import MembershipSvg from '@icons/icon_membership.svg';
+import RegisterSvg from '@icons/icon_profile.svg';
 import ReservationSvg from '@icons/icon_reservation.svg';
 import ScheduleSvg from '@icons/icon_schedule.svg';
 import InstagramIcon from '@icons/instagram_icon.svg';
@@ -14,10 +15,11 @@ export const Regex = {
     // eslint-disable-next-line no-useless-escape
     /^(?=.*[a-z])(?=.*[A-Z])[A-Za-z\d!\"#$%&'()*+,-./:;<=>?@^_`{|}~\[\]]{8,}$/,
   KATAKANA: /^[ｧ-ﾝﾞﾟァ-・ヽヾ゛゜ー()-.（-）]+$/,
+  FURAGANA: /^[゜ー()-.（-）\u3040-\u309f]+$/,
   // eslint-disable-next-line no-useless-escape
   URL: /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/i,
   PASSWORD: /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).{8,}$/,
-  PHONE: /^(?:\d{10}|\d{3}-\d{3}-\d{4}|\d{2}-\d{4}-\d{4}|\d{3}-\d{4}-\d{4})$/,
+  PHONE: /^\d{10,13}$/,
   WHITESPACE: /\s/,
   EMAIL:
     // eslint-disable-next-line no-useless-escape, no-control-regex
@@ -69,6 +71,11 @@ export const PROVIDER_NAVIGATION: {
     href: '/my-page/schedule',
     label: 'スケジュール',
     icon: <ScheduleSvg />,
+  },
+  {
+    href: '/my-page/manipulator',
+    label: '整体師一覧',
+    icon: <RegisterSvg />,
   },
   {
     href: '/my-page/menu',
@@ -288,4 +295,52 @@ export const GTM_JP = 'GMT+9';
 export const RESERVATION_STATUS = {
   DONE: 'DONE',
   RESERVED: 'RESERVED',
+};
+
+export const QUALIFICATION = [
+  {
+    id: 'judo_therapist',
+    name: '柔道整復師',
+  },
+  {
+    id: 'acupuncturist',
+    name: '鍼灸師',
+  },
+  {
+    id: 'physical_therapist',
+    name: '理学療法士',
+  },
+  {
+    id: 'occupational_therapist',
+    name: '作業療法士',
+  },
+];
+
+export const FILTER_ITEMS = [
+  {
+    _id: 1,
+    label: `自律神経`,
+  },
+  {
+    _id: 2,
+    label: `首・肩`,
+  },
+  {
+    _id: 3,
+    label: `股関節・膝・足の症状`,
+  },
+  {
+    _id: 4,
+    label: `スポーツ障害`,
+  },
+  {
+    _id: 5,
+    label: `腰の症状`,
+  },
+];
+
+export const MANIPULATOR_STATUS = {
+  POSTING: '掲載中',
+  STOPPED: '停止中',
+  UNDER_REVIEW: '審査中',
 };

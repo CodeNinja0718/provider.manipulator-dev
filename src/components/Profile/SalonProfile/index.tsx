@@ -5,6 +5,7 @@ import { Box, Stack, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
 import { useFetch } from 'hooks';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 import type { IPrefectureItem, IStationItem } from 'models/resource/interface';
 import resourceQuery from 'models/resource/query';
 import Image from 'next/image';
@@ -87,6 +88,17 @@ const SalonProfile: React.FC<SalonProfileProps> = ({
     );
   }, [data.stationIds, stationLines?.result]);
 
+  const { data: stations } = useFetch<{ result: IStationItem[] }>(
+    resourceQuery.stations,
+  );
+
+  const currentStation =
+    !isEmpty(stations?.result) && data?.stationSelected
+      ? stations?.result?.filter(
+          (item) => item._id === Number(data?.stationSelected),
+        )
+      : [];
+
   return (
     <Stack alignItems="center" sx={styles.salonProfileWrapper}>
       <CommonSection title="整体院情報">
@@ -148,8 +160,11 @@ const SalonProfile: React.FC<SalonProfileProps> = ({
             <Typography>{selectedArea?.name}</Typography>
           </FieldItem>
           <FieldItem label="駅">
+            <Typography>{currentStation?.[0]?.name}</Typography>
             <Typography>
-              {selectedStation?.map((station) => station.name).join('\n')}
+              {selectedStation
+                ?.map((station) => `・${station.name}`)
+                .join('\n')}
             </Typography>
           </FieldItem>
         </Stack>
