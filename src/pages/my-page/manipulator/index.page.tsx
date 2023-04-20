@@ -1,8 +1,8 @@
 import Layout from 'components/Layout';
-import MenuList from 'components/ManipulatorList';
+import ManipulatorList from 'components/ManipulatorList';
 
 const ManipulatorPage = () => {
-  return <MenuList />;
+  return <ManipulatorList />;
 };
 
 ManipulatorPage.getLayout = (page: React.ReactNode) => {

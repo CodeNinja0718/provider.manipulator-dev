@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="29.243" viewBox="0 0 36 29.243">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #249287;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 3px;
+      }
+    </style>
+  </defs>
+  <g id="icon_switch" transform="translate(-187.47 20.121)">
+    <path id="パス_936" data-name="パス 936" class="cls-1" d="M162,81l5.758,5.758L162,92.515" transform="translate(54.213 -85.515)"/>
+    <path id="パス_937" data-name="パス 937" class="cls-1" d="M32.758,20.515,27,14.758,32.758,9" transform="translate(161.97 -27)"/>
+    <line id="線_83" data-name="線 83" class="cls-1" x1="27.154" transform="translate(193.458 1.944)"/>
+    <line id="線_84" data-name="線 84" class="cls-1" x2="27.282" transform="translate(189.028 -12.561)"/>
+  </g>
+</svg>
