@@ -101,7 +101,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             startIcon={<ArrowLeft />}
             onClick={handleCancel}
           >
-            修正する
+            戻る
           </LoadingButton>
         )}
       </Stack>

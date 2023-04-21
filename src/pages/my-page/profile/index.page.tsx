@@ -153,7 +153,7 @@ const ProfilePage = () => {
   return (
     <Stack alignItems="center" p={{ xs: '45px 0 60px', tablet: '60px 0 78px' }}>
       <Typography variant="title" mb={55}>
-        整体院情報登録
+        整体院情報
       </Typography>
       {isEditting ? (
         <CompleteProfileForm
