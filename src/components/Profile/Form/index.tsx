@@ -91,7 +91,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           loadingPosition="end"
           loading={loading}
         >
-          確認画面へ
+          登録する
         </LoadingButton>
         {handleCancel && (
           <LoadingButton
