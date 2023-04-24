@@ -159,6 +159,7 @@ const BasisInfoSection: React.FC<BasisInfoSectionProps> = ({
             },
           }}
         />
+        {/* update preview image */}
         <Upload label="写真" name="photos" control={control} />
         <TextField
           label="整体院について・注意事項"
