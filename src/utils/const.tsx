@@ -3,7 +3,7 @@ import CustomerListIcon from '@icons/icon_customer_list.svg';
 // import AddReservationSvg from '@icons/icon_add_reservation_green.svg';
 import ListSvg from '@icons/icon_list.svg';
 import MembershipSvg from '@icons/icon_membership.svg';
-import RegisterSvg from '@icons/icon_profile.svg';
+import RegisterSvg from '@icons/icon_register.svg';
 import ReservationSvg from '@icons/icon_reservation.svg';
 import ScheduleSvg from '@icons/icon_schedule.svg';
 import InstagramIcon from '@icons/instagram_icon.svg';
