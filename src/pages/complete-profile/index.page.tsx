@@ -107,7 +107,7 @@ const CompleteProfilePage = () => {
         },
         {
           onSuccess: async () => {
-            await refetch();
+            router.push('/register/complete');
           },
         },
       );
