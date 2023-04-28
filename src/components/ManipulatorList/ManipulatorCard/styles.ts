@@ -44,17 +44,32 @@ const styles: Record<string, SxProps> = {
     alignItems: 'center',
     borderRadius: '5px',
     color: '#D8D8D8',
-    backgroundColor: '#eeeeee',
+    fontWeight:'bold',
 
-    '.posting': {
-      color: 'white',
-      backgroundColor: 'spanishOrange',
-      borderRadius: '5px 0 0 5px',
+    '&.active': {
+      '.posting' : {
+        color: 'white',
+        backgroundColor: 'spanishOrange',
+        borderRadius: ' 5px  0  0 5px',
+      },
+      '.stopped' : {
+        backgroundColor: '#eeeeee',  
+        color: '#D8D8D8',
+        borderRadius: '0 5px 5px 0',
+      }
     },
 
-    '.stopped': {
-      backgroundColor: 'graySolid',
-      borderRadius: '0 5px 5px 0',
+    '&.unactive': {
+      '.posting' : {
+        color: '#D8D8D8',
+        backgroundColor: '#eeeeee',  
+        borderRadius: ' 5px  0  0 5px',
+      },
+      '.stopped' : {
+        color: 'white',
+        backgroundColor: 'graySolid',  
+        borderRadius: '0 5px 5px 0',
+      }
     },
   },
   statusBoxItem: {
