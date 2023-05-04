@@ -2,18 +2,17 @@ import ArrowRight from '@icons/arrow-right.svg';
 import SwitchIcon from '@icons/icon_switch.svg';
 import DeleteIcon from '@icons/icon_trashbox.svg';
 import { Box, Button, Typography } from '@mui/material';
+import type { IManipulator } from 'models/manipulator/interface';
 import Image from 'next/image';
 import { MANIPULATOR_STATUS } from 'utils/const';
 
 import styles from './styles';
-import { IManipulator } from 'models/manipulator/interface';
 
 interface ManipulatorCardProps {
   data: IManipulator;
 }
 
-const ManipulatorCard = ( {data}:ManipulatorCardProps ) => {
-
+const ManipulatorCard = ({ data }: ManipulatorCardProps) => {
   return (
     <Box sx={styles.wrapper}>
       <Box
@@ -58,12 +57,12 @@ const ManipulatorCard = ( {data}:ManipulatorCardProps ) => {
             flexWrap="wrap"
           >
             <Box display="flex" gap={11}>
-            <Box
+              <Box
                 sx={styles.statusDoubleBox}
                 className={
                   data.status === MANIPULATOR_STATUS.ACTIVE
-                    ? "active"
-                    : "unactive"
+                    ? 'active'
+                    : 'unactive'
                 }
               >
                 <Box sx={styles.statusBoxItem} className="posting">

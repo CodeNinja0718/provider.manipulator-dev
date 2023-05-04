@@ -57,7 +57,7 @@ const ManipulatorList = () => {
       ) : (
         <Box width="100%" pt={30}>
           {list.map((item) => (
-             <ManipulatorCard data={item} key={item._id} />
+            <ManipulatorCard data={item} key={item._id} />
           ))}
         </Box>
       )}

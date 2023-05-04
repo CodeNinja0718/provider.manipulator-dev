@@ -28,6 +28,7 @@ const SymptomsSection: React.FC<SymptomsSectionProps> = ({ control }) => {
         layout="horizontal"
         data={data}
         spacing={10}
+        showSelectAll
       />
     );
   };
