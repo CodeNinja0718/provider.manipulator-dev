@@ -4,6 +4,7 @@ import { CheckBox, TextField } from 'components/Form';
 import type { ManipulatorProfileValues } from 'components/ManipulatorProfile/Form/schema';
 import type { Control } from 'react-hook-form';
 
+import UploadAvatar from './BasicInfoSection/UploadAvatar';
 import styles from './styles';
 
 interface BasicInfoSectionProps {
@@ -17,6 +18,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
 }) => {
   return (
     <CommonSection title="基本情報">
+      <UploadAvatar label="写真" name="avatar" control={control} />
       <Box pt={20} pb={15} width="100%">
         <TextField
           label="氏名"

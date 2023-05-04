@@ -30,7 +30,7 @@ const WorkTimeSection: React.FC<WorkTimeSectionProps> = ({
   trigger,
 }) => {
   return (
-    <CommonSection title="営業時間">
+    <CommonSection title="勤務時間">
       <Stack sx={styles.sectionContentWrapper} data-worktime={true}>
         {WEEKDAYS_WORK_TIME.map((day) => {
           return (

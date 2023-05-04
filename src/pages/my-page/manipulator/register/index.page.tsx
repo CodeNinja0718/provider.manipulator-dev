@@ -21,6 +21,7 @@ const ManipulatorRegisterPage = () => {
   );
 
   const initialValues = {
+    avatar: null,
     name: '',
     nameKana: '',
     email: '',
@@ -42,7 +43,7 @@ const ManipulatorRegisterPage = () => {
   return (
     <Stack alignItems="center" p={{ xs: '45px 0 60px', tablet: '60px 0 78px' }}>
       <Typography variant="title" mb={55}>
-        整体院情報登録
+        整体師登録
       </Typography>
       <ManipulatorProfile
         initialValues={initialValues}

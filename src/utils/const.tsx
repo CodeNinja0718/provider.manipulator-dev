@@ -325,11 +325,11 @@ export const QUALIFICATION = [
 export const FILTER_ITEMS = [
   {
     _id: 1,
-    label: `自律神経`,
+    label: `自律神経症状`,
   },
   {
     _id: 2,
-    label: `首・肩`,
+    label: `自律神経症状`,
   },
   {
     _id: 3,

@@ -113,7 +113,18 @@ const styles: Record<string, SxProps> = {
     },
   },
   button: {
-    width: 323,
+    width: 256,
+    fontSize: 16,
+    '.MuiButton-endIcon': {
+      svg: {
+        width: 12,
+        height: 12,
+      },
+    },
+  },
+  avatarWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
   },
 };
 
