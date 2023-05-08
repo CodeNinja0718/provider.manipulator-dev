@@ -33,7 +33,7 @@ const ManipulatorList = () => {
       keyword,
       page: typeof page === 'string' ? page : 1,
     }),
-    enabled: !!data,
+    enabled: true,
     staleTime: 1000 * 60 * 2,
   });
 
