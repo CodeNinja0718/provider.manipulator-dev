@@ -50,7 +50,6 @@ const ManipulatorRegisterPage = () => {
     useState<ManipulatorProfileValues>(initialValues);
 
   const showConfirmPage = (_values: ManipulatorProfileValues) => {
-    console.log('_values', _values);
     setProfileData(_values);
     router.push(
       {
@@ -88,11 +87,11 @@ const ManipulatorRegisterPage = () => {
         objectKey: photo.key,
       })) || [];
 
-    if(avatar) {
+    if (avatar) {
       photoArray.push({
         type: 'avatar',
         objectKey: avatar.key,
-      });      
+      });
     }
 
     handleUpdateManipulator(

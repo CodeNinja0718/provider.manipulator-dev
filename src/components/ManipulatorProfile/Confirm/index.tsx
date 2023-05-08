@@ -187,7 +187,7 @@ const ManipulatorProfileConfirm: React.FC<ManipulatorProfileConfirmProps> = ({
             </FieldItem>
             <FieldItem label="写真">
               <Stack className="photos">
-                {data.photos?.map((photo,index) => (
+                {data.photos?.map((photo, index) => (
                   <Box key={`photo-${index}`} className="image-preview-wrapper">
                     <Box
                       position="relative"
