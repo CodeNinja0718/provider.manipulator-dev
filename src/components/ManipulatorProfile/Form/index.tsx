@@ -48,7 +48,7 @@ const ManipulatorProfile = ({ onSubmit, initialValues }: ProfileFormProps) => {
       sx={styles.profileFormWrapper}
     >
       <Stack sx={styles.sectionContentWrapper}>
-        <BasicInfoSection control={control} initialValues={initialValues} />
+        <BasicInfoSection control={control} />
         <ProfileSection control={control} initialValues={initialValues} />
         <SymptomsSection control={control} />
 

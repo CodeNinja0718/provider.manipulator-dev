@@ -8,13 +8,11 @@ import UploadAvatar from './BasicInfoSection/UploadAvatar';
 import styles from './styles';
 
 interface BasicInfoSectionProps {
-  initialValues: ManipulatorProfileValues;
   control: Control<ManipulatorProfileValues>;
 }
 
 const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
   control,
-  initialValues,
 }) => {
   return (
     <CommonSection title="基本情報">
@@ -45,7 +43,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
             name="isRegister"
             control={control}
             layout="horizontal"
-            data={initialValues.isRegister || []}
+            data={[{ id: 'confirm_register', name: 'アカウントを新規発行する' }]}
           />
         </Box>
         <Typography sx={styles.basicInfoNote}>

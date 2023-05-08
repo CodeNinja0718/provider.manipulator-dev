@@ -4,6 +4,13 @@ const manipulatorQuery = {
     queryKey: ['manipulator-list', salonId],
     customParams: args,
   }),
+  updateManipulator: {
+    apiUrl: (params: Record<string, unknown>) =>
+      `/account/manipulator/register/${params.salonId}`,
+    method: 'post',
+    successMessage: 'レジスタが成功する',
+    omitKeys: ['salonId'],
+  },
 };
 
 export default manipulatorQuery;
