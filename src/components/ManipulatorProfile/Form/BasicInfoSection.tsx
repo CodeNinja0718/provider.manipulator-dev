@@ -11,9 +11,7 @@ interface BasicInfoSectionProps {
   control: Control<ManipulatorProfileValues>;
 }
 
-const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
-  control,
-}) => {
+const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ control }) => {
   return (
     <CommonSection title="基本情報">
       <UploadAvatar label="写真" name="avatar" control={control} />
@@ -43,7 +41,9 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
             name="isRegister"
             control={control}
             layout="horizontal"
-            data={[{ id: 'confirm_register', name: 'アカウントを新規発行する' }]}
+            data={[
+              { id: 'confirm_register', name: 'アカウントを新規発行する' },
+            ]}
           />
         </Box>
         <Typography sx={styles.basicInfoNote}>

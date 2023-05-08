@@ -1,11 +1,12 @@
-import ArrowRight from "@icons/arrow-right.svg";
-import { Button, Stack, Typography } from "@mui/material";
-import Layout from "components/Layout";
-import { useRouter } from "next/router";
-import React, { useMemo } from "react";
-import ListSvg from "@icons/icon_list.svg";
-import styles from "./styles";
-import { useUser } from "hooks";
+import ArrowRight from '@icons/arrow-right.svg';
+import ListSvg from '@icons/icon_list.svg';
+import { Button, Stack, Typography } from '@mui/material';
+import Layout from 'components/Layout';
+import { useUser } from 'hooks';
+import { useRouter } from 'next/router';
+import React, { useMemo } from 'react';
+
+import styles from './styles';
 
 const ProfileCompletionPage = () => {
   const { data } = useUser();
@@ -23,33 +24,33 @@ const ProfileCompletionPage = () => {
 
   const goAddManipulatorScreen = () => {
     router.push({
-      pathname: "/my-page/manipulator/register",
+      pathname: '/my-page/manipulator/register',
     });
   };
 
   const goManipulatorListScreen = () => {
     router.push({
-      pathname: "/my-page/manipulator",
+      pathname: '/my-page/manipulator',
     });
-  }
+  };
 
   return (
-    <Stack alignItems={"center"} sx={styles.profileCompletionContainer}>
+    <Stack alignItems={'center'} sx={styles.profileCompletionContainer}>
       <Typography variant="title" fontSize={24} mb={{ xs: 32, tablet: 40 }}>
         整体師登録完了
       </Typography>
       <Typography
         fontSize={22}
         mb={{ xs: 64, tablet: 80 }}
-        color={"secondary.main"}
-        fontWeight={"bold"}
+        color={'secondary.main'}
+        fontWeight={'bold'}
       >
         登録しました
       </Typography>
       <Stack
-        alignItems={"center"}
-        flexDirection={"column"}
-        alignSelf={"stretch"}
+        alignItems={'center'}
+        flexDirection={'column'}
+        alignSelf={'stretch'}
       >
         <Button
           size="medium"
@@ -71,9 +72,18 @@ const ProfileCompletionPage = () => {
           続けて整体師を登録する
         </Button>
       </Stack>
-      <Stack flexDirection={"row"} alignItems={"center"} gap={15} sx={styles.menuBtn} onClick={goManipulatorListScreen} mt={15}>
+      <Stack
+        flexDirection={'row'}
+        alignItems={'center'}
+        gap={15}
+        sx={styles.menuBtn}
+        onClick={goManipulatorListScreen}
+        mt={15}
+      >
         <ListSvg />
-        <Typography marginBottom={4} fontWeight={'bold'}>整体師一覧へ</Typography>
+        <Typography marginBottom={4} fontWeight={'bold'}>
+          整体師一覧へ
+        </Typography>
       </Stack>
     </Stack>
   );

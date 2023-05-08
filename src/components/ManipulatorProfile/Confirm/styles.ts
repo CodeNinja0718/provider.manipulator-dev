@@ -26,7 +26,7 @@ const styles: Record<string, SxProps> = {
           backgroundColor: 'white',
         },
       },
-    }
+    },
   },
   fieldItemWrapper: {
     borderBottom: '1px solid #cccccc',
@@ -52,9 +52,8 @@ const styles: Record<string, SxProps> = {
     '&:nth-of-type(2n)': {
       backgroundColor: 'cream',
     },
-    alignItems:'center',
-    gap:20
-    
+    alignItems: 'center',
+    gap: 20,
   },
   weekDayName: {
     flexShrink: '0',
@@ -78,15 +77,15 @@ const styles: Record<string, SxProps> = {
     justifyContent: 'center',
   },
   checkboxArea: {
-    pointerEvents: 'none'
+    pointerEvents: 'none',
   },
   checkboxContainer: {
-    backgroundColor:'#E3F5D6',
-    borderRadius:'5px',
+    backgroundColor: '#E3F5D6',
+    borderRadius: '5px',
     width: '100%',
-    margin:0,
-    color: '333333'
-  }
+    margin: 0,
+    color: '333333',
+  },
 };
 
 export default styles;
