@@ -32,7 +32,7 @@ const PriceLine = ({ data }: PriceLineProps) => {
             単発料金
           </Typography>
           <Typography fontWeight={300}>
-            {Helper.addComma(data.price)}円
+            {Helper.addComma(data.price || 0)}円
           </Typography>
         </Stack>
         <Divider sx={styles.divider} />
