@@ -112,7 +112,7 @@ const ManipulatorRegisterPage = () => {
               ({ startTime, endTime }) => startTime && endTime,
             ),
           })) || [],
-        verifyEmail: ((isRegister?.length  || 0 ) > 0 ) ,
+        verifyEmail: (isRegister?.length || 0) > 0,
         salonId,
       },
       {

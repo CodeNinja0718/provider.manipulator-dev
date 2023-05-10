@@ -24,18 +24,20 @@ const SetPasswordPage = ({
 }) => {
   const router = useRouter();
   const { owner } = router.query;
-  const isOwner = typeof confirm === 'string' && owner === 'true';
+  const isOwner = typeof owner === 'string' && owner === 'true';
 
-  const { mutateAsync: handleRegister, isLoading:isRegisterLoading } = useMutate<{
-    email: string;
-    password: string;
-    token: string;
-  }>(authQuery.register);
+  const { mutateAsync: handleRegister, isLoading: isRegisterLoading } =
+    useMutate<{
+      email: string;
+      password: string;
+      token: string;
+    }>(authQuery.register);
 
-  const { mutateAsync: handleSetPassword, isLoading:isSetPasswordLoading } = useMutate<{
-    password: string;
-    token: string;
-  }>(authQuery.setPassword);
+  const { mutateAsync: handleSetPassword, isLoading: isSetPasswordLoading } =
+    useMutate<{
+      password: string;
+      token: string;
+    }>(authQuery.setPassword);
 
   const { control, handleSubmit } = useForm<SetPasswordFormValues>({
     resolver: yupResolver(schema),
@@ -43,7 +45,7 @@ const SetPasswordPage = ({
   });
 
   const handleOnSubmit: SubmitHandler<SetPasswordFormValues> = (values) => {
-    if(isOwner) {
+    if (isOwner) {
       handleRegister(
         {
           token,
