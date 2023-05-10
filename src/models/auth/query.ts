@@ -21,6 +21,11 @@ const authQuery = {
     method: 'post',
     defaultToast: true,
   },
+  setPassword: {
+    apiUrl: '/account/manipulator/register/set-password',
+    method: 'patch',
+    defaultToast: true,
+  },
 };
 
 export default authQuery;

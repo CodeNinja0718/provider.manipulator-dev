@@ -78,6 +78,7 @@ const ManipulatorRegisterPage = () => {
       photos,
       businessHours,
       engagement,
+      isRegister,
       ...rest
     } = profileData;
 
@@ -111,7 +112,7 @@ const ManipulatorRegisterPage = () => {
               ({ startTime, endTime }) => startTime && endTime,
             ),
           })) || [],
-        verifyEmail: true,
+        verifyEmail: (isRegister?.length || 0) > 0,
         salonId,
       },
       {
