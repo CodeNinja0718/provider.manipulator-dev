@@ -188,17 +188,19 @@ const MenuReview = () => {
             確認する
           </LoadingButton>
           <LoadingButton
-              size="medium"
-              color="primary"
-              loadingPosition="start"
-              sx={styles.actionButton}
-              disabled={disabled}
-              variant="outlined"
-              loading={isLoading}
-              startIcon={<ArrowLeft />}
-              onClick={()=>{router.back()}}
-            >
-              修正する
+            size="medium"
+            color="primary"
+            loadingPosition="start"
+            sx={styles.actionButton}
+            disabled={disabled}
+            variant="outlined"
+            loading={isLoading}
+            startIcon={<ArrowLeft />}
+            onClick={() => {
+              router.back();
+            }}
+          >
+            修正する
           </LoadingButton>
         </Box>
       </Box>
