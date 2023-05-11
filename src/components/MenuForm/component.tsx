@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import ArrowRight from '@icons/arrow-right.svg';
 import { LoadingButton } from '@mui/lab';
 import { Box, Stack, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
@@ -22,11 +22,15 @@ const Component = ({
   loading: boolean;
 }) => {
   const [timeDisplay, setTimeDisplay] = useState(initialValues.timeDisplay);
-  const { control, handleSubmit } = useForm<MenuFormValues>({
+  const { control, reset, handleSubmit } = useForm<MenuFormValues>({
     resolver: yupResolver(schema),
     mode: 'onBlur',
     defaultValues: initialValues,
   });
+
+  useEffect(() => {
+    reset(initialValues);
+  }, [initialValues, reset]);
 
   return (
     <Box sx={styles.wrapper}>

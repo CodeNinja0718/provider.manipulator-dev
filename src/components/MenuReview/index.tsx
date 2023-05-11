@@ -1,3 +1,4 @@
+import ArrowLeft from '@icons/arrow-left.svg';
 import ArrowRight from '@icons/arrow-right.svg';
 import CheckedIcon from '@icons/checked.svg';
 import UnCheckedIcon from '@icons/uncheck.svg';
@@ -172,19 +173,34 @@ const MenuReview = () => {
           </RowItem>
         </CommonSection> */}
 
-        <LoadingButton
-          size="medium"
-          color="primary"
-          variant="contained"
-          endIcon={<ArrowRight />}
-          loadingPosition="end"
-          sx={styles.submitBtn}
-          onClick={handleSubmit}
-          loading={isLoading}
-          disabled={disabled}
-        >
-          確認する
-        </LoadingButton>
+        <Box display={'flex'} flexDirection={'column'} gap={10}>
+          <LoadingButton
+            size="medium"
+            color="primary"
+            variant="contained"
+            endIcon={<ArrowRight />}
+            loadingPosition="end"
+            sx={styles.actionButton}
+            onClick={handleSubmit}
+            loading={isLoading}
+            disabled={disabled}
+          >
+            確認する
+          </LoadingButton>
+          <LoadingButton
+              size="medium"
+              color="primary"
+              loadingPosition="start"
+              sx={styles.actionButton}
+              disabled={disabled}
+              variant="outlined"
+              loading={isLoading}
+              startIcon={<ArrowLeft />}
+              onClick={()=>{router.back()}}
+            >
+              修正する
+          </LoadingButton>
+        </Box>
       </Box>
     </Box>
   );

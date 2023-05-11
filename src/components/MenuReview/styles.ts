@@ -48,11 +48,11 @@ const styles = {
       border: 'none',
     },
   },
-  submitBtn: {
+  actionButton: {
     maxWidth: { xs: 'calc(100% - 40px)', tablet: 323 },
     width: '100%',
     m: 'auto',
-    mt: 6,
+    mt: 2,
   },
 } as Record<string, SxProps<Theme>>;
 
