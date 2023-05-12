@@ -4,22 +4,28 @@ import ManipulatorProfileConfirm from 'components/ManipulatorProfile/Confirm';
 import ManipulatorProfile from 'components/ManipulatorProfile/Form';
 import type { ManipulatorProfileValues } from 'components/ManipulatorProfile/Form/schema';
 import dayjs from 'dayjs';
-import { useMutate, useUser } from 'hooks';
+import { useFetch, useMutate } from 'hooks';
 // import { useUser } from 'hooks';
 import range from 'lodash/range';
+import type { IManipulatorItem } from 'models/manipulator/interface';
 import manipulatorQuery from 'models/manipulator/query';
 import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { QUALIFICATION } from 'utils/const';
 
 const ManipulatorRegisterPage = () => {
-  const { data } = useUser();
   const router = useRouter();
-  const salonId = data?.salon[0]?.salonId || '';
   const { confirm } = router.query;
+
+  const manipulatorId = router?.query?.manipulatorId || '';
+
+  const { data: detailData } = useFetch<IManipulatorItem>(
+    manipulatorQuery.manipulatorDetail(manipulatorId),
+  );
+
   const isConfirm = typeof confirm === 'string' && confirm === 'true';
-  const { mutateAsync: handleRegisterManipulator, isLoading } = useMutate(
-    manipulatorQuery.registerManipulator,
+  const { mutateAsync: handleUpdateManipulator, isLoading } = useMutate(
+    manipulatorQuery.updateManipulator,
   );
   const initBusinessHours = useMemo(
     () =>
@@ -49,11 +55,79 @@ const ManipulatorRegisterPage = () => {
   const [profileData, setProfileData] =
     useState<ManipulatorProfileValues>(initialValues);
 
+  useEffect(() => {
+    if (detailData) {
+      const {
+        name,
+        nameKana,
+        email,
+        photos,
+        defaultShifts,
+        careerStart,
+        profile,
+        pr,
+        supportedSymptoms,
+        nationalLicenses,
+      } = detailData;
+
+      const avatarContent = photos.find((photo) => photo.type === 'avatar');
+      const photoContent = photos.filter((photo) => photo.type === 'pr');
+      let avatar = null;
+      const photoImages: any[] = [];
+
+      if (avatarContent) {
+        avatar = {
+          url: avatarContent.url,
+          fileUrl: avatarContent.url,
+          originUrl: avatarContent.url,
+          objectKey: avatarContent.objectKey,
+          key: avatarContent.objectKey,
+        };
+      }
+
+      if (photoContent.length > 0) {
+        photoContent.forEach((photo) => {
+          photoImages.push({
+            url: photo.url,
+            fileUrl: photo.url,
+            originUrl: photo.url,
+            objectKey: photo.objectKey,
+            key: photo.objectKey,
+          });
+        });
+      }
+
+      const newValues: ManipulatorProfileValues = {
+        name,
+        nameKana,
+        email,
+        pr,
+        avatar,
+        engagement: Number(careerStart) || 0,
+        symptoms: supportedSymptoms.map((item) => item.id),
+        description: profile,
+        qualification: nationalLicenses.map(
+          (item) => QUALIFICATION.find((value) => value.name === item)?.id,
+        ),
+        businessHours: defaultShifts.map((item) => ({
+          ...item,
+          hours: item.hours.map((hour) => ({
+            startTime: dayjs(hour.startTime).tz().format('HH:mm'),
+            endTime: dayjs(hour.endTime).tz().format('HH:mm'),
+          })),
+        })),
+        photos: photoImages,
+        isRegister: ['confirm_register'],
+      };
+      setProfileData(newValues);
+    }
+  }, [detailData]);
+
   const showConfirmPage = (_values: ManipulatorProfileValues) => {
     setProfileData(_values);
     router.push(
       {
-        pathname: '/my-page/manipulator/register',
+        pathname: `/my-page/manipulator/${manipulatorId}`,
         query: {
           confirm: 'true',
         },
@@ -95,7 +169,7 @@ const ManipulatorRegisterPage = () => {
       });
     }
 
-    handleRegisterManipulator(
+    handleUpdateManipulator(
       {
         ...rest,
         careerStart: `${engagement}`,
@@ -113,11 +187,11 @@ const ManipulatorRegisterPage = () => {
             ),
           })) || [],
         verifyEmail: (isRegister?.length || 0) > 0,
-        salonId,
+        manipulatorId,
       },
       {
         onSuccess: () => {
-          router.push('/my-page/manipulator/complete', undefined, {
+          router.push('/my-page/manipulator', undefined, {
             shallow: true,
           });
           window.scrollTo({
@@ -140,7 +214,7 @@ const ManipulatorRegisterPage = () => {
           handleCancel={() => {
             router.push(
               {
-                pathname: '/my-page/manipulator/register',
+                pathname: `/my-page/manipulator/${manipulatorId}`,
                 query: {
                   editing: 'true',
                 },
@@ -162,6 +236,7 @@ const ManipulatorRegisterPage = () => {
         <ManipulatorProfile
           initialValues={profileData}
           onSubmit={showConfirmPage}
+          isEditScreen={true}
         />
       )}
     </Stack>

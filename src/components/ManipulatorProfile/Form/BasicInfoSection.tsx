@@ -9,9 +9,13 @@ import styles from './styles';
 
 interface BasicInfoSectionProps {
   control: Control<ManipulatorProfileValues>;
+  isEditScreen?: boolean;
 }
 
-const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ control }) => {
+const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
+  control,
+  isEditScreen = false,
+}) => {
   return (
     <CommonSection title="基本情報">
       <UploadAvatar label="写真" name="avatar" control={control} />
@@ -35,6 +39,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ control }) => {
           name="email"
           control={control}
           placeholder="sample@service.com"
+          disabled={isEditScreen}
         />
         <Box display="flex" width="100%" sx={styles.checkboxArea}>
           <CheckBox
@@ -44,6 +49,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ control }) => {
             data={[
               { id: 'confirm_register', name: 'アカウントを新規発行する' },
             ]}
+            disabled={isEditScreen}
           />
         </Box>
         <Typography sx={styles.basicInfoNote}>
