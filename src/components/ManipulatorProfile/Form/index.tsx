@@ -17,9 +17,14 @@ import WorkTimeSection from './WorkTimeSection';
 interface ProfileFormProps {
   initialValues: ManipulatorProfileValues;
   onSubmit: SubmitHandler<ManipulatorProfileValues>;
+  isEditScreen?: boolean;
 }
 
-const ManipulatorProfile = ({ onSubmit, initialValues }: ProfileFormProps) => {
+const ManipulatorProfile = ({
+  onSubmit,
+  initialValues,
+  isEditScreen = false,
+}: ProfileFormProps) => {
   const {
     control,
     handleSubmit,
@@ -48,7 +53,7 @@ const ManipulatorProfile = ({ onSubmit, initialValues }: ProfileFormProps) => {
       sx={styles.profileFormWrapper}
     >
       <Stack sx={styles.sectionContentWrapper}>
-        <BasicInfoSection control={control} />
+        <BasicInfoSection control={control} isEditScreen={isEditScreen} />
         <ProfileSection control={control} initialValues={initialValues} />
         <SymptomsSection control={control} />
 

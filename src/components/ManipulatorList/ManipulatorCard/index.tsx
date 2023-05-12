@@ -4,6 +4,7 @@ import DeleteIcon from '@icons/icon_trashbox.svg';
 import { Box, Button, Typography } from '@mui/material';
 import type { IManipulator } from 'models/manipulator/interface';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { MANIPULATOR_STATUS } from 'utils/const';
 
 import styles from './styles';
@@ -13,6 +14,13 @@ interface ManipulatorCardProps {
 }
 
 const ManipulatorCard = ({ data }: ManipulatorCardProps) => {
+  const router = useRouter();
+
+  const handleManipulatorDetail = () => {
+    const { pathname } = router;
+    router.push(`${pathname}/${data?._id}`);
+  };
+
   return (
     <Box sx={styles.wrapper}>
       <Box
@@ -137,6 +145,7 @@ const ManipulatorCard = ({ data }: ManipulatorCardProps) => {
             variant="contained"
             sx={styles.updateScheduleBtn}
             endIcon={<ArrowRight />}
+            onClick={handleManipulatorDetail}
           >
             編集
           </Button>

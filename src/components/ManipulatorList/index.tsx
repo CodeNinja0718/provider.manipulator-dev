@@ -32,6 +32,7 @@ const ManipulatorList = () => {
       salonId: get(data, 'salon[0].salonId'),
       keyword,
       page: typeof page === 'string' ? page : 1,
+      limit: 4,
     }),
     enabled: true,
     staleTime: 1000 * 60 * 2,
