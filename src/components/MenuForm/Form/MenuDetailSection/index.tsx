@@ -16,6 +16,10 @@ const MenuDetailSection: React.FC<IMenuFormProps> = ({
   timeDisplay,
   onSetTimeDisplay,
 }) => {
+  const isOneShotEnabled = (
+    useWatch({ control, name: 'menuTypes' }) || []
+  ).includes(MENU_TYPE[0]?.id);
+
   const isCouponEnabled = (
     useWatch({ control, name: 'menuTypes' }) || []
   ).includes(MENU_TYPE[1]?.id);
@@ -76,21 +80,23 @@ const MenuDetailSection: React.FC<IMenuFormProps> = ({
             required
           />
         </Box>
-        <NumberField
-          name="price"
-          control={control}
-          label={MENU_INFO.PRICE}
-          placeholder="6,000"
-          showEndAdornment={false}
-          required
-          className="maxHeight maxWidth"
-          sx={styles.numberField}
-          unitLabel={
-            <Typography sx={{ ...styles.unitLabel, ml: 12 }}>
-              {UNIT.YEN}
-            </Typography>
-          }
-        />
+        {isOneShotEnabled && (
+          <NumberField
+            name="price"
+            control={control}
+            label={MENU_INFO.PRICE}
+            placeholder="6,000"
+            showEndAdornment={false}
+            required
+            className="maxHeight maxWidth"
+            sx={styles.numberField}
+            unitLabel={
+              <Typography sx={{ ...styles.unitLabel, ml: 12 }}>
+                {UNIT.YEN}
+              </Typography>
+            }
+          />
+        )}
         {/* Field for Ticket/ Coupon */}
         {isCouponEnabled && (
           <Box display="flex" flexWrap="wrap">
