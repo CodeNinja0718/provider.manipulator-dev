@@ -33,7 +33,9 @@ const MenuReview = () => {
   );
   const initialValues = useInitValue();
 
-  const isCouponEnabled = initialValues.menuTypes.includes(MENU_TYPE[1]?.id);
+  const menuTypeList = initialValues.menuTypes || [];
+  const isCouponEnabled = menuTypeList.includes(MENU_TYPE[1]?.id);
+  const isOnlyTicket = isCouponEnabled && menuTypeList.length === 1;
 
   const handleCouponTicketFee = (ticketMount: number, ticketPrice: number) => {
     const value = ticketMount * ticketPrice;
@@ -70,7 +72,7 @@ const MenuReview = () => {
   // }, [initialValues]);
 
   const handleSubmit = () => {
-    const data = {
+    let data = {
       ..._omit(initialValues, [
         'availabelStaff',
         'couponExpirationDate',
@@ -85,6 +87,8 @@ const MenuReview = () => {
       manipulatorIds: [router?.query?.manipulatorIds].filter(Boolean),
       currency: router?.query?.currency,
     };
+
+    data = isOnlyTicket ? { ..._omit(data, 'price') } : { ...data };
 
     handleCreateMenu(
       !isCouponEnabled ? { ..._omit(data, 'ticket') } : { ...data },
@@ -130,9 +134,11 @@ const MenuReview = () => {
               ))}
             </Box>
           </RowItem>
-          <RowItem label={MENU_INFO.PRICE}>{`${Helper.addComma(
-            initialValues?.price,
-          )}円`}</RowItem>
+          {!isOnlyTicket && (
+            <RowItem label={MENU_INFO.PRICE}>{`${Helper.addComma(
+              initialValues?.price,
+            )}円`}</RowItem>
+          )}
           {/* Field for Ticket/ Coupon */}
           {isCouponEnabled && (
             <>
