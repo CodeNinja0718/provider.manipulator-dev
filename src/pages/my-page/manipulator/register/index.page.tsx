@@ -157,6 +157,7 @@ const ManipulatorRegisterPage = () => {
           }}
           data={profileData}
           loading={isLoading}
+          confirmText="登録する"
         />
       ) : (
         <ManipulatorProfile
