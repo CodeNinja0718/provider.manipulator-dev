@@ -3,7 +3,7 @@ import type { InferType } from 'yup';
 import { array, boolean, number, object, string } from 'yup';
 
 const schema = object({
-  name: string().required(),
+  name: string().max(100, 'Order must be between 1 and 255').required(),
   order: number()
     .required()
     .min(1, 'Order must be between 1 and 100')
