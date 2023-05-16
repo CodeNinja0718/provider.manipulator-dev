@@ -1,28 +1,51 @@
 import Layout from 'components/Layout';
 import MenuForm from 'components/MenuForm';
 import type { MenuFormValues } from 'components/MenuForm/models/schema';
+import MenuReview from 'components/MenuReview';
 import { useRouter } from 'next/router';
-import Helper from 'utils/helpers';
+import { useState } from 'react';
+
+import useInitValue from '../../hook/useInitValue';
 
 const RegisterMenuPage = () => {
   const router = useRouter();
 
-  const handleSubmit = (params: MenuFormValues) => {
+  const initValues = { ...useInitValue() };
+
+  const { confirm } = router.query;
+  const isConfirm = typeof confirm === 'string' && confirm === 'true';
+
+  const [menuData, setMenuData] = useState<MenuFormValues>(initValues);
+
+  const viewConfirmScreen = (params: MenuFormValues) => {
+    setMenuData(params);
     router.push(
-      `${Helper.parseURLByParams(
-        params,
-        `/my-page/menu/register/${router?.query.slug}`,
-      )}`,
+      {
+        pathname: `/my-page/menu/register/${router?.query.slug}`,
+        query: {
+          confirm: 'true',
+        },
+      },
+      undefined,
+      {
+        shallow: true,
+      },
     );
-    router.push(
-      `${Helper.parseURLByParams(
-        params,
-        `/my-page/menu/register-review/${router?.query.slug}`,
-      )}`,
-    );
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
-  return <MenuForm onSubmit={handleSubmit} />;
+  return (
+    <>
+      {isConfirm ? (
+        <MenuReview menuData={menuData} />
+      ) : (
+        <MenuForm onSubmit={viewConfirmScreen} defaultValues={menuData} />
+      )}
+    </>
+  );
 };
 
 RegisterMenuPage.getLayout = (page: React.ReactNode) => {
