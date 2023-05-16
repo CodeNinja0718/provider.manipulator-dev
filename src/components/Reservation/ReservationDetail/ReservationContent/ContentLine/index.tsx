@@ -25,7 +25,7 @@ const ContentLine: React.FC<ContentLineProps> = ({
       </Grid>
       {!end ? (
         <Grid item xs={center ? 12 : false} tablet={true}>
-          <Typography fontSize={16}>{center}</Typography>
+          <Typography fontSize={{ xs: 14, tablet: 16 }}>{center}</Typography>
         </Grid>
       ) : (
         <Grid
@@ -37,7 +37,7 @@ const ContentLine: React.FC<ContentLineProps> = ({
             tablet: isAlignRightCenter ? 'right' : 'left',
           }}
         >
-          <Typography fontSize={16}>{center}</Typography>
+          <Typography fontSize={{ xs: 14, tablet: 16 }}>{center}</Typography>
         </Grid>
       )}
       <Grid item xs={4} tablet={'auto'} textAlign="right">
