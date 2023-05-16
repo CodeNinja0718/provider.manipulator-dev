@@ -76,8 +76,8 @@ const PaymentDetail: React.FC<IPaymentDetail> = ({
               />
             }
           />
+          <TreatmentDetail initialTreatmentValues={initialTreatmentValues} />
         </Stack>
-        <TreatmentDetail initialTreatmentValues={initialTreatmentValues} />
         <PaymentFee initialTreatmentValues={initialTreatmentValues} />
       </Box>
     </CommonSection>
