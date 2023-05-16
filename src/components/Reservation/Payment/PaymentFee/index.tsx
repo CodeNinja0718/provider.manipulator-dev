@@ -16,31 +16,39 @@ const PaymentFee: React.FC<IPaymentFee> = ({ initialTreatmentValues }) => {
       <Typography sx={styles.label}>お支払い料金</Typography>
       <Stack spacing={20} divider={<Divider flexItem />}>
         {/* Ticket, Coupon */}
-        {/* <ContentLine start="回数券" end="1回使用" />
+        <ContentLine start="回数券" end="1回使用" />
         <ContentLine
           start="クーポン"
-          center="期間限定 1,000円クーポン"
-          end={<Typography color="#d82c2c">- 1,000円</Typography>}
-          isAlignRightCenter
-        /> */}
-        <ContentLine
-          start="お支払い金額"
-          end={
-            <Typography fontWeight={600}>
-              <Box display={'inline-block'} fontSize={26}>
-                <NumericFormat
-                  value={initialTreatmentValues?.price || 0}
-                  thousandSeparator=","
-                  suffix="円"
-                  displayType="text"
-                  renderText={(value) => {
-                    return value;
-                  }}
-                />
-              </Box>
+          center={
+            <Typography fontWeight={'bold'}>
+              期間限定 1,000円クーポン
             </Typography>
           }
+          end={<Typography color="#d82c2c">- 1,000円</Typography>}
+          isAlignRightCenter
         />
+        <Stack
+          flexDirection={'row'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+        >
+          <Typography fontWeight={'bold'}>お支払い金額</Typography>
+          <Box display={'inline-block'}>
+            <NumericFormat
+              value={initialTreatmentValues?.price || 0}
+              thousandSeparator=","
+              suffix="円"
+              displayType="text"
+              renderText={(value) => {
+                return (
+                  <Typography fontWeight={'bold'} fontSize={26}>
+                    {value}
+                  </Typography>
+                );
+              }}
+            />
+          </Box>
+        </Stack>
       </Stack>
     </Box>
   );
