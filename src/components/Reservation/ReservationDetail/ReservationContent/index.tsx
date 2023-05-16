@@ -58,19 +58,25 @@ const ReservationContent: React.FC<IReservationContent> = ({
             }
           />
           {/* Coupon */}
-          <ContentLine
-            start="回数券利用"
-            center={ticketUsed ? `${ticketUsed.toString()}回` : '-'}
-          />
-          <ContentLine
-            start="クーポン"
-            center={couponDiscount ? couponDiscount.toString() : '-'}
-          />
+          {ticketUsed && (
+            <ContentLine
+              start="回数券利用"
+              center={`${ticketUsed.toString()}回`}
+            />
+          )}
+          {couponDiscount && (
+            <ContentLine start="クーポン" center={couponDiscount.toString()} />
+          )}
+
           <ContentLine
             start="お支払い金額"
             end={
               <Typography fontWeight={600}>
-                <Box display={'inline-block'} fontSize={26}>
+                <Box
+                  display={'inline-block'}
+                  whiteSpace={'nowrap'}
+                  fontSize={26}
+                >
                   <NumericFormat
                     value={menuInfo?.price || 0}
                     thousandSeparator=","
