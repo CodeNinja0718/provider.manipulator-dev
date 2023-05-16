@@ -34,6 +34,16 @@ const styles: Record<string, SxProps<Theme>> = {
     fontWeight: 400,
     ml: 7,
   },
+  menuList: {
+    minWidth: 'initial',
+    maxWidth: 570,
+  },
+  menuItemSx: {
+    whiteSpace: 'initial',
+  },
+  menuField: {
+    maxWidth: 570,
+  },
 };
 
 export default styles;
