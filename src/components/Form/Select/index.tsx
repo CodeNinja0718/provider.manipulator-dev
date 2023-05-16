@@ -1,6 +1,6 @@
 import ArrowDownSvg from '@icons/arrow-down.svg';
 import CloseIcon from '@icons/close.svg';
-import type { FormControlProps } from '@mui/material';
+import type { FormControlProps, SxProps, Theme } from '@mui/material';
 import { Box, FormControl, IconButton } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import type { SelectChangeEvent, SelectProps } from '@mui/material/Select';
@@ -26,6 +26,8 @@ interface SelectFieldProps<TFormValues extends FieldValues>
   formControlProps?: FormControlProps;
   fixedHelperText?: boolean;
   handleChange?: (e?: SelectChangeEvent) => void;
+  menuListProps?: SxProps<Theme>;
+  menuItemSx?: SxProps<Theme>;
 }
 
 const Select = <TFormValues extends FieldValues>({
@@ -42,6 +44,8 @@ const Select = <TFormValues extends FieldValues>({
   showError = true,
   fixedHelperText = true,
   handleChange,
+  menuListProps,
+  menuItemSx,
   ...props
 }: SelectFieldProps<TFormValues>) => {
   const {
@@ -84,6 +88,7 @@ const Select = <TFormValues extends FieldValues>({
             sx: {
               maxHeight: 300,
               px: 1,
+              ...menuListProps,
             },
           },
         }}
@@ -108,11 +113,24 @@ const Select = <TFormValues extends FieldValues>({
           );
         }}
       >
-        <MenuItem key="none" value="" disabled={required}>
+        <MenuItem
+          key="none"
+          value=""
+          disabled={required}
+          sx={{
+            ...menuItemSx,
+          }}
+        >
           <Box sx={styles.placeholder}>{placeholder}</Box>
         </MenuItem>
         {data.map((item) => (
-          <MenuItem key={item.id} value={item.id}>
+          <MenuItem
+            key={item.id}
+            value={item.id}
+            sx={{
+              ...menuItemSx,
+            }}
+          >
             {item.name}
           </MenuItem>
         ))}

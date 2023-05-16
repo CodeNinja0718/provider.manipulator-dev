@@ -41,13 +41,17 @@ const ReservationTreatment: React.FC<IReservationTreatment> = ({
           ※この項目は、施術完了後に入力してください。
         </Typography>
         <Box mt={15}>
-          <Select
-            label="メニュー名"
-            name="menuId"
-            control={control}
-            placeholder="時間予約コース"
-            data={menuList}
-          />
+          <Box sx={styles.menuField}>
+            <Select
+              label="メニュー名"
+              name="menuId"
+              control={control}
+              placeholder="時間予約コース"
+              data={menuList}
+              menuListProps={styles.menuList}
+              menuItemSx={styles.menuItemSx}
+            />
+          </Box>
 
           <Upload
             label="ファイル添付（カルテ・施術メモなど）"
