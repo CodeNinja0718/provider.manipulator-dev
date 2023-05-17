@@ -1,27 +1,59 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
 import { Select, TextField, Upload } from 'components/Form';
+import Label from 'components/Form/Label';
 import NumberField from 'components/Form/NumberField';
 import React, { useEffect } from 'react';
 import type { Control, UseFormSetValue } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 import { UNIT } from 'utils/const';
 
 import type { TreatmentFormValues } from './models/schema';
 import styles from './styles';
 
-interface IMenuList {
+interface ISelectableList {
   id: string | number;
   name: string | number;
 }
 interface IReservationTreatment {
-  menuList: IMenuList[];
+  menuList: ISelectableList[];
+  couponList: ISelectableList[];
   control: Control<TreatmentFormValues>;
   initialTreatmentValues: TreatmentFormValues;
   setValue: UseFormSetValue<TreatmentFormValues>;
 }
 
+interface TicketCheckboxProps {
+  control: Control<TreatmentFormValues>;
+}
+
+const TicketCheckbox = ({ control }: TicketCheckboxProps) => {
+  const {
+    field: { value = false, onChange },
+  } = useController({
+    name: 'isTicketUsed',
+    control,
+  });
+  return (
+    <Box display={'flex'} flexDirection={'column'} mb={12}>
+      <Label htmlFor="" label="回数券利用" required={false} />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={value}
+            onChange={onChange}
+            className="customRadio"
+          />
+        }
+        label="1回"
+      />
+    </Box>
+  );
+};
+
 const ReservationTreatment: React.FC<IReservationTreatment> = ({
   menuList,
+  couponList,
   control,
   initialTreatmentValues,
   setValue,
@@ -83,9 +115,22 @@ const ReservationTreatment: React.FC<IReservationTreatment> = ({
               </Typography>
             }
           />
+          <TicketCheckbox control={control} />
+          <Box sx={styles.menuField}>
+            <Select
+              label="クーポン"
+              name="couponCode"
+              control={control}
+              placeholder="クーポン"
+              data={couponList}
+              menuListProps={styles.menuList}
+              menuItemSx={styles.menuItemSx}
+            />
+          </Box>
         </Box>
       </Box>
     </CommonSection>
   );
 };
+
 export default ReservationTreatment;

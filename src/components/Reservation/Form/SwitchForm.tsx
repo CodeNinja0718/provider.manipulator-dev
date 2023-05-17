@@ -20,6 +20,15 @@ interface ISwitchForm {
   treatmentData?: TreatmentFormValues | any;
 }
 
+const COUPONS = [
+  { id: '1', name: 'COUPON 1' },
+  { id: '2', name: 'COUPON 2' },
+  { id: '3', name: 'COUPON 3' },
+  { id: '4', name: 'COUPON 4' },
+  { id: '5', name: 'COUPON 5' },
+  { id: '6', name: 'COUPON 6' },
+];
+
 const SwitchForm = ({
   isShowTreatment,
   isPaymentConfirmation,
@@ -43,6 +52,11 @@ const SwitchForm = ({
         };
       });
   }, [res]);
+
+  const couponList = useMemo(() => {
+    const data = COUPONS || [];
+    return data;
+  }, []);
 
   if (reservationData?.status === RESERVATION_STATUS.DONE) {
     return <ReservationContent {...reservationData} />;
@@ -72,6 +86,7 @@ const SwitchForm = ({
         initialTreatmentValues={initialTreatmentValues}
         setValue={setValue}
         menuList={menuList}
+        couponList={couponList}
       />
     );
   }
