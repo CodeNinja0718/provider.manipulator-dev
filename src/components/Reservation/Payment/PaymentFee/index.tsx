@@ -16,17 +16,21 @@ const PaymentFee: React.FC<IPaymentFee> = ({ initialTreatmentValues }) => {
       <Typography sx={styles.label}>お支払い料金</Typography>
       <Stack spacing={20} divider={<Divider flexItem />}>
         {/* Ticket, Coupon */}
-        <ContentLine start="回数券" end="1回使用" />
-        <ContentLine
-          start="クーポン"
-          center={
-            <Typography fontWeight={'bold'}>
-              期間限定 1,000円クーポン
-            </Typography>
-          }
-          end={<Typography color="#d82c2c">- 1,000円</Typography>}
-          isAlignRightCenter
-        />
+        {initialTreatmentValues.isTicketUsed && (
+          <ContentLine start="回数券" end="1回使用" />
+        )}
+        {!!initialTreatmentValues.couponCode && (
+          <ContentLine
+            start="クーポン"
+            center={
+              <Typography fontWeight={'bold'}>
+                期間限定 1,000円クーポン
+              </Typography>
+            }
+            end={<Typography color="#d82c2c">- 1,000円</Typography>}
+            isAlignRightCenter
+          />
+        )}
         <Stack
           flexDirection={'row'}
           justifyContent={'space-between'}

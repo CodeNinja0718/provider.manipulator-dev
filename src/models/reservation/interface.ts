@@ -46,8 +46,8 @@ export interface IMenuItem {
 export interface ResultMenu {
   menuId: string;
   menuInfo: IMenuItem;
-  amount: number;
-  totalAmount: number;
+  originalPrice: number;
+  finalPrice: number;
   discountAmount: number;
 }
 
@@ -65,7 +65,7 @@ interface IMenuPlan extends IMenuItem {
 interface IPlan {
   menuId: string;
   menuInfo: IMenuPlan;
-  amount: number;
-  totalAmount: number;
+  originalPrice: number;
+  finalPrice: number;
   discountAmount: number;
 }

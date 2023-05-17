@@ -24,6 +24,8 @@ const ReservationContent: React.FC<IReservationContent> = ({
   salonInfo,
   ticketUsed,
   couponDiscount,
+  originalPrice,
+  finalPrice,
 }) => {
   const valueDate =
     startTime || endTime ? dayjs(startTime || endTime) : dayjs();
@@ -46,7 +48,7 @@ const ReservationContent: React.FC<IReservationContent> = ({
             end={
               <Typography>
                 <NumericFormat
-                  value={menuInfo?.price || 0}
+                  value={originalPrice || 0}
                   thousandSeparator=","
                   suffix="円"
                   displayType="text"
@@ -58,14 +60,17 @@ const ReservationContent: React.FC<IReservationContent> = ({
             }
           />
           {/* Coupon */}
-          {ticketUsed && (
+          {!!ticketUsed && (
             <ContentLine
               start="回数券利用"
               center={`${ticketUsed.toString()}回`}
             />
           )}
-          {couponDiscount && (
-            <ContentLine start="クーポン" center={couponDiscount.toString()} />
+          {!!couponDiscount && (
+            <ContentLine
+              start="クーポン"
+              center={`期間限定 ${couponDiscount}円クーポン`}
+            />
           )}
 
           <ContentLine
@@ -78,7 +83,7 @@ const ReservationContent: React.FC<IReservationContent> = ({
                   fontSize={26}
                 >
                   <NumericFormat
-                    value={menuInfo?.price || 0}
+                    value={finalPrice || 0}
                     thousandSeparator=","
                     suffix="円"
                     displayType="text"

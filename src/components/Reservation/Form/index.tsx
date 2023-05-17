@@ -57,13 +57,15 @@ const Form = () => {
           ticketUsed: res?.ticketUsed,
           couponDiscount: res?.couponDiscount,
         };
-  const initialTreatmentValues = {
+  const initialTreatmentValues: TreatmentFormValues = {
     price: treatmentData?.price || res?.plan?.menuInfo?.price,
     treatmentInfo:
       treatmentData?.treatmentInfo || res?.treatmentInfo?.treatmentInfo || '',
     menuId: treatmentData?.menuId || res?.plan?.menuId,
     treatmentFile:
       treatmentData?.treatmentFile || res?.treatmentInfo?.treatmentFile || [],
+    isTicketUsed: treatmentData?.isTicketUsed || !!res?.ticketUsed,
+    couponCode: treatmentData?.couponCode || '',
   };
 
   const { control, handleSubmit, setValue } = useForm<TreatmentFormValues>({
