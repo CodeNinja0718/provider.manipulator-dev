@@ -46,7 +46,7 @@ const ManipulatorProfileConfirm: React.FC<ManipulatorProfileConfirmProps> = ({
   data,
   loading,
   handleConfirm,
-  confirmText = '修正する',
+  confirmText = '登録する',
   handleCancel,
 }) => {
   const { data: response } = useFetch<ICommonDataSalon>(resourceQuery.general);
