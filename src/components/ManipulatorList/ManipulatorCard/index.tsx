@@ -25,7 +25,7 @@ const ManipulatorCard = ({ data }: ManipulatorCardProps) => {
   let avatarUrl = `/icons/default-avatar.svg`;
 
   if (avatarContent) {
-    avatarUrl = avatarContent.url
+    avatarUrl = avatarContent.url;
   }
 
   return (
