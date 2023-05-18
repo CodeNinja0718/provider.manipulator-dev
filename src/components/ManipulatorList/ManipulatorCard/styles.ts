@@ -83,6 +83,9 @@ const styles: Record<string, SxProps> = {
     left: 10,
     display: 'flex',
     justifyContent: 'center',
+    background: 'white',
+    borderRadius:'100%',
+    overflow:'hidden'
   },
 };
 

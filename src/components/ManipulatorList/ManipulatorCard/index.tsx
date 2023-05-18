@@ -21,6 +21,13 @@ const ManipulatorCard = ({ data }: ManipulatorCardProps) => {
     router.push(`${pathname}/${data?._id}`);
   };
 
+  const avatarContent = data.photos.find((photo) => photo.type === 'avatar');
+  let avatarUrl = `/icons/default-avatar.svg`;
+
+  if (avatarContent) {
+    avatarUrl = avatarContent.url
+  }
+
   return (
     <Box sx={styles.wrapper}>
       <Box
@@ -49,7 +56,7 @@ const ManipulatorCard = ({ data }: ManipulatorCardProps) => {
           <Box width={90}>
             <Box sx={styles.avatarWrapper}>
               <Image
-                src="/icons/default-avatar.svg"
+                src={avatarUrl}
                 alt="Manipulator avatar"
                 width={50}
                 height={50}
