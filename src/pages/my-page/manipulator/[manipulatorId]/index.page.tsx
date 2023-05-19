@@ -68,6 +68,7 @@ const ManipulatorRegisterPage = () => {
         pr,
         supportedSymptoms,
         nationalLicenses,
+        verifyEmail,
       } = detailData;
 
       const avatarContent = photos.find((photo) => photo.type === 'avatar');
@@ -117,7 +118,7 @@ const ManipulatorRegisterPage = () => {
           })),
         })),
         photos: photoImages,
-        isRegister: ['confirm_register'],
+        isRegister: verifyEmail ? ['confirm_register'] : [],
       };
       setProfileData(newValues);
     }

@@ -31,4 +31,5 @@ export interface IManipulatorItem {
   pr: string;
   supportedSymptoms: { id: string; name: string }[];
   defaultShifts: BusinessHour[];
+  verifyEmail: boolean;
 }
