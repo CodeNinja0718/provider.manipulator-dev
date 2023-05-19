@@ -44,6 +44,14 @@ const styles: Record<string, SxProps<Theme>> = {
   menuField: {
     maxWidth: 570,
   },
+  radioWrapper: {
+    '& .customRadio': {
+      padding: 0,
+      pl: 8,
+      mr: 16,
+      alignSelf: 'flex-start',
+    },
+  },
 };
 
 export default styles;

@@ -5,6 +5,7 @@ export interface IListItem {
 
 export interface IListResult<T> {
   docs: T[];
+  items: T[];
   totalDocs: number;
   limit: number;
   page: number;
