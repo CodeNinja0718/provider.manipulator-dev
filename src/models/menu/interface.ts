@@ -2,6 +2,7 @@ interface ITicket {
   price: number;
   numberOfTicket: number;
   expiryMonth: number;
+  id: string;
 }
 
 export interface IMenu {

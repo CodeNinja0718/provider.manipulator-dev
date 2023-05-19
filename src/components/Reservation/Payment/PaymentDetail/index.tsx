@@ -5,6 +5,7 @@ import type { TreatmentFormValues } from 'components/Reservation/ReservationTrea
 import dayjs from 'dayjs';
 import type { IMenu } from 'models/menu/interface';
 import type { ISalonInfo, ResultMenu } from 'models/reservation/interface';
+import type { ICoupon, ICouponTicket } from 'models/tickets/interface';
 import React from 'react';
 import { NumericFormat } from 'react-number-format';
 import { DATE_FORMAT } from 'utils/const';
@@ -18,16 +19,18 @@ interface IPaymentDetail extends ResultMenu {
   endTime: string;
   salonInfo: ISalonInfo;
   initialTreatmentValues: TreatmentFormValues;
-  menuUpdatingInfo: IMenu[];
+  menuUpdatingInfo: IMenu;
+  couponData?: ICoupon;
+  ticketData?: ICouponTicket;
 }
 
 const PaymentDetail: React.FC<IPaymentDetail> = ({
-  menuInfo,
   startTime,
   endTime,
   salonInfo,
   initialTreatmentValues,
   menuUpdatingInfo,
+  couponData,
 }) => {
   const handleGetDate = () => {
     const valueDate =
@@ -36,7 +39,7 @@ const PaymentDetail: React.FC<IPaymentDetail> = ({
   };
 
   const handleGetEndTime = () => {
-    const endTimeMili = (menuUpdatingInfo?.[0]?.estimatedTime || 1) * 60000;
+    const endTimeMili = (menuUpdatingInfo?.estimatedTime || 1) * 60000;
     const newEndTime = dayjs.utc(startTime).valueOf() + endTimeMili;
 
     return newEndTime;
@@ -59,14 +62,16 @@ const PaymentDetail: React.FC<IPaymentDetail> = ({
           />
           <ContentLine
             start="予約コース"
-            center={`${menuUpdatingInfo?.[0]?.name || menuInfo?.name} ${
-              menuUpdatingInfo?.[0]?.estimatedTime ||
-              menuInfo?.estimatedTime ||
-              0
+            center={`${menuUpdatingInfo?.name} ${
+              menuUpdatingInfo?.estimatedTime || 0
             }分`}
             end={
               <NumericFormat
-                value={initialTreatmentValues?.price || 0}
+                value={
+                  (initialTreatmentValues.priceType === 'ticket'
+                    ? menuUpdatingInfo.ticket?.price
+                    : initialTreatmentValues?.price) || 0
+                }
                 thousandSeparator=","
                 suffix="円"
                 displayType="text"
@@ -78,7 +83,15 @@ const PaymentDetail: React.FC<IPaymentDetail> = ({
           />
           <TreatmentDetail initialTreatmentValues={initialTreatmentValues} />
         </Stack>
-        <PaymentFee initialTreatmentValues={initialTreatmentValues} />
+        <PaymentFee
+          initialTreatmentValues={initialTreatmentValues}
+          couponData={couponData}
+          ticketData={
+            initialTreatmentValues.priceType === 'ticket'
+              ? { price: menuUpdatingInfo.ticket.price }
+              : undefined
+          }
+        />
       </Box>
     </CommonSection>
   );

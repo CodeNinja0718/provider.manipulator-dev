@@ -1,18 +1,16 @@
 import { Box } from '@mui/material';
-import { useMutate } from 'hooks';
-import _omit from 'lodash/omit';
-import type { ICustomerInfo, ISalonInfo } from 'models/reservation/interface';
-import reservationQuery from 'models/reservation/query';
-import { useRouter } from 'next/router';
+import type { ISalonInfo } from 'models/reservation/interface';
+import type { ICoupon, ICouponTicket } from 'models/tickets/interface';
 import { useState } from 'react';
 import type { Control, UseFormSetValue } from 'react-hook-form';
-import Helper from 'utils/helpers';
 
 import type { TreatmentFormValues } from '../ReservationTreatment/models/schema';
 import ButtonForm from './ButtonForm';
 import SwitchForm from './SwitchForm';
 
 interface IReservationForm {
+  isLoading?: boolean;
+  isSubmitLoading?: boolean;
   isShowTreatment: string | any;
   isPaymentConfirmation: boolean;
   control: Control<TreatmentFormValues>;
@@ -21,10 +19,14 @@ interface IReservationForm {
   reservationData: ISalonInfo | TreatmentFormValues | any;
   onBackTreatmentForm: (value: TreatmentFormValues | any) => void;
   treatmentData?: TreatmentFormValues | any;
-  customerInfo: ICustomerInfo;
+  couponList?: ICoupon[];
+  ticketList?: ICouponTicket[];
+  onSubmit?: (callback: () => void) => void;
 }
 
 const ReservationForm = ({
+  isLoading,
+  isSubmitLoading = false,
   isShowTreatment,
   isPaymentConfirmation,
   control,
@@ -33,48 +35,20 @@ const ReservationForm = ({
   setValue,
   onBackTreatmentForm,
   treatmentData,
-  customerInfo,
+  couponList,
+  ticketList,
+  onSubmit = () => {},
 }: IReservationForm) => {
   const [disabled, setDisabled] = useState(false);
-  const router = useRouter();
   /**
    * isShowTreatment: Show treatment form
    * isPaymentConfirmation: Show on Payment confirmation form
    */
-  const { mutateAsync: handleReservationCompleted, isLoading } = useMutate(
-    reservationQuery.reservationComplete(router?.query?.reservationId),
-  );
 
   const handleSubmit = () => {
-    const params = _omit(initialTreatmentValues, ['treatmentFile', 'price']);
-    const file = initialTreatmentValues?.treatmentFile?.[0];
-    const registrationParams = {
-      menuId: initialTreatmentValues?.menuId,
-      reservationId: router?.query?.reservationId,
-      customerName: customerInfo?.name || '',
-    };
-
-    handleReservationCompleted(
-      {
-        ...params,
-        amount: initialTreatmentValues.price || 0,
-        treatmentFile: {
-          name: file?.originalName || '',
-          objectKey: file?.key || '',
-        },
-      },
-      {
-        onSuccess: () => {
-          setDisabled(true);
-          router.push(
-            `${Helper.parseURLByParams(
-              registrationParams,
-              `/my-page/reservation/complete-payment`,
-            )}`,
-          );
-        },
-      },
-    );
+    onSubmit(() => {
+      setDisabled(true);
+    });
   };
 
   return (
@@ -88,6 +62,10 @@ const ReservationForm = ({
           initialTreatmentValues={initialTreatmentValues}
           setValue={setValue}
           reservationData={reservationData}
+          couponList={couponList}
+          ticketList={ticketList}
+          isLoading={isLoading}
+          treatmentData={treatmentData}
         />
         <ButtonForm
           isShowTreatment={isShowTreatment}
@@ -96,7 +74,7 @@ const ReservationForm = ({
           treatmentData={treatmentData}
           onBackTreatmentForm={onBackTreatmentForm}
           onSubmit={handleSubmit}
-          isLoading={isLoading}
+          isLoading={isSubmitLoading}
           status={reservationData?.status}
         />
       </Box>
