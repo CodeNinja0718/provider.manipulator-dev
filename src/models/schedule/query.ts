@@ -1,7 +1,7 @@
 const scheduleQuery = {
   salonSchedule: ({ salonId, ...params }: Record<string, unknown>) => ({
     apiUrl: `/schedule/${salonId}/daily-schedules`,
-    queryKey: ['salon', 'schedule'],
+    queryKey: ['schedule'],
     customParams: params,
   }),
   getWorkingTime: (
@@ -9,14 +9,14 @@ const scheduleQuery = {
     salonId: string | any,
     enabledRequest: boolean,
   ) => ({
-    queryKey: ['working-time', 'salonId', date],
+    queryKey: ['schedule', 'working-time', 'salonId', date],
     apiUrl: `schedule/${salonId}/schedules-within-date?date=${date}`,
     useUrlQuery: false,
     enabled: enabledRequest,
     cacheTime: 0,
   }),
   updateWorkingTime: (salonId: string | any, enabledRequest: boolean) => ({
-    queryKey: ['working-time', 'salonId', 'update'],
+    queryKey: ['schedule', 'working-time', 'salonId', 'update'],
     apiUrl: `schedule/${salonId}/schedules-within-date`,
     useUrlQuery: false,
     method: 'put',

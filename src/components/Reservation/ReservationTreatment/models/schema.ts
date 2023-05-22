@@ -6,6 +6,8 @@ const schema = object({
   treatmentInfo: string().required(),
   treatmentFile: array(),
   menuId: string(),
+  couponCode: string(),
+  priceType: string().required(),
 });
 
 export default schema;

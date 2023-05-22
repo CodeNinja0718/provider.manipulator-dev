@@ -36,8 +36,7 @@ const WorkingTimePage = () => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['salon', 'schedule'],
-            exact: true,
+            queryKey: ['schedule'],
           });
           setDisabled(true);
           router.push({

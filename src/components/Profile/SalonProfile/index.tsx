@@ -64,7 +64,7 @@ const SalonProfile: React.FC<SalonProfileProps> = ({
   data,
   loading,
   handleConfirm,
-  confirmText = '登録する',
+  confirmText = '修正する',
   handleCancel,
 }) => {
   const { data: areas } = useFetch<{ result: IPrefectureItem[] }>(

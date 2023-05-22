@@ -1,30 +1,42 @@
-import { Box, Typography } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material';
+import { Box, CircularProgress, Stack, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
 import { Select, TextField, Upload } from 'components/Form';
-import NumberField from 'components/Form/NumberField';
+import type { IMenu } from 'models/menu/interface';
+import type {
+  ICouponTicket,
+  ISelectableCoupon,
+} from 'models/tickets/interface';
 import React, { useEffect } from 'react';
 import type { Control, UseFormSetValue } from 'react-hook-form';
-import { UNIT } from 'utils/const';
 
+import CouponSelect from './CouponSelect';
 import type { TreatmentFormValues } from './models/schema';
+import PriceTypeSelect from './PriceTypeSelect';
 import styles from './styles';
 
-interface IMenuList {
-  id: string | number;
-  name: string | number;
+export interface IMenuSelectableList extends IMenu {
+  id: string;
+  name: string;
 }
 interface IReservationTreatment {
-  menuList: IMenuList[];
+  isLoading?: boolean;
+  menuList: IMenuSelectableList[];
+  couponList: ISelectableCoupon[];
+  ticketList: ICouponTicket[];
   control: Control<TreatmentFormValues>;
   initialTreatmentValues: TreatmentFormValues;
   setValue: UseFormSetValue<TreatmentFormValues>;
 }
 
 const ReservationTreatment: React.FC<IReservationTreatment> = ({
+  isLoading,
   menuList,
+  couponList,
   control,
   initialTreatmentValues,
   setValue,
+  ticketList,
 }) => {
   useEffect(() => {
     if (initialTreatmentValues) {
@@ -34,6 +46,30 @@ const ReservationTreatment: React.FC<IReservationTreatment> = ({
     }
   }, [initialTreatmentValues, setValue]);
 
+  const onMenuChange = (e: SelectChangeEvent | undefined) => {
+    const selectedMenuId = !!e && e.target.value;
+
+    if (!selectedMenuId || selectedMenuId !== initialTreatmentValues.menuId) {
+      setValue('priceType', 'one-shot');
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <CommonSection title="施術内容">
+        <Stack
+          alignItems="center"
+          justifyContent="flex-start"
+          minHeight={570}
+          paddingTop={24}
+          alignSelf={'stretch'}
+        >
+          <CircularProgress />
+        </Stack>
+      </CommonSection>
+    );
+  }
+
   return (
     <CommonSection title="施術内容">
       <Box sx={styles.contentWarpper}>
@@ -41,13 +77,18 @@ const ReservationTreatment: React.FC<IReservationTreatment> = ({
           ※この項目は、施術完了後に入力してください。
         </Typography>
         <Box mt={15}>
-          <Select
-            label="メニュー名"
-            name="menuId"
-            control={control}
-            placeholder="時間予約コース"
-            data={menuList}
-          />
+          <Box sx={styles.menuField}>
+            <Select
+              label="メニュー名"
+              name="menuId"
+              control={control}
+              placeholder="時間予約コース"
+              data={menuList}
+              menuListProps={styles.menuList}
+              menuItemSx={styles.menuItemSx}
+              handleChange={onMenuChange}
+            />
+          </Box>
 
           <Upload
             label="ファイル添付（カルテ・施術メモなど）"
@@ -65,23 +106,18 @@ const ReservationTreatment: React.FC<IReservationTreatment> = ({
             rows={6}
           />
 
-          <NumberField
-            name="price"
+          <PriceTypeSelect
+            menuList={menuList}
+            ticketList={ticketList}
             control={control}
-            label="料金（税抜)"
-            placeholder="6,000"
-            showEndAdornment={false}
-            className="maxHeight maxWidth"
-            sx={styles.numberField}
-            unitLabel={
-              <Typography sx={{ ...styles.unitLabel, ml: 12 }}>
-                {UNIT.YEN}
-              </Typography>
-            }
+            initialTreatmentValues={initialTreatmentValues}
           />
+
+          <CouponSelect control={control} couponList={couponList} />
         </Box>
       </Box>
     </CommonSection>
   );
 };
+
 export default ReservationTreatment;

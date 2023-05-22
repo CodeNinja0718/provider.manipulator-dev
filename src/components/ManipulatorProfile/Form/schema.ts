@@ -12,6 +12,13 @@ const parseTimeSlot = (time: string | undefined) => {
 };
 
 const schema = object({
+  avatar: object({
+    url: string(),
+    fileUrl: string(),
+    originUrl: string(),
+    objectKey: string(),
+    key: string(),
+  }).nullable(),
   name: string().trim().required(),
   nameKana: string()
     .trim()

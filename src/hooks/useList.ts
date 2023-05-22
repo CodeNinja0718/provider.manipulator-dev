@@ -67,6 +67,10 @@ const useList = <TQueryFnData = unknown>(
   const { data, isFetching, refetch, isLoading } = useQuery(
     [...queryKey, formattedParams],
     async () => {
+      if (apiUrl.includes('undefined')) {
+        return null;
+      }
+
       const { data: result }: { data: IListResult<TQueryFnData> } =
         await api.get(apiUrl, {
           params: formattedParams,
@@ -80,7 +84,7 @@ const useList = <TQueryFnData = unknown>(
   );
 
   return {
-    list: data?.docs || [],
+    list: data?.docs || data?.items || [],
     total: data?.totalDocs || 0,
     totalPages: data?.totalPages || 0,
     page: data?.page || 1,

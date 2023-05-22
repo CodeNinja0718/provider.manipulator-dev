@@ -13,6 +13,8 @@ interface IReservationContent extends ResultMenu {
   startTime: string;
   endTime: string;
   salonInfo: ISalonInfo;
+  ticketUsed?: number;
+  couponDiscount?: number;
 }
 
 const ReservationContent: React.FC<IReservationContent> = ({
@@ -20,6 +22,10 @@ const ReservationContent: React.FC<IReservationContent> = ({
   startTime,
   endTime,
   salonInfo,
+  ticketUsed,
+  couponDiscount,
+  originalPrice,
+  finalPrice,
 }) => {
   const valueDate =
     startTime || endTime ? dayjs(startTime || endTime) : dayjs();
@@ -42,7 +48,7 @@ const ReservationContent: React.FC<IReservationContent> = ({
             end={
               <Typography>
                 <NumericFormat
-                  value={menuInfo?.price || 0}
+                  value={originalPrice || 0}
                   thousandSeparator=","
                   suffix="円"
                   displayType="text"
@@ -54,15 +60,30 @@ const ReservationContent: React.FC<IReservationContent> = ({
             }
           />
           {/* Coupon */}
-          {/* <ContentLine start="回数券利用" center="1回" /> */}
-          {/* <ContentLine start="クーポン" center="-" /> */}
+          {!!ticketUsed && (
+            <ContentLine
+              start="回数券利用"
+              center={`${ticketUsed.toString()}回`}
+            />
+          )}
+          {!!couponDiscount && (
+            <ContentLine
+              start="クーポン"
+              center={`期間限定 ${couponDiscount}円クーポン`}
+            />
+          )}
+
           <ContentLine
             start="お支払い金額"
             end={
               <Typography fontWeight={600}>
-                <Box display={'inline-block'} fontSize={26}>
+                <Box
+                  display={'inline-block'}
+                  whiteSpace={'nowrap'}
+                  fontSize={26}
+                >
                   <NumericFormat
-                    value={menuInfo?.price || 0}
+                    value={finalPrice || 0}
                     thousandSeparator=","
                     suffix="円"
                     displayType="text"

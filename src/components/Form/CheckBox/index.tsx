@@ -54,6 +54,7 @@ const CheckBox = <TFormValues extends FieldValues>({
     control,
   });
   const allIds = data.map((item) => item.id);
+
   return (
     <FormControl
       fullWidth
@@ -69,19 +70,34 @@ const CheckBox = <TFormValues extends FieldValues>({
             <Grid item xs={12} sm={12}>
               <FormControlLabel
                 disabled={disabled}
-                sx={{ whiteSpace: 'pre-line' }}
+                sx={{
+                  whiteSpace: 'pre-line',
+                  ml: 0,
+                  bgcolor: 'transparent !important',
+                }}
                 control={
                   <CheckboxBase
                     sx={{ p: 0, mt: 4, mr: 8 }}
-                    checked={value.length === data.length}
+                    checked={allIds.every((val) =>
+                      (value as any[]).includes(val),
+                    )}
                   />
                 }
-                label="Select all"
+                label="すべてチェック"
                 onChange={(_, checked) => {
                   if (checked) {
-                    onChange(allIds);
+                    onChange([
+                      ...value,
+                      ...new Set(
+                        allIds.filter((val) => !(value as any[]).includes(val)),
+                      ),
+                    ]);
                   } else {
-                    onChange([]);
+                    onChange([
+                      ...(value as any[]).filter(
+                        (val) => !allIds.includes(val),
+                      ),
+                    ]);
                   }
                 }}
               />

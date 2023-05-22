@@ -23,11 +23,21 @@ const SetPasswordPage = ({
   email: string;
 }) => {
   const router = useRouter();
-  const { mutateAsync: handleSetPassword, isLoading } = useMutate<{
-    email: string;
-    password: string;
-    token: string;
-  }>(authQuery.register);
+  const { owner } = router.query;
+  const isOwner = typeof owner === 'string' && owner === 'true';
+
+  const { mutateAsync: handleRegister, isLoading: isRegisterLoading } =
+    useMutate<{
+      email: string;
+      password: string;
+      token: string;
+    }>(authQuery.register);
+
+  const { mutateAsync: handleSetPassword, isLoading: isSetPasswordLoading } =
+    useMutate<{
+      password: string;
+      token: string;
+    }>(authQuery.setPassword);
 
   const { control, handleSubmit } = useForm<SetPasswordFormValues>({
     resolver: yupResolver(schema),
@@ -35,18 +45,32 @@ const SetPasswordPage = ({
   });
 
   const handleOnSubmit: SubmitHandler<SetPasswordFormValues> = (values) => {
-    handleSetPassword(
-      {
-        token,
-        email,
-        password: values.password,
-      },
-      {
-        onSuccess: () => {
-          router.replace('/login');
+    if (isOwner) {
+      handleRegister(
+        {
+          token,
+          email,
+          password: values.password,
         },
-      },
-    );
+        {
+          onSuccess: () => {
+            router.replace('/login');
+          },
+        },
+      );
+    } else {
+      handleSetPassword(
+        {
+          token,
+          password: values.password,
+        },
+        {
+          onSuccess: () => {
+            router.replace('/login');
+          },
+        },
+      );
+    }
   };
 
   return (
@@ -81,7 +105,7 @@ const SetPasswordPage = ({
         endIcon={<ArrowRight />}
         loadingPosition="end"
         sx={styles.submitBtn}
-        loading={isLoading}
+        loading={isRegisterLoading || isSetPasswordLoading}
       >
         情報更新する
       </LoadingButton>

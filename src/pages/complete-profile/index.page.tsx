@@ -13,7 +13,7 @@ import { FEATURES_DATA } from 'utils/const';
 
 const CompleteProfilePage = () => {
   const router = useRouter();
-  const { data, refetch } = useUser();
+  const { data } = useUser();
   const { mutateAsync: handleCreateSalon, isLoading } = useMutate(
     salonQuery.createSalon,
   );
@@ -107,7 +107,7 @@ const CompleteProfilePage = () => {
         },
         {
           onSuccess: async () => {
-            await refetch();
+            router.push('/register/complete');
           },
         },
       );

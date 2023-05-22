@@ -24,10 +24,18 @@ const styles: Record<string, SxProps<Theme>> = {
       color: 'white',
       boxShadow: 0,
       backgroundColor: '#929292',
+      px: 10,
+
+      '& .MuiButton-startIcon': {
+        position: 'relative',
+        left: 'initial',
+        right: 'initial',
+        marginRight: 4,
+      },
     },
   },
   scheduleIcon: {
-    pt: 1,
+    pt: { xs: 2, tablet: 3 },
     svg: {
       width: 20,
       height: 20,

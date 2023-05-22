@@ -29,7 +29,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({
   }
 
   return (
-    <CommonSection title="プロフィール設定">
+    <CommonSection title="基本情報">
       <Box pt={20} pb={15} width="100%">
         <Box display="flex" flexDirection="column">
           <Label label="従事開始" />
@@ -67,7 +67,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({
         </Box>
 
         <Box display="flex" flexDirection="column" mt={20}>
-          <Label label="国家資格" />
+          <Label label="プロフィール" />
           <Typography fontSize={14} color="graySolid" mb={10}>
             整体師詳細ページに表示されます。
           </Typography>

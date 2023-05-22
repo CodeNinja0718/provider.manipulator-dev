@@ -1,8 +1,9 @@
 import FacebookIcon from '@icons/facebook_icon.svg';
+import CustomerListIcon from '@icons/icon_customer_list.svg';
 // import AddReservationSvg from '@icons/icon_add_reservation_green.svg';
 import ListSvg from '@icons/icon_list.svg';
 import MembershipSvg from '@icons/icon_membership.svg';
-import RegisterSvg from '@icons/icon_profile.svg';
+import RegisterSvg from '@icons/icon_register.svg';
 import ReservationSvg from '@icons/icon_reservation.svg';
 import ScheduleSvg from '@icons/icon_schedule.svg';
 import InstagramIcon from '@icons/instagram_icon.svg';
@@ -91,6 +92,11 @@ export const PROVIDER_NAVIGATION: {
     href: '/my-page/reservation',
     label: '予約リスト',
     icon: <ReservationSvg />,
+  },
+  {
+    href: '/my-page/tickets',
+    label: '回数券管理',
+    icon: <CustomerListIcon />,
   },
   // {
   //   href: '/my-page/registration-reservation',
@@ -250,10 +256,10 @@ export const MENU_TYPE = [
     id: 'one_time',
     name: '単発',
   },
-  // {
-  //   id: 'coupon',
-  //   name: '回数券',
-  // },
+  {
+    id: 'coupon',
+    name: '回数券',
+  },
 ];
 
 export const AVAILABEL_STAFF = [
@@ -319,11 +325,11 @@ export const QUALIFICATION = [
 export const FILTER_ITEMS = [
   {
     _id: 1,
-    label: `自律神経`,
+    label: `自律神経症状`,
   },
   {
     _id: 2,
-    label: `首・肩`,
+    label: `自律神経症状`,
   },
   {
     _id: 3,
@@ -340,7 +346,6 @@ export const FILTER_ITEMS = [
 ];
 
 export const MANIPULATOR_STATUS = {
-  POSTING: '掲載中',
-  STOPPED: '停止中',
-  UNDER_REVIEW: '審査中',
+  ACTIVE: 'ACTIVE',
+  UNACTIVE: 'UNACTIVE',
 };

@@ -1,27 +1,28 @@
+import ArrowLeft from '@icons/arrow-left.svg';
 import ArrowRight from '@icons/arrow-right.svg';
 import CheckedIcon from '@icons/checked.svg';
 import UnCheckedIcon from '@icons/uncheck.svg';
 import { LoadingButton } from '@mui/lab';
 import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
-import { useMutate } from 'hooks';
+import type { MenuFormValues } from 'components/MenuForm/models/schema';
+import { useMutate, useUser } from 'hooks';
+import _map from 'lodash/map';
 import _omit from 'lodash/omit';
 import menuQuery from 'models/menu/query';
 import { useRouter } from 'next/router';
-import useInitValue from 'pages/my-page/menu/hook/useInitValue';
 import { useMemo, useState } from 'react';
-import {
-  // AVAILABEL_STAFF,
-  MENU_INFO,
-  MENU_STATUS_LIST,
-  MENU_TYPE,
-} from 'utils/const';
+import { CURRENCY, MENU_INFO, MENU_STATUS_LIST, MENU_TYPE } from 'utils/const';
 import Helper from 'utils/helpers';
+import queryClient from 'utils/queryClient';
 
 import RowItem from './RowItem';
 import styles from './styles';
 
-const MenuReview = () => {
+interface MenuReviewProps {
+  menuData: MenuFormValues;
+}
+const MenuReview = ({ menuData }: MenuReviewProps) => {
   const router = useRouter();
   const [disabled, setDisabled] = useState(false);
   const currentSalonId = useMemo(() => {
@@ -30,13 +31,26 @@ const MenuReview = () => {
   const { mutateAsync: handleCreateMenu, isLoading } = useMutate(
     menuQuery.createMenu(currentSalonId),
   );
-  const initialValues = useInitValue();
-  // const handleCouponTicketFee = (ticketMount: number, ticketPrice: number) => {
-  //   const value = ticketMount * ticketPrice;
-  //   return `${Helper.addComma(value)}円 (${ticketMount}枚 x ${Helper.addComma(
-  //     ticketPrice,
-  //   )}円)`;
-  // };
+
+  useUser({ enabled: false });
+
+  const currentUserQuery = queryClient
+    .getQueryCache()
+    .findAll(['currentUser'])
+    .map((each) => {
+      return each?.state?.data;
+    });
+
+  const menuTypeList = menuData.menuTypes || [];
+  const isCouponEnabled = menuTypeList.includes(MENU_TYPE[1]?.id);
+  const isOnlyTicket = isCouponEnabled && menuTypeList.length === 1;
+
+  const handleCouponTicketFee = (ticketMount: number, ticketPrice: number) => {
+    const value = ticketMount * ticketPrice;
+    return `${Helper.addComma(value)}円 (${ticketMount}枚 x ${Helper.addComma(
+      ticketPrice,
+    )}円)`;
+  };
 
   const handleGetStatus = (value: string) => {
     const status = MENU_STATUS_LIST.filter((item) => item.id === value).map(
@@ -48,43 +62,36 @@ const MenuReview = () => {
   };
 
   const menuTypesList = useMemo(() => {
-    const data = initialValues?.menuTypes || [];
+    const data = menuData?.menuTypes || [];
     const value =
       MENU_TYPE.filter((item) => data.includes(item.id)).map((item) => {
         return item.name;
       }) || [];
     return value;
-  }, [initialValues]);
-
-  // const availabelStaff = useMemo(() => {
-  //   const data = initialValues?.availabelStaff || [];
-  //   const value =
-  //     AVAILABEL_STAFF.filter((item) => data.includes(item.id)).map((item) => {
-  //       return item.name;
-  //     }) || [];
-  //   return value;
-  // }, [initialValues]);
+  }, [menuData]);
 
   const handleSubmit = () => {
-    const data = {
-      ..._omit(initialValues, [
+    const manipulatorIds = _map(currentUserQuery, (item: any) => item._id);
+    let data = {
+      ..._omit(menuData, [
         'availabelStaff',
         'couponExpirationDate',
         'ticketMount',
         'ticketPrice',
       ]),
-      tiket: {
-        price: initialValues?.ticketPrice || 0,
-        amout: initialValues?.ticketMount || 0,
+      ticket: {
+        price: menuData?.ticketPrice || 0,
+        numberOfTicket: menuData?.ticketMount || 0,
+        expiryMonth: menuData?.couponExpirationDate || 1,
       },
-      manipulatorIds: [router?.query?.manipulatorIds].filter(Boolean),
-      currency: router?.query?.currency,
+      manipulatorIds,
+      currency: CURRENCY.JPY,
     };
 
+    data = isOnlyTicket ? { ..._omit(data, 'price') } : { ...data };
+
     handleCreateMenu(
-      {
-        ...data,
-      },
+      !isCouponEnabled ? { ..._omit(data, 'ticket') } : { ...data },
       {
         onSuccess: () => {
           setDisabled(true);
@@ -101,12 +108,10 @@ const MenuReview = () => {
       </Box>
       <Box sx={styles.sectionWrapper}>
         <CommonSection title="メニュー詳細">
-          <RowItem label={MENU_INFO.NAME}>{initialValues?.name}</RowItem>
-          <RowItem label={MENU_INFO.ORDER_SHORT}>
-            {initialValues?.order}
-          </RowItem>
+          <RowItem label={MENU_INFO.NAME}>{menuData?.name}</RowItem>
+          <RowItem label={MENU_INFO.ORDER_SHORT}>{menuData?.order}</RowItem>
           <RowItem label={MENU_INFO.ESTIMATED_TIME}>
-            {initialValues?.estimatedTime}
+            {menuData?.estimatedTime}
           </RowItem>
           <RowItem label="メニュー種別">
             <Box sx={styles.horizontalBox} className="no-wrap">
@@ -127,21 +132,27 @@ const MenuReview = () => {
               ))}
             </Box>
           </RowItem>
-          <RowItem label={MENU_INFO.PRICE}>{`${Helper.addComma(
-            initialValues?.price,
-          )}円`}</RowItem>
+          {!isOnlyTicket && (
+            <RowItem label={MENU_INFO.PRICE}>{`${Helper.addComma(
+              menuData?.price,
+            )}円`}</RowItem>
+          )}
           {/* Field for Ticket/ Coupon */}
-          {/* <RowItem label="回数券料金">
-            {handleCouponTicketFee(
-              initialValues?.ticketMount,
-              initialValues?.ticketPrice,
-            )}
-          </RowItem>
-          <RowItem label="回数券の有効期限">
-            {`${initialValues?.couponExpirationDate}か月`}
-          </RowItem> */}
+          {isCouponEnabled && (
+            <>
+              <RowItem label="回数券料金">
+                {handleCouponTicketFee(
+                  menuData?.ticketMount,
+                  menuData?.ticketPrice,
+                )}
+              </RowItem>
+              <RowItem label="回数券の有効期限">
+                {`${menuData?.couponExpirationDate}か月`}
+              </RowItem>
+            </>
+          )}
           <RowItem label={MENU_INFO.PUBLISH_STATUS} customItemRow="borderNone">
-            {handleGetStatus(initialValues?.status)}
+            {handleGetStatus(menuData?.status)}
           </RowItem>
         </CommonSection>
         {/* <CommonSection title="メニュー詳細">
@@ -166,19 +177,48 @@ const MenuReview = () => {
           </RowItem>
         </CommonSection> */}
 
-        <LoadingButton
-          size="medium"
-          color="primary"
-          variant="contained"
-          endIcon={<ArrowRight />}
-          loadingPosition="end"
-          sx={styles.submitBtn}
-          onClick={handleSubmit}
-          loading={isLoading}
-          disabled={disabled}
-        >
-          確認する
-        </LoadingButton>
+        <Box display={'flex'} flexDirection={'column'} gap={10}>
+          <LoadingButton
+            size="medium"
+            color="primary"
+            variant="contained"
+            endIcon={<ArrowRight />}
+            loadingPosition="end"
+            sx={styles.actionButton}
+            onClick={handleSubmit}
+            loading={isLoading}
+            disabled={disabled}
+          >
+            確認する
+          </LoadingButton>
+          <LoadingButton
+            size="medium"
+            color="primary"
+            loadingPosition="start"
+            sx={styles.actionButton}
+            disabled={disabled}
+            variant="outlined"
+            loading={isLoading}
+            startIcon={<ArrowLeft />}
+            onClick={() => {
+              router.push(
+                {
+                  pathname: `/my-page/menu/register/${router?.query.slug}`,
+                },
+                undefined,
+                {
+                  shallow: true,
+                },
+              );
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+              });
+            }}
+          >
+            修正する
+          </LoadingButton>
+        </Box>
       </Box>
     </Box>
   );

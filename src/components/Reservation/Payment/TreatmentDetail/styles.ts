@@ -14,7 +14,7 @@ const styles: Record<string, SxProps<Theme>> = {
   },
   label: {
     fontSize: 16,
-    fontWeight: 500,
+    fontWeight: 'bold',
     mb: 10,
   },
 };

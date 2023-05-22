@@ -1,48 +1,32 @@
 import ArrowRight from '@icons/arrow-right.svg';
-import IconReview from '@icons/icon_review.svg';
 import SwitchIcon from '@icons/icon_switch.svg';
 import DeleteIcon from '@icons/icon_trashbox.svg';
 import { Box, Button, Typography } from '@mui/material';
+import type { IManipulator } from 'models/manipulator/interface';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { MANIPULATOR_STATUS } from 'utils/const';
 
 import styles from './styles';
 
-const ManiStatus = ({ value }: { value: string }) => {
-  return (
-    <Box sx={styles.statusDoubleBox}>
-      <Box
-        sx={styles.statusBoxItem}
-        className={value === MANIPULATOR_STATUS.POSTING ? 'posting' : ''}
-      >
-        {MANIPULATOR_STATUS.POSTING}
-      </Box>
-      <Box
-        sx={styles.statusBoxItem}
-        className={value === MANIPULATOR_STATUS.STOPPED ? 'stopped' : ''}
-      >
-        {MANIPULATOR_STATUS.STOPPED}
-      </Box>
-    </Box>
-  );
-};
+interface ManipulatorCardProps {
+  data: IManipulator;
+}
 
-const ManipulatorCard = () => {
-  const renderStatus = (value: string) => {
-    if (
-      [MANIPULATOR_STATUS.POSTING, MANIPULATOR_STATUS.STOPPED].includes(value)
-    ) {
-      return <ManiStatus value={value} />;
-    }
-    if (value === MANIPULATOR_STATUS.UNDER_REVIEW) {
-      return (
-        <Box fontSize={14} fontWeight="bold" sx={styles.statusBox}>
-          {MANIPULATOR_STATUS.UNDER_REVIEW}
-        </Box>
-      );
-    }
-    return false;
+const ManipulatorCard = ({ data }: ManipulatorCardProps) => {
+  const router = useRouter();
+
+  const handleManipulatorDetail = () => {
+    const { pathname } = router;
+    router.push(`${pathname}/${data?._id}`);
   };
+
+  const avatarContent = data.photos.find((photo) => photo.type === 'avatar');
+  let avatarUrl = `/icons/default-avatar.svg`;
+
+  if (avatarContent) {
+    avatarUrl = avatarContent.url;
+  }
 
   return (
     <Box sx={styles.wrapper}>
@@ -59,7 +43,7 @@ const ManipulatorCard = () => {
           }}
         >
           <Typography component={'h3'} noWrap={true} title={'DSDS'}>
-            整体師太郎
+            {data.nameKana}
           </Typography>
           <Box display="flex" alignItems="center" sx={styles.deleteBtn}>
             <DeleteIcon width={17} height={17} />
@@ -72,7 +56,7 @@ const ManipulatorCard = () => {
           <Box width={90}>
             <Box sx={styles.avatarWrapper}>
               <Image
-                src="/icons/default-avatar.svg"
+                src={avatarUrl}
                 alt="Manipulator avatar"
                 width={50}
                 height={50}
@@ -82,24 +66,42 @@ const ManipulatorCard = () => {
           <Box
             display="flex"
             width="100%"
-            mb={8}
             justifyContent="space-between"
-            flexDirection="column"
+            gap={20}
+            alignItems="center"
+            flexWrap="wrap"
           >
-            <Box display="flex" justifyContent="space-between" width="100%">
-              {renderStatus(MANIPULATOR_STATUS.UNDER_REVIEW)}
-              <Box display="flex" alignItems="center">
-                <Typography fontWeight="bold" pr={10} color="primary">
+            <Box display="flex" gap={11}>
+              <Box
+                sx={styles.statusDoubleBox}
+                className={
+                  data.status === MANIPULATOR_STATUS.ACTIVE
+                    ? 'active'
+                    : 'unactive'
+                }
+              >
+                <Box sx={styles.statusBoxItem} className="posting">
+                  掲載中
+                </Box>
+                <Box sx={styles.statusBoxItem} className="stopped">
+                  停止中
+                </Box>
+              </Box>
+              <Box display="flex" alignItems="center" gap={10}>
+                <SwitchIcon width={17} />
+                <Typography
+                  fontSize={14}
+                  fontWeight="bold"
+                  pr={10}
+                  color="primary"
+                >
                   掲載再開
                 </Typography>
-                <SwitchIcon width={17} />
               </Box>
             </Box>
-
-            <Box
+            {/* <Box
               sx={{
-                svg: { width: 18, height: 18, position: 'relative', top: 2 },
-                mt: 10,
+                svg: { width: 18, height: 18, top: 2 },
               }}
               display="flex"
               alignItems="center"
@@ -108,9 +110,9 @@ const ManipulatorCard = () => {
                 component="label"
                 color="spanishOrange"
                 fontWeight="600"
-                fontSize="16px"
+                fontSize={16}
               >
-                ★ 0
+                ★ 4.5
               </Typography>
 
               <Box
@@ -132,22 +134,25 @@ const ManipulatorCard = () => {
               </Box>
               <Typography
                 color="grayText"
-                fontWeight="600"
+                fontWeight={900}
                 component="label"
                 marginLeft={7}
-                fontSize="12px"
+                fontSize={12}
               >
-                99件
+                999件
               </Typography>
+            </Box> */}
+            <Box fontSize={16} fontWeight="bold" sx={styles.statusBox}>
+              審査中
             </Box>
           </Box>
         </Box>
-
-        <Box display="flex" justifyContent="center">
+        <Box display="flex" justifyContent="center" mt={10}>
           <Button
             variant="contained"
             sx={styles.updateScheduleBtn}
             endIcon={<ArrowRight />}
+            onClick={handleManipulatorDetail}
           >
             編集
           </Button>

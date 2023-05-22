@@ -4,13 +4,17 @@ import BackButton from 'components/BackButton';
 import CustomerDetail from 'components/Reservation/ReservationDetail/CustomerDetail';
 import type { TreatmentFormValues } from 'components/Reservation/ReservationTreatment/models/schema';
 import schema from 'components/Reservation/ReservationTreatment/models/schema';
-import { useFetch } from 'hooks';
+import { useFetch, useList, useMutate } from 'hooks';
+import _omit from 'lodash/omit';
 import type { IReservationItem } from 'models/reservation/interface';
 import reservationQuery from 'models/reservation/query';
+import type { ICoupon, ICouponTicket } from 'models/tickets/interface';
+import ticketQuery from 'models/tickets/query';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RESERVATION_STATUS } from 'utils/const';
+import Helper from 'utils/helpers';
 
 import ReservationForm from './ReservationForm';
 import styles from './styles';
@@ -24,6 +28,27 @@ const Form = () => {
   const router = useRouter();
   const { data: res } = useFetch<IReservationItem | any>(
     reservationQuery.reservationDetail(router?.query?.reservationId),
+  );
+
+  const { list: couponList, isLoading: isCouponLoading } = useList<ICoupon>(
+    ticketQuery.getCustomerCoupons({
+      customerId: res?.customerId || '',
+      type: 'Public',
+    }),
+  );
+
+  const { list: ticketList, isLoading: isTicketLoading } =
+    useList<ICouponTicket>(
+      ticketQuery.getCustomerTickets({
+        customerId: res?.customerId || '',
+      }),
+    );
+
+  const {
+    mutateAsync: handleReservationCompleted,
+    isLoading: isSubmitLoading,
+  } = useMutate(
+    reservationQuery.reservationComplete(router?.query?.reservationId),
   );
 
   const isShowTreatment = useMemo(() => {
@@ -54,14 +79,21 @@ const Form = () => {
           endTime: res?.endTime,
           salonInfo: res?.salonInfo,
           status: res?.status,
+          ticketUsed: res?.ticketUsed,
+          couponDiscount: res?.couponDiscount,
         };
-  const initialTreatmentValues = {
+  const initialTreatmentValues: TreatmentFormValues = {
     price: treatmentData?.price || res?.plan?.menuInfo?.price,
     treatmentInfo:
       treatmentData?.treatmentInfo || res?.treatmentInfo?.treatmentInfo || '',
     menuId: treatmentData?.menuId || res?.plan?.menuId,
     treatmentFile:
       treatmentData?.treatmentFile || res?.treatmentInfo?.treatmentFile || [],
+    couponCode: treatmentData?.couponCode || res?.couponCode || '',
+    priceType:
+      treatmentData?.priceType ||
+      (res?.ticketUsed ? 'ticket' : 'one-shot') ||
+      'one-shot',
   };
 
   const { control, handleSubmit, setValue } = useForm<TreatmentFormValues>({
@@ -80,6 +112,66 @@ const Form = () => {
   const handleBackTreatmentForm = (value: TreatmentFormValues) => {
     setIsPaymentConfirmation(false);
     setTreatmentData(value);
+  };
+
+  const handleCompleteForm = (callback: () => void) => {
+    const params = _omit(initialTreatmentValues, [
+      'treatmentFile',
+      'price',
+      'priceType',
+      'couponCode',
+    ]);
+
+    const priceType = initialTreatmentValues?.priceType || 'one-shot';
+
+    const priceParams = (() => {
+      const menuId = initialTreatmentValues?.menuId;
+
+      if (priceType === 'ticket') {
+        if (!menuId || menuId === res?.plan.menuId) return {};
+        return {
+          ticketId: ticketList?.find((ticket) => ticket.menuId === menuId)
+            ?.ticketId,
+          ticketUse: 1,
+        };
+      }
+
+      return {
+        amount: initialTreatmentValues?.price || 0,
+        ...(!!initialTreatmentValues?.couponCode && {
+          couponCode: initialTreatmentValues?.couponCode,
+        }),
+      };
+    })();
+
+    const file = initialTreatmentValues?.treatmentFile?.[0];
+    const registrationParams = {
+      menuId: initialTreatmentValues?.menuId,
+      reservationId: router?.query?.reservationId,
+      customerName: res?.customerInfo?.name || '',
+    };
+
+    handleReservationCompleted(
+      {
+        ...params,
+        ...priceParams,
+        treatmentFile: {
+          name: file?.originalName || '',
+          objectKey: file?.key || '',
+        },
+      },
+      {
+        onSuccess: () => {
+          callback();
+          router.push(
+            `${Helper.parseURLByParams(
+              registrationParams,
+              `/my-page/reservation/complete-payment`,
+            )}`,
+          );
+        },
+      },
+    );
   };
 
   return (
@@ -117,7 +209,11 @@ const Form = () => {
             initialTreatmentValues={initialTreatmentValues}
             onBackTreatmentForm={handleBackTreatmentForm}
             treatmentData={treatmentData}
-            customerInfo={res?.customerInfo}
+            isSubmitLoading={isSubmitLoading}
+            couponList={couponList}
+            ticketList={ticketList}
+            isLoading={isCouponLoading || isTicketLoading}
+            onSubmit={handleCompleteForm}
           />
         </Stack>
       </Box>

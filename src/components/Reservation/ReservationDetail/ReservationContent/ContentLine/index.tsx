@@ -3,7 +3,7 @@ import React from 'react';
 
 interface ContentLineProps {
   start: string;
-  center?: string;
+  center?: string | React.ReactNode;
   end?: React.ReactNode;
   isAlignRightCenter?: boolean;
 }
@@ -18,14 +18,14 @@ const ContentLine: React.FC<ContentLineProps> = ({
     <Grid container alignItems={'center'}>
       <Grid item xs={!center ? 8 : 12} tablet={'auto'}>
         <Box width={{ xs: '100%', tablet: 126 }}>
-          <Typography fontSize={16} fontWeight={500}>
+          <Typography fontSize={16} fontWeight={'bold'}>
             {start}
           </Typography>
         </Box>
       </Grid>
       {!end ? (
         <Grid item xs={center ? 12 : false} tablet={true}>
-          <Typography fontSize={16}>{center}</Typography>
+          <Typography fontSize={{ xs: 14, tablet: 16 }}>{center}</Typography>
         </Grid>
       ) : (
         <Grid
@@ -37,7 +37,7 @@ const ContentLine: React.FC<ContentLineProps> = ({
             tablet: isAlignRightCenter ? 'right' : 'left',
           }}
         >
-          <Typography fontSize={16}>{center}</Typography>
+          <Typography fontSize={{ xs: 14, tablet: 16 }}>{center}</Typography>
         </Grid>
       )}
       <Grid item xs={4} tablet={'auto'} textAlign="right">

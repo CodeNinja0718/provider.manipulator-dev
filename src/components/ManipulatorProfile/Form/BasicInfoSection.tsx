@@ -4,19 +4,21 @@ import { CheckBox, TextField } from 'components/Form';
 import type { ManipulatorProfileValues } from 'components/ManipulatorProfile/Form/schema';
 import type { Control } from 'react-hook-form';
 
+import UploadAvatar from './BasicInfoSection/UploadAvatar';
 import styles from './styles';
 
 interface BasicInfoSectionProps {
-  initialValues: ManipulatorProfileValues;
   control: Control<ManipulatorProfileValues>;
+  isEditScreen?: boolean;
 }
 
 const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
   control,
-  initialValues,
+  isEditScreen = false,
 }) => {
   return (
     <CommonSection title="基本情報">
+      <UploadAvatar label="写真" name="avatar" control={control} />
       <Box pt={20} pb={15} width="100%">
         <TextField
           label="氏名"
@@ -37,13 +39,17 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
           name="email"
           control={control}
           placeholder="sample@service.com"
+          disabled={isEditScreen}
         />
         <Box display="flex" width="100%" sx={styles.checkboxArea}>
           <CheckBox
             name="isRegister"
             control={control}
             layout="horizontal"
-            data={initialValues.isRegister || []}
+            data={[
+              { id: 'confirm_register', name: 'アカウントを新規発行する' },
+            ]}
+            disabled={isEditScreen}
           />
         </Box>
         <Typography sx={styles.basicInfoNote}>
