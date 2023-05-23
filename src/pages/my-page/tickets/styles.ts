@@ -18,6 +18,13 @@ const styles: Record<string, SxProps> = {
     p: 16,
     color: 'gray',
   },
+  emptyText: {
+    textAlign: 'center',
+    color: 'gray',
+    mb: 30,
+    mt: 30,
+    fontSize: 24,
+  },
 };
 
 export default styles;
