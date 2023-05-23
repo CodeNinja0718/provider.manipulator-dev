@@ -76,6 +76,32 @@ const TicketsPage = () => {
     debounceRedirect(currentQuery);
   };
 
+  const getContentRendering = () => {
+    let content;
+    if (isLoading) {
+      content = (
+        <Stack
+          alignItems="center"
+          justifyContent="flex-start"
+          minHeight={570}
+          paddingTop={24}
+        >
+          <CircularProgress />
+        </Stack>
+      );
+    } else if (list && list.length > 0) {
+      content = <TicketList data={list} />;
+    } else {
+      content = (
+        <Typography variant="subtitle1" sx={styles.emptyText}>
+          空のリスト
+        </Typography>
+      );
+    }
+
+    return content;
+  };
+
   return (
     <Stack alignItems={'center'} sx={styles.ticketListContainer}>
       <Box display={'flex'} justifyContent={'center'}>
@@ -107,21 +133,12 @@ const TicketsPage = () => {
           ※リストをタップすると、お客様とのチャット画面が開きます。
         </Typography>
       </Box>
-      {isLoading ? (
-        <Stack
-          alignItems="center"
-          justifyContent="flex-start"
-          minHeight={570}
-          paddingTop={24}
-        >
-          <CircularProgress />
-        </Stack>
-      ) : (
-        <TicketList data={list} />
+      {getContentRendering()}
+      {list && list.length > 0 && (
+        <Box display={'flex'}>
+          <ListPagination total={total} page={currentPage} />
+        </Box>
       )}
-      <Box display={'flex'}>
-        <ListPagination total={total} page={currentPage} />
-      </Box>
     </Stack>
   );
 };
