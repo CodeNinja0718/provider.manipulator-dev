@@ -57,13 +57,19 @@ const ManipulatorList = () => {
         </Stack>
       ) : (
         <Box width="100%" pt={30}>
-          {list.map((item) => (
-            <ManipulatorCard data={item} key={item._id} />
-          ))}
+          {list && list.length > 0 ? (
+            list.map((item) => <ManipulatorCard data={item} key={item._id} />)
+          ) : (
+            <Typography variant="subtitle1" sx={styles.emptyText}>
+              空のリスト
+            </Typography>
+          )}
         </Box>
       )}
       <Box display={'flex'}>
-        <ListPagination limit={4} total={total} page={currentPage} />
+        {list && list.length > 0 && (
+          <ListPagination limit={4} total={total} page={currentPage} />
+        )}
       </Box>
       <Button
         component={Link}
