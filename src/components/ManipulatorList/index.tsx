@@ -57,14 +57,14 @@ const ManipulatorList = () => {
         </Stack>
       ) : (
         <Box width="100%" pt={30}>
-        {list && list.length > 0 ? (
-          list.map((item) => <ManipulatorCard data={item} key={item._id} />)
-        ) : (
-          <Typography variant="subtitle1" sx={styles.emptyText}>
-            空のリスト
-          </Typography>
-        )}
-      </Box>
+          {list && list.length > 0 ? (
+            list.map((item) => <ManipulatorCard data={item} key={item._id} />)
+          ) : (
+            <Typography variant="subtitle1" sx={styles.emptyText}>
+              空のリスト
+            </Typography>
+          )}
+        </Box>
       )}
       <Box display={'flex'}>
         {list && list.length > 0 && (
