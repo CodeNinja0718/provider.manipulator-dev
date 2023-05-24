@@ -10,6 +10,17 @@ const menuQuery = {
       sort: 'order.asc_updateAt.desc',
     },
   }),
+  getManiplators: (salonId: string | any) => ({
+    queryKey: ['menu', 'list', 'salonId', salonId],
+    apiUrl: `salon/salons/${salonId}/manipulators`,
+    useUrlQuery: false,
+    enabled: !!salonId,
+    customParams: {
+      page: 1,
+      limit: 100,
+      sort: 'order.asc_updateAt.desc',
+    },
+  }),
   createMenu: (salonId: string | any) => ({
     apiUrl: `salon/${salonId}/menu/create-menu`,
     method: 'post',

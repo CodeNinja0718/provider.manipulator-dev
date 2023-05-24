@@ -1,6 +1,9 @@
+import ArrowDownSvg from '@icons/arrow-down.svg';
+import CloseIcon from '@icons/close.svg';
 import {
   Box,
   CircularProgress,
+  IconButton,
   MenuItem,
   Select,
   Stack,
@@ -8,10 +11,11 @@ import {
 } from '@mui/material';
 import DirectRegisterMenu from 'components/MenuList/DirectRegisterMenu';
 import UnpublishedMenu from 'components/MenuList/UnpublishedMenu';
-import { useFetch, useUser } from 'hooks';
-import type { IMenu } from 'models/menu/interface';
+import { useFetch, useList, useUser } from 'hooks';
+import { isEmpty } from 'lodash';
+import type { IMenu, IMenuManipulator } from 'models/menu/interface';
 import menuQuery from 'models/menu/query';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { MENU_STATUS } from 'utils/const';
 import queryClient from 'utils/queryClient';
 
@@ -24,9 +28,20 @@ const MenuList = () => {
   const { data: res } = useFetch<IMenu | any>(
     menuQuery.getManiplatorList(salonList?.[0]?.salonId),
   );
+
+  const { list: manipulatorRes } = useList<IMenuManipulator | any>(
+    menuQuery.getManiplators(salonList?.[0]?.salonId),
+  );
+
   const currentSalonId = useMemo(() => {
     return salonList?.[0]?.salonId || '';
   }, [salonList]);
+
+  const [selectedGender, setSelectedGender] = useState('');
+
+  const handleChange = (event: any) => {
+    setSelectedGender(event.target.value);
+  };
 
   // List
   const privateList = useMemo(() => {
@@ -37,9 +52,13 @@ const MenuList = () => {
     const list = res?.docs || [];
     return list.filter((item: IMenu) => item?.status === MENU_STATUS.PUBLIC);
   }, [res?.docs]);
-  const salonNameList = salonList?.map((item) => {
-    return { id: item.salonId, name: item.name };
-  });
+
+  const manipulatorList = useMemo(() => {
+    return manipulatorRes.map((item) => ({
+      id: item._id,
+      name: item.nameKana,
+    }));
+  }, [manipulatorRes]);
 
   // Re-fetch list
   const handleRefetchList = () => {
@@ -62,8 +81,35 @@ const MenuList = () => {
               <Typography component={'h3'} sx={styles.labelText}>
                 整体師で絞り込む
               </Typography>
-              <Select value={currentSalonId} readOnly>
-                {salonNameList?.map((salon) => (
+              <Select
+                value={selectedGender}
+                onChange={handleChange}
+                sx={styles.nameSelect}
+                displayEmpty
+                renderValue={
+                  selectedGender !== ''
+                    ? undefined
+                    : () => <Box sx={styles.placeholder}>整体師</Box>
+                }
+                IconComponent={(iconProps) => {
+                  if (isEmpty(selectedGender.toString())) {
+                    return (
+                      <IconButton {...iconProps}>
+                        <ArrowDownSvg />
+                      </IconButton>
+                    );
+                  }
+                  return (
+                    <IconButton onClick={() => setSelectedGender('')}>
+                      <CloseIcon />
+                    </IconButton>
+                  );
+                }}
+              >
+                <MenuItem key="none" value="" disabled>
+                  <Box sx={styles.placeholder}>整体師</Box>
+                </MenuItem>
+                {manipulatorList?.map((salon) => (
                   <MenuItem key={salon.id} value={salon.id}>
                     {salon.name}
                   </MenuItem>
