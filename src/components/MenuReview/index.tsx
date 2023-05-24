@@ -155,27 +155,28 @@ const MenuReview = ({ menuData }: MenuReviewProps) => {
             {handleGetStatus(menuData?.status)}
           </RowItem>
         </CommonSection>
-        {/* <CommonSection title="メニュー詳細">
+        <CommonSection title="メニュー詳細">
           <RowItem customItemRow="borderNone">
             <Box sx={styles.horizontalBox}>
-              {availabelStaff.map((item, index) => (
-                <FormControlLabel
-                  key={`availabel-staff-${index}`}
-                  className="checkboxControlWrapper"
-                  label={item}
-                  control={
-                    <Checkbox
-                      icon={<UnCheckedIcon />}
-                      checkedIcon={<CheckedIcon />}
-                      checked
-                      readOnly
-                    />
-                  }
-                />
-              ))}
+              {!!menuData.availableStaff &&
+                menuData.availableStaff.map((item, index) => (
+                  <FormControlLabel
+                    key={`availabel-staff-${index}`}
+                    className="checkboxControlWrapper"
+                    label={item}
+                    control={
+                      <Checkbox
+                        icon={<UnCheckedIcon />}
+                        checkedIcon={<CheckedIcon />}
+                        checked
+                        readOnly
+                      />
+                    }
+                  />
+                ))}
             </Box>
           </RowItem>
-        </CommonSection> */}
+        </CommonSection>
 
         <Box display={'flex'} flexDirection={'column'} gap={10}>
           <LoadingButton

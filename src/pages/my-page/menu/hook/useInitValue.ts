@@ -28,9 +28,9 @@ const useInitValue = () => {
       timeDisplay: router?.query?.timeDisplay
         ? Boolean(router?.query?.timeDisplay)
         : false,
-      // availabelStaff: router?.query?.availabelStaff
-      //   ? String(router?.query?.availabelStaff).split(',')
-      //   : [],
+      availableStaff: router?.query?.availableStaff
+        ? String(router?.query?.availableStaff).split(',')
+        : [],
     };
     return defaultValue;
   }, [router]);

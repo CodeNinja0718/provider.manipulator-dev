@@ -40,7 +40,7 @@ const schema = object({
         : s,
     ),
   status: string().required(),
-  // availabelStaff: array().min(1),
+  availableStaff: array(),
 });
 
 export default schema;
