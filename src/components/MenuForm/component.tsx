@@ -7,6 +7,7 @@ import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
 import MenuDetailSection from './Form/MenuDetailSection';
+import StaffSection from './Form/StaffSection';
 // import StaffSection from './Form/StaffSection';
 import type { MenuFormValues } from './models/schema';
 import schema from './models/schema';
@@ -55,7 +56,7 @@ const Component = ({
           />
 
           {/* Staff */}
-          {/* <StaffSection control={control} /> */}
+          <StaffSection control={control} />
 
           <LoadingButton
             size="medium"
