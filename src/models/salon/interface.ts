@@ -44,3 +44,11 @@ export interface ISalonDetail {
     hours: { startTime: string; endTime: string }[];
   }[];
 }
+
+export interface IStaff {
+  _id: string;
+  name: string;
+  nameKana: string;
+  email: string;
+  profile: string;
+}

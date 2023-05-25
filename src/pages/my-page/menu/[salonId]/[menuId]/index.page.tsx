@@ -2,10 +2,12 @@ import { Box, CircularProgress } from '@mui/material';
 import Layout from 'components/Layout';
 import MenuForm from 'components/MenuForm';
 import type { MenuFormValues } from 'components/MenuForm/models/schema';
-import { useFetch, useMutate } from 'hooks';
+import { useFetch, useList, useMutate } from 'hooks';
 import _pick from 'lodash/pick';
 import type { IMenu } from 'models/menu/interface';
 import menuQuery from 'models/menu/query';
+import type { IStaff } from 'models/salon/interface';
+import salonQuery from 'models/salon/query';
 import { useRouter } from 'next/router';
 
 import styles from './styles';
@@ -17,6 +19,13 @@ const MenuDetailPage = () => {
   );
   const { mutateAsync: handleUpdateMenu } = useMutate(
     menuQuery.updateMenu(router?.query?.salonId, router?.query?.menuId),
+  );
+
+  const { list: staffsList } = useList<IStaff>(
+    salonQuery.getManipulatorBySalon({
+      salonId: router.query?.salonId,
+      limit: 100,
+    }),
   );
 
   const handleSubmit = (params: MenuFormValues) => {
@@ -57,8 +66,16 @@ const MenuDetailPage = () => {
       ticketPrice: res?.ticket?.price || 0,
       ticketMount: res?.ticket?.numberOfTicket || 0,
       couponExpirationDate: res?.ticket?.expiryMonth || 1,
+      availableStaff: res?.manipulatorIds || [],
     };
-    return <MenuForm onSubmit={handleSubmit} defaultValues={defaultFormData} />;
+
+    return (
+      <MenuForm
+        onSubmit={handleSubmit}
+        defaultValues={defaultFormData}
+        staffs={staffsList}
+      />
+    );
   }
 
   return (
