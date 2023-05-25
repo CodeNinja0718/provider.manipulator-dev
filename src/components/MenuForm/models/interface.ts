@@ -1,3 +1,4 @@
+import type { IStaff } from 'models/salon/interface';
 import type { Control } from 'react-hook-form';
 
 import type { MenuFormValues } from './schema';
@@ -11,4 +12,5 @@ export interface IMenuFormProps {
 
 export interface IMenuStaffProps {
   control: Control<MenuFormValues>;
+  staffs: IStaff[];
 }

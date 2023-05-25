@@ -1,7 +1,11 @@
+import { CircularProgress, Stack } from '@mui/material';
 import Layout from 'components/Layout';
 import MenuForm from 'components/MenuForm';
 import type { MenuFormValues } from 'components/MenuForm/models/schema';
 import MenuReview from 'components/MenuReview';
+import { useList } from 'hooks';
+import type { IStaff } from 'models/salon/interface';
+import salonQuery from 'models/salon/query';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -9,6 +13,13 @@ import useInitValue from '../../hook/useInitValue';
 
 const RegisterMenuPage = () => {
   const router = useRouter();
+
+  const { list: staffsList, isLoading } = useList<IStaff>(
+    salonQuery.getManipulatorBySalon({
+      salonId: router.query?.slug,
+      limit: 100,
+    }),
+  );
 
   const initValues = { ...useInitValue() };
 
@@ -37,12 +48,29 @@ const RegisterMenuPage = () => {
     });
   };
 
+  if (isLoading) {
+    return (
+      <Stack
+        alignItems="center"
+        justifyContent="flex-start"
+        minHeight={570}
+        paddingTop={24}
+      >
+        <CircularProgress />
+      </Stack>
+    );
+  }
+
   return (
     <>
       {isConfirm ? (
-        <MenuReview menuData={menuData} />
+        <MenuReview menuData={menuData} staffs={staffsList} />
       ) : (
-        <MenuForm onSubmit={viewConfirmScreen} defaultValues={menuData} />
+        <MenuForm
+          onSubmit={viewConfirmScreen}
+          defaultValues={menuData}
+          staffs={staffsList}
+        />
       )}
     </>
   );

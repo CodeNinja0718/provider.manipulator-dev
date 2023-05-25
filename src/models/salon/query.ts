@@ -16,6 +16,15 @@ const salonQuery = {
     successMessage: 'お支払い方法を削除しました',
     omitKeys: ['salonId'],
   },
+  getManipulatorBySalon: ({
+    salonId = '',
+    ...args
+  }: Record<string, unknown>) => ({
+    apiUrl: `/salon/salons/${salonId}/manipulators`,
+    queryKey: ['manipulator', 'salon-manipulator', salonId],
+    enabled: !!salonId,
+    customParams: args,
+  }),
 };
 
 export default salonQuery;
