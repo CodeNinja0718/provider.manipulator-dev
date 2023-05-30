@@ -23,6 +23,22 @@ const styles = {
     fontSize: 16,
     marginBottom: 10,
   },
+  nameSelect: {
+    '.MuiSelect-icon': {
+      top: 'calc(50% - 12px)',
+      right: 9,
+      padding: 4,
+      width: 24,
+      height: 24,
+      svg: {
+        width: 18,
+        height: 18,
+      },
+    },
+  },
+  placeholder: {
+    color: '#999999',
+  },
 } as Record<string, SxProps<Theme>>;
 
 export default styles;

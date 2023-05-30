@@ -1,7 +1,18 @@
 const menuQuery = {
   getManiplatorList: (salonId: string | any) => ({
-    queryKey: ['menu', 'list', 'salonId', salonId],
+    queryKey: ['menu', 'list', 'manipulator'],
     apiUrl: `salon/${salonId}/menu/list`,
+    useUrlQuery: false,
+    enabled: !!salonId,
+    customParams: {
+      page: 1,
+      limit: 100,
+      sort: 'order.asc_updateAt.desc',
+    },
+  }),
+  getManiplators: (salonId: string | any) => ({
+    queryKey: ['menu', 'list', 'salonId', salonId],
+    apiUrl: `salon/salons/${salonId}/manipulators`,
     useUrlQuery: false,
     enabled: !!salonId,
     customParams: {

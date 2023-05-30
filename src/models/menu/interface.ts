@@ -20,3 +20,11 @@ export interface IMenu {
   ticket: ITicket;
   status: 'public' | 'private' | string;
 }
+
+export interface IMenuManipulator {
+  _id: string;
+  name: string;
+  nameKana: string;
+  email: string;
+  profile: string;
+}
