@@ -40,7 +40,10 @@ const schema = object({
         : s,
     ),
   status: string().required(),
-  availableStaff: array(),
+  availableStaff: array()
+    .of(string())
+    .required('この項目は入力必須です。')
+    .min(1, 'この項目は入力必須です。'),
 });
 
 export default schema;
