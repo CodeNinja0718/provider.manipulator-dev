@@ -1,6 +1,6 @@
 const menuQuery = {
   getManiplatorList: (salonId: string | any) => ({
-    queryKey: ['menu', 'list', 'salonId', salonId],
+    queryKey: ['menu', 'list', 'manipulator'],
     apiUrl: `salon/${salonId}/menu/list`,
     useUrlQuery: false,
     enabled: !!salonId,
