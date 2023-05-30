@@ -7,22 +7,22 @@ import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
 import type { MenuFormValues } from 'components/MenuForm/models/schema';
 import { useMutate, useUser } from 'hooks';
-import _map from 'lodash/map';
 import _omit from 'lodash/omit';
 import menuQuery from 'models/menu/query';
+import type { IStaff } from 'models/salon/interface';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { CURRENCY, MENU_INFO, MENU_STATUS_LIST, MENU_TYPE } from 'utils/const';
 import Helper from 'utils/helpers';
-import queryClient from 'utils/queryClient';
 
 import RowItem from './RowItem';
 import styles from './styles';
 
 interface MenuReviewProps {
   menuData: MenuFormValues;
+  staffs: IStaff[];
 }
-const MenuReview = ({ menuData }: MenuReviewProps) => {
+const MenuReview = ({ menuData, staffs }: MenuReviewProps) => {
   const router = useRouter();
   const [disabled, setDisabled] = useState(false);
   const currentSalonId = useMemo(() => {
@@ -33,13 +33,6 @@ const MenuReview = ({ menuData }: MenuReviewProps) => {
   );
 
   useUser({ enabled: false });
-
-  const currentUserQuery = queryClient
-    .getQueryCache()
-    .findAll(['currentUser'])
-    .map((each) => {
-      return each?.state?.data;
-    });
 
   const menuTypeList = menuData.menuTypes || [];
   const isCouponEnabled = menuTypeList.includes(MENU_TYPE[1]?.id);
@@ -70,11 +63,16 @@ const MenuReview = ({ menuData }: MenuReviewProps) => {
     return value;
   }, [menuData]);
 
+  const selectedStaffs = useMemo(() => {
+    return staffs
+      .filter((staff) => menuData.availableStaff?.includes(staff._id))
+      .reverse();
+  }, [staffs, menuData.availableStaff]);
+
   const handleSubmit = () => {
-    const manipulatorIds = _map(currentUserQuery, (item: any) => item._id);
     let data = {
       ..._omit(menuData, [
-        'availabelStaff',
+        'availableStaff',
         'couponExpirationDate',
         'ticketMount',
         'ticketPrice',
@@ -84,11 +82,11 @@ const MenuReview = ({ menuData }: MenuReviewProps) => {
         numberOfTicket: menuData?.ticketMount || 0,
         expiryMonth: menuData?.couponExpirationDate || 1,
       },
-      manipulatorIds,
+      manipulatorIds: menuData.availableStaff,
       currency: CURRENCY.JPY,
     };
 
-    data = isOnlyTicket ? { ..._omit(data, 'price') } : { ...data };
+    data = isOnlyTicket ? { ..._omit(data, 'price'), price: 0 } : { ...data };
 
     handleCreateMenu(
       !isCouponEnabled ? { ..._omit(data, 'ticket') } : { ...data },
@@ -158,12 +156,12 @@ const MenuReview = ({ menuData }: MenuReviewProps) => {
         <CommonSection title="メニュー詳細">
           <RowItem customItemRow="borderNone">
             <Box sx={styles.horizontalBox}>
-              {!!menuData.availableStaff &&
-                menuData.availableStaff.map((item, index) => (
+              {!!selectedStaffs &&
+                selectedStaffs.map((item) => (
                   <FormControlLabel
-                    key={`availabel-staff-${index}`}
+                    key={`availabel-staff-${item._id}`}
                     className="checkboxControlWrapper"
-                    label={item}
+                    label={item.name}
                     control={
                       <Checkbox
                         icon={<UnCheckedIcon />}

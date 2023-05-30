@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import ArrowRight from '@icons/arrow-right.svg';
 import { LoadingButton } from '@mui/lab';
 import { Box, Stack, Typography } from '@mui/material';
+import type { IStaff } from 'models/salon/interface';
 import { useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -17,10 +18,12 @@ const Component = ({
   onSubmit,
   initialValues,
   loading = false,
+  staffs,
 }: {
   onSubmit: SubmitHandler<MenuFormValues>;
   initialValues: MenuFormValues;
   loading: boolean;
+  staffs: IStaff[];
 }) => {
   const [timeDisplay, setTimeDisplay] = useState(initialValues.timeDisplay);
   const { control, reset, handleSubmit } = useForm<MenuFormValues>({
@@ -56,7 +59,7 @@ const Component = ({
           />
 
           {/* Staff */}
-          <StaffSection control={control} />
+          <StaffSection control={control} staffs={staffs} />
 
           <LoadingButton
             size="medium"
