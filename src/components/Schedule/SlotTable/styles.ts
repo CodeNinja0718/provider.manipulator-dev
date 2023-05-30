@@ -16,15 +16,19 @@ const styles: Record<string, SxProps> = {
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       display: '-webkit-box',
-      wordBreak: 'break-all',
+      wordBreak: 'keep-all',
       WebkitLineClamp: '2',
       WebkitBoxOrient: 'vertical',
+      textAlign: 'center',
+    },
+    '& a': {
+      textDecoration: 'none',
+      color: 'white',
     },
   },
   slotColumn: {
-    flex: '0 0 63px',
+    flex: '1',
     width: '100%',
-    maxWidth: 63,
     '&:nth-of-type(2n)': {
       backgroundColor: '#f9f2ed',
     },

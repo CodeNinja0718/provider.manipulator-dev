@@ -4,6 +4,7 @@ import type {
   IReservationItem,
   ISalonScheduleItem,
 } from 'models/schedule/interface';
+import Link from 'next/link';
 import { useMemo } from 'react';
 import { WORK_TIMES } from 'utils/const';
 
@@ -58,7 +59,11 @@ const SlotColumn: React.FC<SlotColumnProps> = ({ data, date }) => {
   return (
     <Stack sx={styles.slotColumn}>
       <Box sx={styles.manipulatorName} height={50}>
-        <Typography>{data.manipulatorName}</Typography>
+        <Link
+          href={`/my-page/schedule/working-time?date=${date}&manipulator=${data.manipulatorId}`}
+        >
+          <Typography>{data.manipulatorName}</Typography>
+        </Link>
       </Box>
       {WORK_TIME_RANGE.map((range, index) => {
         const isAvailable = availableTimeSlots.includes(range[0] || '');
