@@ -1,11 +1,30 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import ArrowChange from '@icons/arrow_change.svg';
+import ArrowDownSvg from '@icons/arrow-down.svg';
+import ArrowLeft from '@icons/arrow-left.svg';
 import ArrowRight from '@icons/arrow-right.svg';
+import CloseIcon from '@icons/close.svg';
 import { LoadingButton } from '@mui/lab';
-import { Box, CircularProgress, Grid, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Divider,
+  Grid,
+  IconButton,
+  Link,
+  MenuItem,
+  Select,
+  Stack,
+  Typography,
+} from '@mui/material';
 import CommonSection from 'components/CommonSection';
+import { useList, useUser } from 'hooks';
+import { isEmpty } from 'lodash';
 import _get from 'lodash/get';
-import { useEffect, useState } from 'react';
+import type { IMenuManipulator } from 'models/menu/interface';
+import menuQuery from 'models/menu/query';
+import { useRouter } from 'next/router';
+import { useEffect, useMemo, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
@@ -41,25 +60,141 @@ const WorkingTime = ({
     defaultValues: initialValues,
     shouldFocusError: true,
   });
-
+  const router = useRouter();
   const [isDayoff, setIsDayoff] = useState(false);
+
+  const { data } = useUser();
+  const salonList = data?.salon;
+  const [isLoading, setLoading] = useState(false);
+
+  const { list: manipulatorRes } = useList<IMenuManipulator | any>(
+    menuQuery.getManiplators(salonList?.[0]?.salonId),
+  );
+
+  const manipulatorId = (router.query.manipulator as string) || '';
+
+  const [selectedManipulator, setSelectedManipulator] = useState('');
 
   useEffect(() => {
     reset(initialValues);
   }, [initialValues, reset]);
 
   useEffect(() => {
+    setSelectedManipulator(manipulatorId);
+  }, [manipulatorId]);
+
+  useEffect(() => {
     setIsDayoff(initialValues?.isDayOff || false);
   }, [initialValues?.isDayOff]);
 
+  const manipulatorList = useMemo(() => {
+    return manipulatorRes.map((item) => ({
+      id: item._id,
+      name: item.nameKana,
+    }));
+  }, [manipulatorRes]);
+
+  const handleChange = async (event: any) => {
+    setLoading(true);
+    const manipulatorName = event.target.value || '';
+
+    router.push(
+      {
+        href: router.pathname,
+        query: {
+          page: 1,
+          manipulator: manipulatorName,
+        },
+      },
+      undefined,
+      {
+        shallow: true,
+      },
+    );
+    setLoading(false);
+  };
+
   return (
     <Stack alignItems="center" sx={styles.workingTimeWrapper}>
+      <Box sx={styles.navLink} onClick={() => router.push('/my-page/schedule')}>
+        <ArrowLeft />
+        変更せずに戻る
+      </Box>
       <Typography variant="title">営業時間変更</Typography>
 
       <Box display="flex" mt={40} flexDirection="column" gap={40} width="100%">
         <ChangeDate />
         <CommonSection title="掲載中のメニュー一覧">
-          {initialValues ? (
+          <Box
+            display="flex"
+            flexDirection={'column'}
+            p={{ xs: 20, tablet: 0 }}
+            width={'100%'}
+            mt={23}
+            mb={10}
+          >
+            <Typography component={'h3'} sx={styles.labelText}>
+              整体師で絞り込む
+            </Typography>
+            <Select
+              value={selectedManipulator}
+              onChange={handleChange}
+              sx={styles.nameSelect}
+              displayEmpty
+              renderValue={
+                selectedManipulator !== ''
+                  ? undefined
+                  : () => <Box sx={styles.placeholder}>整体師</Box>
+              }
+              IconComponent={(iconProps) => {
+                if (isEmpty(selectedManipulator.toString())) {
+                  return (
+                    <IconButton {...iconProps}>
+                      <ArrowDownSvg />
+                    </IconButton>
+                  );
+                }
+                return (
+                  <IconButton
+                    onClick={() => {
+                      setSelectedManipulator('');
+                      router.push(
+                        {
+                          href: router.pathname,
+                          query: {
+                            page: 1,
+                          },
+                        },
+                        undefined,
+                        {
+                          shallow: true,
+                        },
+                      );
+                    }}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                );
+              }}
+            >
+              <MenuItem key="none" value="" disabled>
+                <Box sx={styles.placeholder}>整体師</Box>
+              </MenuItem>
+              {manipulatorList?.map((salon) => (
+                <MenuItem key={salon.id} value={salon.id}>
+                  {salon.name}
+                </MenuItem>
+              ))}
+            </Select>
+            <Box pt={10}>
+              ※基本勤務時間を変更する場合、<Link href="/">整体師編集</Link>
+              で変更ください。
+            </Box>
+            <Box mt={10}>
+              <Divider />
+            </Box>
+          </Box>
+          {initialValues && !isLoading ? (
             <Box
               width="100%"
               pt={20}
