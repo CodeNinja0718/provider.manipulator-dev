@@ -80,16 +80,18 @@ const Form = () => {
           salonInfo: res?.salonInfo,
           status: res?.status,
           ticketUsed: res?.ticketUsed,
-          couponDiscount: res?.couponDiscount,
+          couponInfo: couponList.find(
+            (coupon) => coupon.code === res?.couponInfo?.code,
+          ),
         };
   const initialTreatmentValues: TreatmentFormValues = {
-    price: treatmentData?.price || res?.plan?.menuInfo?.price,
+    price: treatmentData?.price || res?.plan?.menuInfo?.price || 0,
     treatmentInfo:
       treatmentData?.treatmentInfo || res?.treatmentInfo?.treatmentInfo || '',
     menuId: treatmentData?.menuId || res?.plan?.menuId,
     treatmentFile:
       treatmentData?.treatmentFile || res?.treatmentInfo?.treatmentFile || [],
-    couponCode: treatmentData?.couponCode || res?.couponCode || '',
+    couponCode: treatmentData?.couponCode || res?.couponInfo?.code || '',
     priceType:
       treatmentData?.priceType ||
       (res?.ticketUsed ? 'ticket' : 'one-shot') ||

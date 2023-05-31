@@ -2,6 +2,7 @@ import { Box, Divider, Stack, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
 import dayjs from 'dayjs';
 import type { ISalonInfo, ResultMenu } from 'models/reservation/interface';
+import type { ICoupon } from 'models/tickets/interface';
 import React from 'react';
 import { NumericFormat } from 'react-number-format';
 import { DATE_FORMAT } from 'utils/const';
@@ -14,7 +15,7 @@ interface IReservationContent extends ResultMenu {
   endTime: string;
   salonInfo: ISalonInfo;
   ticketUsed?: number;
-  couponDiscount?: number;
+  couponInfo?: ICoupon;
 }
 
 const ReservationContent: React.FC<IReservationContent> = ({
@@ -23,7 +24,7 @@ const ReservationContent: React.FC<IReservationContent> = ({
   endTime,
   salonInfo,
   ticketUsed,
-  couponDiscount,
+  couponInfo,
   originalPrice,
   finalPrice,
 }) => {
@@ -66,10 +67,23 @@ const ReservationContent: React.FC<IReservationContent> = ({
               center={`${ticketUsed.toString()}回`}
             />
           )}
-          {!!couponDiscount && (
+          {!!couponInfo && (
             <ContentLine
               start="クーポン"
-              center={`期間限定 ${couponDiscount}円クーポン`}
+              center={couponInfo.title}
+              end={
+                <Typography color={'red'}>
+                  <NumericFormat
+                    value={couponInfo.amount || 0}
+                    thousandSeparator=","
+                    suffix="円"
+                    displayType="text"
+                    renderText={(value) => {
+                      return `- ${value}`;
+                    }}
+                  />
+                </Typography>
+              }
             />
           )}
 

@@ -46,11 +46,42 @@ const ReservationTreatment: React.FC<IReservationTreatment> = ({
     }
   }, [initialTreatmentValues, setValue]);
 
-  const onMenuChange = (e: SelectChangeEvent | undefined) => {
-    const selectedMenuId = !!e && e.target.value;
+  const onMenuChange = (e: SelectChangeEvent<unknown> | undefined) => {
+    if (!e) {
+      return;
+    }
 
-    if (!selectedMenuId || selectedMenuId !== initialTreatmentValues.menuId) {
-      setValue('priceType', 'one-shot');
+    const selectedMenuId = e.target.value as string;
+
+    if (!selectedMenuId) {
+      return;
+    }
+
+    if (selectedMenuId === initialTreatmentValues.menuId) {
+      setValue('priceType', initialTreatmentValues.priceType);
+      return;
+    }
+
+    const selectedMenu = menuList.find((menu) => menu.id === selectedMenuId);
+    const haveTicket =
+      ticketList.findIndex((t) => t.menuId === selectedMenuId) > 0;
+
+    if (!selectedMenu) {
+      return;
+    }
+
+    if (selectedMenu.menuTypes.length > 0) {
+      if (selectedMenu.menuTypes[0] === 'coupon' && haveTicket) {
+        setValue('priceType', 'ticket');
+        return;
+      }
+
+      if (selectedMenu.menuTypes[0] === 'one_time') {
+        setValue('priceType', 'one-shot');
+        return;
+      }
+
+      setValue('priceType', '');
     }
   };
 
