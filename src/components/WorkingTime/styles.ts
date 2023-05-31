@@ -9,6 +9,7 @@ const styles = {
       xs: '60px 0',
       tablet: '64px 0',
     },
+    position: 'relative',
   },
   emptyText: {
     textAlign: 'center',
@@ -52,6 +53,42 @@ const styles = {
         '&:last-child': {
           minWidth: { xs: 'auto' },
         },
+      },
+    },
+  },
+  navLink: {
+    display: 'flex',
+    alignItems: 'center',
+    textDecoration: 'none',
+    color: 'graySolid',
+    cursor: 'pointer',
+    fontSize: 14,
+    svg: {
+      width: 14,
+      height: 14,
+    },
+    '&:hover': {
+      color: 'primary.main',
+      textDecoration: 'underline',
+    },
+    '&[data-disabled=true]': {
+      opacity: 0.5,
+      pointerEvents: 'none',
+    },
+    position: 'absolute',
+    left: -32,
+    top: 21,
+  },
+  nameSelect: {
+    '.MuiSelect-icon': {
+      top: 'calc(50% - 12px)',
+      right: 9,
+      padding: 4,
+      width: 24,
+      height: 24,
+      svg: {
+        width: 18,
+        height: 18,
       },
     },
   },
