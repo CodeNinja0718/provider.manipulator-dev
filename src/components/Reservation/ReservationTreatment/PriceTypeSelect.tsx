@@ -31,6 +31,7 @@ const PriceTypeSelect = ({
 }: PriceTypeSelectProps) => {
   const {
     field: { value, onChange },
+    fieldState: { error },
   } = useController({
     name: 'priceType',
     control,
@@ -44,90 +45,115 @@ const PriceTypeSelect = ({
     }
 
     if (
-      initialTreatmentValues?.menuId &&
-      selectedMenuId === initialTreatmentValues.menuId
+      selectedMenuId === initialTreatmentValues?.menuId &&
+      initialTreatmentValues.priceType === 'ticket'
     ) {
-      return initialTreatmentValues.priceType === 'ticket';
+      return true;
     }
 
-    const currentMenuTicket = menuList.find(
+    const currentSelectedMenu = menuList.find(
       (menu) => menu._id === selectedMenuId,
-    )?.ticket;
+    );
 
-    if (!currentMenuTicket) {
+    if (!currentSelectedMenu) {
       return false;
     }
 
     return (
       ticketList.findIndex(
-        (ticket) => currentMenuTicket.id === ticket.ticketId,
-      ) > -1
+        (ticket) => currentSelectedMenu.ticket?.id === ticket.ticketId,
+      ) > -1 && currentSelectedMenu.menuTypes.includes('coupon')
     );
   }, [
     selectedMenuId,
-    initialTreatmentValues.menuId,
+    initialTreatmentValues?.menuId,
     initialTreatmentValues.priceType,
     menuList,
     ticketList,
   ]);
 
+  const canOneShotChoosed = useMemo(() => {
+    if (!selectedMenuId) {
+      return false;
+    }
+
+    const currentSelectedMenu = menuList.find(
+      (menu) => menu._id === selectedMenuId,
+    );
+
+    if (!currentSelectedMenu) {
+      return false;
+    }
+
+    return currentSelectedMenu.menuTypes.includes('one_time');
+  }, [menuList, selectedMenuId]);
+
   return (
-    <RadioGroup
-      name="priceType"
-      sx={{ mb: 12 }}
-      value={value}
-      onChange={onChange}
-    >
-      <Box
-        display={'flex'}
-        flexDirection={'row'}
-        alignItems={'flex-start'}
-        sx={styles.radioWrapper}
+    <>
+      <RadioGroup
+        name="priceType"
+        sx={{ mb: 12 }}
+        value={value}
+        onChange={onChange}
       >
-        <FormControlLabel
-          control={<Radio className="customRadio" />}
-          label={
-            <NumberField
-              name="price"
-              control={control}
-              label="料金（税抜)"
-              placeholder="6,000"
-              showEndAdornment={false}
-              className="maxHeight maxWidth"
-              sx={styles.numberField}
-              unitLabel={
-                <Typography sx={{ ...styles.unitLabel, ml: 12 }}>
-                  {UNIT.YEN}
+        <Box
+          display={'flex'}
+          flexDirection={'row'}
+          alignItems={'flex-start'}
+          sx={styles.radioWrapper}
+        >
+          <FormControlLabel
+            control={<Radio className="customRadio" />}
+            label={
+              <NumberField
+                name="price"
+                control={control}
+                label="料金（税抜)"
+                placeholder="6,000"
+                disabled={!canOneShotChoosed}
+                showEndAdornment={false}
+                className="maxHeight maxWidth"
+                sx={styles.numberField}
+                unitLabel={
+                  <Typography sx={{ ...styles.unitLabel, ml: 12 }}>
+                    {UNIT.YEN}
+                  </Typography>
+                }
+              />
+            }
+            value="one-shot"
+            disabled={!canOneShotChoosed}
+          />
+        </Box>
+        <Box
+          display={'flex'}
+          flexDirection={'row'}
+          alignItems={'flex-start'}
+          sx={styles.radioWrapper}
+        >
+          <FormControlLabel
+            control={<Radio className="customRadio" />}
+            label={
+              <Box display={'flex'} flexDirection={'column'} mb={12}>
+                <Typography fontWeight={'bold'} fontSize={16}>
+                  回数券利用
                 </Typography>
-              }
-            />
-          }
-          value="one-shot"
-        />
-      </Box>
-      <Box
-        display={'flex'}
-        flexDirection={'row'}
-        alignItems={'flex-start'}
-        sx={styles.radioWrapper}
-      >
-        <FormControlLabel
-          control={<Radio className="customRadio" />}
-          label={
-            <Box display={'flex'} flexDirection={'column'} mb={12}>
-              <Typography fontWeight={'bold'} fontSize={16}>
-                回数券利用
-              </Typography>
-              <Typography fontWeight={'bold'} fontSize={16}>
-                1回
-              </Typography>
-            </Box>
-          }
-          value={'ticket'}
-          disabled={!canTicketChoosed}
-        />
-      </Box>
-    </RadioGroup>
+                <Typography fontWeight={'bold'} fontSize={16}>
+                  1回
+                </Typography>
+              </Box>
+            }
+            value={'ticket'}
+            disabled={!canTicketChoosed}
+          />
+        </Box>
+      </RadioGroup>
+      {!!error && (
+        <Typography fontSize={14} color={'red'} mb={16}>
+          {error.message}
+        </Typography>
+      )}
+    </>
   );
 };
 

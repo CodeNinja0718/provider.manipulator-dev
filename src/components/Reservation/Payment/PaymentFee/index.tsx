@@ -24,9 +24,7 @@ const PaymentFee: React.FC<IPaymentFee> = ({
       <Typography sx={styles.label}>お支払い料金</Typography>
       <Stack spacing={20} divider={<Divider flexItem />}>
         {/* Ticket, Coupon */}
-        {initialTreatmentValues.priceType === 'ticket' && (
-          <ContentLine start="回数券" end="1回使用" />
-        )}
+        {!!ticketData && <ContentLine start="回数券" end="1回使用" />}
         {!!couponData && (
           <ContentLine
             start="クーポン"
@@ -51,7 +49,7 @@ const PaymentFee: React.FC<IPaymentFee> = ({
             <NumericFormat
               value={
                 initialTreatmentValues.priceType === 'ticket'
-                  ? ticketData?.price || 0
+                  ? 0
                   : (initialTreatmentValues?.price || 0) -
                     (couponData?.amount || 0)
               }

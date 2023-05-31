@@ -85,7 +85,11 @@ const PaymentDetail: React.FC<IPaymentDetail> = ({
         </Stack>
         <PaymentFee
           initialTreatmentValues={initialTreatmentValues}
-          couponData={couponData}
+          couponData={
+            initialTreatmentValues.priceType === 'one-shot'
+              ? couponData
+              : undefined
+          }
           ticketData={
             initialTreatmentValues.priceType === 'ticket'
               ? { price: menuUpdatingInfo.ticket.price }
