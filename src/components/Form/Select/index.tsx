@@ -25,7 +25,7 @@ interface SelectFieldProps<TFormValues extends FieldValues>
   showError?: boolean;
   formControlProps?: FormControlProps;
   fixedHelperText?: boolean;
-  handleChange?: (e?: SelectChangeEvent) => void;
+  handleChange?: (e?: SelectChangeEvent<unknown>) => void;
   menuListProps?: SxProps<Theme>;
   menuItemSx?: SxProps<Theme>;
 }
@@ -72,7 +72,7 @@ const Select = <TFormValues extends FieldValues>({
         {...props}
         {...otherField}
         onChange={(e) => {
-          if (handleChange) handleChange();
+          if (handleChange) handleChange(e);
           onChange(e);
         }}
         value={value}
