@@ -1,25 +1,30 @@
 import { Stack, Typography } from '@mui/material';
 import Layout from 'components/Layout';
+import ManipulatorProfileConfirm from 'components/ManipulatorProfile/Confirm';
+import type { ManipulatorProfileValues } from 'components/ManipulatorProfile/Form/schema';
 import CompleteProfileForm from 'components/Profile/Form';
 import type { ProfileFormValues } from 'components/Profile/Form/schema';
 import SalonProfile from 'components/Profile/SalonProfile';
+import dayjs from 'dayjs';
 import { useFetch, useMutate, useUser } from 'hooks';
 import range from 'lodash/range';
 import toString from 'lodash/toString';
+import type { IManipulatorItem } from 'models/manipulator/interface';
+import { convertManipulatorProfile } from 'models/profile';
 import type { ISalonDetail } from 'models/salon/interface';
 import salonQuery from 'models/salon/query';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FEATURES_DATA } from 'utils/const';
 
 const ProfilePage = () => {
-  const { data } = useUser();
+  const { data, isOwner } = useUser();
   const router = useRouter();
   const { editing } = router.query;
   const isEditting = typeof editing === 'string' && editing === 'true';
   const salonId = data?.salon[0]?.salonId || '';
   const { data: salonDetail, refetch } = useFetch<ISalonDetail>(
-    salonQuery.getSalonDetail({ salonId }),
+    salonQuery.getSalonDetail({ salonId, disabledToFetch: !isOwner }),
   );
 
   const { mutateAsync: handleUpdateSalon, isLoading } = useMutate(
@@ -35,6 +40,32 @@ const ProfilePage = () => {
       })),
     [],
   );
+
+  const initialValuesManipulator = {
+    avatar: null,
+    name: '',
+    nameKana: '',
+    email: '',
+    isRegister: [],
+    businessHours: initBusinessHours,
+    engagement: dayjs().year(),
+    qualification: [],
+    description: '',
+    pr: '',
+    photos: [],
+    symptoms: [],
+  };
+  const [profileData, setProfileData] = useState<ManipulatorProfileValues>(
+    initialValuesManipulator,
+  );
+
+  useEffect(() => {
+    if (data && !isOwner) {
+      const detailData: IManipulatorItem = { ...(data as any) };
+      const newValues = convertManipulatorProfile(detailData);
+      setProfileData(newValues);
+    }
+  }, [isOwner, data]);
 
   const initialValues: ProfileFormValues = useMemo(() => {
     const addresses = salonDetail?.addresses[0];
@@ -169,27 +200,39 @@ const ProfilePage = () => {
           loading={isLoading}
         />
       ) : (
-        <SalonProfile
-          data={initialValues}
-          handleConfirm={() => {
-            router.push(
-              {
-                pathname: '/my-page/profile',
-                query: {
-                  editing: 'true',
-                },
-              },
-              undefined,
-              {
-                shallow: true,
-              },
-            );
-            window.scrollTo({
-              top: 0,
-              behavior: 'smooth',
-            });
-          }}
-        />
+        <>
+          {isOwner ? (
+            <SalonProfile
+              data={initialValues}
+              handleConfirm={() => {
+                router.push(
+                  {
+                    pathname: '/my-page/profile',
+                    query: {
+                      editing: 'true',
+                    },
+                  },
+                  undefined,
+                  {
+                    shallow: true,
+                  },
+                );
+                window.scrollTo({
+                  top: 0,
+                  behavior: 'smooth',
+                });
+              }}
+            />
+          ) : (
+            data && (
+              <ManipulatorProfileConfirm
+                data={profileData}
+                handleConfirm={() => router.push(`/my-page/profile/edit`)}
+                confirmText="修正する"
+              />
+            )
+          )}
+        </>
       )}
     </Stack>
   );

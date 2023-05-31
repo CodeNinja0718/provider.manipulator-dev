@@ -10,11 +10,13 @@ interface PublishedMenuProps {
   menus: IMenu[];
   currentSalonId: string;
   onRefetchList: () => void;
+  isDisableAction: boolean;
 }
 const PublishedMenu = ({
   menus,
   currentSalonId,
   onRefetchList,
+  isDisableAction,
 }: PublishedMenuProps) => {
   return (
     <CommonSection title="掲載中のメニュー一覧">
@@ -25,6 +27,7 @@ const PublishedMenu = ({
               <MenuCard
                 key={menu._id}
                 menu={menu}
+                isDisableAction={isDisableAction}
                 onRefetchList={onRefetchList}
               />
             ))
@@ -34,10 +37,12 @@ const PublishedMenu = ({
             </Typography>
           )}
         </Box>
-        <DirectRegisterMenu
-          currentSalonId={currentSalonId}
-          className="sectionButton"
-        />
+        {!isDisableAction && (
+          <DirectRegisterMenu
+            currentSalonId={currentSalonId}
+            className="sectionButton"
+          />
+        )}
       </Box>
     </CommonSection>
   );

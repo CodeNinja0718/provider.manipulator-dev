@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import ArrowLeft from '@icons/arrow-left.svg';
 import ArrowRight from '@icons/arrow-right.svg';
 import { LoadingButton } from '@mui/lab';
 import { Stack } from '@mui/material';
@@ -18,10 +19,12 @@ interface ProfileFormProps {
   initialValues: ManipulatorProfileValues;
   onSubmit: SubmitHandler<ManipulatorProfileValues>;
   isEditScreen?: boolean;
+  onCancel?: () => void;
 }
 
 const ManipulatorProfile = ({
   onSubmit,
+  onCancel,
   initialValues,
   isEditScreen = false,
 }: ProfileFormProps) => {
@@ -66,17 +69,29 @@ const ManipulatorProfile = ({
         />
       </Stack>
 
-      <LoadingButton
-        size="medium"
-        color="primary"
-        variant="contained"
-        type="submit"
-        endIcon={<ArrowRight />}
-        loadingPosition="end"
-        sx={styles.button}
-      >
-        確認画面へ
-      </LoadingButton>
+      <Stack spacing={20}>
+        <LoadingButton
+          size="medium"
+          color="primary"
+          variant="contained"
+          type="submit"
+          endIcon={<ArrowRight />}
+          loadingPosition="end"
+          sx={styles.button}
+        >
+          確認画面へ
+        </LoadingButton>
+        {onCancel && (
+          <LoadingButton
+            variant="outlined"
+            sx={styles.button}
+            startIcon={<ArrowLeft />}
+            onClick={onCancel}
+          >
+            戻る
+          </LoadingButton>
+        )}
+      </Stack>
     </Stack>
   );
 };

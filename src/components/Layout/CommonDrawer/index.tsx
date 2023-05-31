@@ -16,12 +16,17 @@ import Link from 'components/Link';
 import useGlobalState from 'hooks/useGlobalState';
 import useLogout from 'models/auth/useLogout';
 import { useRouter } from 'next/router';
-import { PROVIDER_NAVIGATION, SOCIAL_MEDIA } from 'utils/const';
+import { SOCIAL_MEDIA } from 'utils/const';
 import Helper from 'utils/helpers';
+import type { NavigationItem } from 'utils/type';
 
 import styles from './styles';
 
-const CommonDrawer: React.FC = () => {
+interface DrawerProps {
+  menus: NavigationItem[];
+}
+
+const CommonDrawer: React.FC<DrawerProps> = ({ menus }) => {
   const router = useRouter();
   const { openDrawer, setOpenDrawer } = useGlobalState();
   const { logout } = useLogout();
@@ -41,7 +46,7 @@ const CommonDrawer: React.FC = () => {
               <ListItemText>マイページ</ListItemText>
             </ListItemButton>
           </Link>
-          {PROVIDER_NAVIGATION.map((nav) => {
+          {menus.map((nav) => {
             return (
               <Link key={nav.href} href={nav.href}>
                 <ListItemButton

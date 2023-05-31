@@ -1,8 +1,10 @@
 import { ArrowUpward } from '@mui/icons-material';
 import { Box, Card, IconButton, Stack } from '@mui/material';
 import { useScroll } from 'framer-motion';
+import useUser from 'hooks/useUser';
 import type { ReactNode } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { PROVIDER_NAVIGATION } from 'utils/const';
 
 import Drawer from './CommonDrawer';
 import Footer from './Footer';
@@ -26,6 +28,12 @@ export default function Layout({
   const { scrollY } = useScroll({
     offset: ['0px start', `${pageHeight - 67}px end`],
   });
+  const { isOwner } = useUser();
+
+  const menus = useMemo(() => {
+    if (isOwner) return PROVIDER_NAVIGATION;
+    return PROVIDER_NAVIGATION.filter((item) => !item.notAllowNormal);
+  }, [isOwner]);
 
   useEffect(() => {
     return scrollY.onChange((latest) => {
@@ -40,7 +48,7 @@ export default function Layout({
       return (
         <Card sx={styles.cardLayout}>
           <Stack direction="row" sx={styles.sideMenuLayoutWrapper}>
-            <SideMenu />
+            <SideMenu menus={menus} />
             {content}
           </Stack>
         </Card>
@@ -59,7 +67,7 @@ export default function Layout({
         {renderMainLayout(children)}
       </Box>
       <Footer />
-      <Drawer />
+      <Drawer menus={menus} />
       <IconButton
         sx={[
           ...(Array.isArray(styles.fabButton)

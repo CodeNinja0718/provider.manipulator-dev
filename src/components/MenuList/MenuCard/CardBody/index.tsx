@@ -11,9 +11,10 @@ import PriceLine from './PriceLine';
 
 interface CardBodyProps {
   data: IMenu;
+  isDisableAction: boolean;
   onRefetchList: () => void;
 }
-const CardBody = ({ data, onRefetchList }: CardBodyProps) => {
+const CardBody = ({ data, isDisableAction, onRefetchList }: CardBodyProps) => {
   const router = useRouter();
   const { setConfirmModal } = useGlobalState();
   const handleOpenDetail = () => {
@@ -46,25 +47,29 @@ const CardBody = ({ data, onRefetchList }: CardBodyProps) => {
   return (
     <Box sx={styles.menuCardBody}>
       <PriceLine data={data} />
-      <Box display="flex">
-        <Button
-          variant="outlined"
-          endIcon={<ArrowRight />}
-          sx={styles.button}
-          onClick={handleOpenDetail}
-        >
-          編集
-        </Button>
-      </Box>
-      <Box display="flex" justifyContent={'center'}>
-        <Button
-          sx={styles.buttonDelete}
-          startIcon={<DeleteIcon />}
-          onClick={showConfirmLogout}
-        >
-          削除
-        </Button>
-      </Box>
+      {!isDisableAction && (
+        <>
+          <Box display="flex">
+            <Button
+              variant="outlined"
+              endIcon={<ArrowRight />}
+              sx={styles.button}
+              onClick={handleOpenDetail}
+            >
+              編集
+            </Button>
+          </Box>
+          <Box display="flex" justifyContent={'center'}>
+            <Button
+              sx={styles.buttonDelete}
+              startIcon={<DeleteIcon />}
+              onClick={showConfirmLogout}
+            >
+              削除
+            </Button>
+          </Box>
+        </>
+      )}
     </Box>
   );
 };
