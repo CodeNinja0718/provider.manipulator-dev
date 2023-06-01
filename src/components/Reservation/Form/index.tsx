@@ -80,7 +80,7 @@ const Form = () => {
           salonInfo: res?.salonInfo,
           status: res?.status,
           ticketUsed: res?.ticketUsed,
-          couponInfo: couponList.find(
+          couponInfo: couponList?.find(
             (coupon) => coupon.code === res?.couponInfo?.code,
           ),
         };
