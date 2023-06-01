@@ -50,6 +50,7 @@ declare module '@mui/material/styles' {
     chamoisee: string;
     nyanza: string;
     spanishOrange: string;
+    dollarBill: string;
     unbleachedSilk: string;
   }
 
@@ -73,6 +74,7 @@ declare module '@mui/material/styles' {
     chamoisee?: string;
     nyanza?: string;
     spanishOrange?: string;
+    dollarBill?: string;
     unbleachedSilk?: string;
   }
 
@@ -150,6 +152,7 @@ const palette: MuiPaletteOptions = {
   chamoisee: '#9c795e',
   nyanza: '#e3f5d6',
   spanishOrange: '#EA6500',
+  dollarBill: '#8ab46a',
   unbleachedSilk: '#FFDFC7',
   action: {
     hoverOpacity: 0.04,
