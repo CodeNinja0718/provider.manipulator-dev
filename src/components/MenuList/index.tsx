@@ -63,7 +63,7 @@ const MenuList = () => {
   };
 
   const manipulatorList = useMemo(() => {
-    return manipulatorRes.map((item) => ({
+    return manipulatorRes?.map((item) => ({
       id: item._id,
       name: item.nameKana,
     }));
