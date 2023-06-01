@@ -37,7 +37,7 @@ const ManipulatorList = () => {
     enabled: true,
     staleTime: 0,
   });
-
+  
   return (
     <Stack
       alignItems="center"
@@ -46,7 +46,7 @@ const ManipulatorList = () => {
       <Typography variant="title" mb={46}>
         整体師一覧
       </Typography>
-      {isLoading ? (
+      {!list || isLoading ? (
         <Stack
           alignItems="center"
           justifyContent="flex-start"
