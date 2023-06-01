@@ -11,13 +11,18 @@ import {
 import useLogout from 'models/auth/useLogout';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { PROVIDER_NAVIGATION } from 'utils/const';
+import type { NavigationItem } from 'utils/type';
 
 import styles from './styles';
 
-const SideMenu: React.FC = () => {
+interface SideMenuProps {
+  menus: NavigationItem[];
+}
+
+const SideMenu: React.FC<SideMenuProps> = ({ menus }) => {
   const router = useRouter();
   const { logout } = useLogout();
+
   return (
     <Box sx={styles.sideMenuContainer}>
       <Box sx={styles.sideMenuWrapper}>
@@ -28,7 +33,7 @@ const SideMenu: React.FC = () => {
           disablePadding
           sx={styles.menuList}
         >
-          {PROVIDER_NAVIGATION.map((nav) => (
+          {menus.map((nav) => (
             <Link key={nav.href} href={nav.href}>
               <ListItemButton
                 sx={styles.menuBtn}

@@ -9,7 +9,7 @@ import ScheduleSvg from '@icons/icon_schedule.svg';
 import InstagramIcon from '@icons/instagram_icon.svg';
 import TwitterIcon from '@icons/twitter_icon.svg';
 
-import type { INavigation } from './type';
+import type { NavigationItem } from './type';
 
 export const Regex = {
   PASSWORD_POLICY:
@@ -62,12 +62,7 @@ export const GENDER_TEXT = {
   UNANSWERED: '未回答',
 };
 
-export const PROVIDER_NAVIGATION: {
-  href: string;
-  label: string;
-  icon: React.ReactNode;
-  children?: INavigation[];
-}[] = [
+export const PROVIDER_NAVIGATION: NavigationItem[] = [
   {
     href: '/my-page/schedule',
     label: 'スケジュール',
@@ -77,6 +72,7 @@ export const PROVIDER_NAVIGATION: {
     href: '/my-page/manipulator',
     label: '整体師一覧',
     icon: <RegisterSvg />,
+    notAllowNormal: true,
   },
   {
     href: '/my-page/menu',
@@ -348,4 +344,9 @@ export const FILTER_ITEMS = [
 export const MANIPULATOR_STATUS = {
   ACTIVE: 'ACTIVE',
   UNACTIVE: 'UNACTIVE',
+};
+
+export const USER_ROLES = {
+  NORMAL: 'Normal',
+  OWNER: 'Owner',
 };

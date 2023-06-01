@@ -23,7 +23,7 @@ import PublishedMenu from './PublishedMenu';
 import styles from './styles';
 
 const MenuList = () => {
-  const { data } = useUser();
+  const { data, isOwner } = useUser();
   const salonList = data?.salon;
   const salonId = salonList?.[0]?.salonId;
   const [isLoading, setLoading] = useState(false);
@@ -81,7 +81,7 @@ const MenuList = () => {
       <Box display="flex" justifyContent="center">
         <Typography variant="title">メニュー管理</Typography>
       </Box>
-      <DirectRegisterMenu currentSalonId={currentSalonId} />
+      {isOwner && <DirectRegisterMenu currentSalonId={currentSalonId} />}
 
       <Box display="flex" mt={40} flexDirection="column" gap={40}>
         <Box display="flex" flexDirection={'column'} p={{ xs: 20, tablet: 0 }}>
@@ -138,11 +138,13 @@ const MenuList = () => {
             <PublishedMenu
               menus={publicMenus}
               currentSalonId={currentSalonId}
+              isDisableAction={!isOwner}
               onRefetchList={handleRefetchList}
             />
             <UnpublishedMenu
               menus={privateMenus}
               currentSalonId={currentSalonId}
+              isDisableAction={!isOwner}
               onRefetchList={handleRefetchList}
             />
           </>

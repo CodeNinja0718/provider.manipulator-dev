@@ -4,10 +4,13 @@ const salonQuery = {
     method: 'post',
     successMessage: 'お支払い方法を削除しました',
   },
-  getSalonDetail: ({ salonId = '' }: Record<string, unknown>) => ({
+  getSalonDetail: ({
+    salonId = '',
+    disabledToFetch = false,
+  }: Record<string, unknown>) => ({
     apiUrl: `/salon/salons/${salonId}`,
     queryKey: ['salon-detail', { salonId }],
-    enabled: !!salonId,
+    enabled: !!salonId && !disabledToFetch,
   }),
   updateSalon: {
     apiUrl: (params: Record<string, unknown>) =>

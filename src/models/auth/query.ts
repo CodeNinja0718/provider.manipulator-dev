@@ -26,6 +26,11 @@ const authQuery = {
     method: 'patch',
     defaultToast: true,
   },
+  updateMyProfile: {
+    apiUrl: '/account/manipulator/profile',
+    method: 'patch',
+    successMessage: 'レジスタが成功する',
+  },
 };
 
 export default authQuery;

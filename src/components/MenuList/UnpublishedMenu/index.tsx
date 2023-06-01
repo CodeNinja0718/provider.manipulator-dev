@@ -9,11 +9,13 @@ import styles from '../styles';
 interface UnpublishedMenuProps {
   menus: IMenu[];
   currentSalonId: string;
+  isDisableAction: boolean;
   onRefetchList: () => void;
 }
 const UnpublishedMenu = ({
   menus,
   currentSalonId,
+  isDisableAction,
   onRefetchList,
 }: UnpublishedMenuProps) => {
   return (
@@ -29,6 +31,7 @@ const UnpublishedMenu = ({
                 key={menu._id}
                 menu={menu}
                 isUnpublished={true}
+                isDisableAction={isDisableAction}
                 onRefetchList={onRefetchList}
               />
             ))
@@ -39,10 +42,12 @@ const UnpublishedMenu = ({
           )}
         </Box>
 
-        <DirectRegisterMenu
-          currentSalonId={currentSalonId}
-          className="sectionButton"
-        />
+        {!isDisableAction && (
+          <DirectRegisterMenu
+            currentSalonId={currentSalonId}
+            className="sectionButton"
+          />
+        )}
       </Box>
     </CommonSection>
   );

@@ -34,3 +34,11 @@ export enum Gender {
   FEMALE,
   UNANSWERED,
 }
+
+export interface NavigationItem {
+  href: string;
+  label: string;
+  icon: React.ReactNode;
+  children?: INavigation[];
+  notAllowNormal?: boolean;
+}
