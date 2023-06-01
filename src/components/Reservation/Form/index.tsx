@@ -5,7 +5,6 @@ import CustomerDetail from 'components/Reservation/ReservationDetail/CustomerDet
 import type { TreatmentFormValues } from 'components/Reservation/ReservationTreatment/models/schema';
 import schema from 'components/Reservation/ReservationTreatment/models/schema';
 import { useFetch, useList, useMutate } from 'hooks';
-import _omit from 'lodash/omit';
 import type { IReservationItem } from 'models/reservation/interface';
 import reservationQuery from 'models/reservation/query';
 import type { ICoupon, ICouponTicket } from 'models/tickets/interface';
@@ -51,6 +50,13 @@ const Form = () => {
     reservationQuery.reservationComplete(router?.query?.reservationId),
   );
 
+  const {
+    mutateAsync: handleReservationChange,
+    isLoading: isBookingChangeLoading,
+  } = useMutate(
+    reservationQuery.reservationChange(router?.query?.reservationId),
+  );
+
   const isShowTreatment = useMemo(() => {
     return router?.query?.isShowTreatment;
   }, [router]);
@@ -84,6 +90,7 @@ const Form = () => {
             (coupon) => coupon.code === res?.couponInfo?.code,
           ),
         };
+
   const initialTreatmentValues: TreatmentFormValues = {
     price: treatmentData?.price || res?.plan?.menuInfo?.price || 0,
     treatmentInfo:
@@ -117,25 +124,31 @@ const Form = () => {
   };
 
   const handleCompleteForm = (callback: () => void) => {
-    const params = _omit(initialTreatmentValues, [
-      'treatmentFile',
-      'price',
-      'priceType',
-      'couponCode',
-    ]);
-
     const priceType = initialTreatmentValues?.priceType || 'one-shot';
+    const menuId = initialTreatmentValues?.menuId;
+
+    if (!menuId) {
+      return;
+    }
 
     const priceParams = (() => {
-      const menuId = initialTreatmentValues?.menuId;
-
       if (priceType === 'ticket') {
-        if (!menuId || menuId === res?.plan.menuId) return {};
+        if (menuId === res?.plan.menuId && !!res?.ticketUsed) {
+          return {};
+        }
+
         return {
           ticketId: ticketList?.find((ticket) => ticket.menuId === menuId)
             ?.ticketId,
           ticketUse: 1,
         };
+      }
+
+      if (
+        menuId === res?.plan.menuId &&
+        res?.couponInfo?.code === initialTreatmentValues?.couponCode
+      ) {
+        return {};
       }
 
       return {
@@ -147,29 +160,46 @@ const Form = () => {
     })();
 
     const file = initialTreatmentValues?.treatmentFile?.[0];
+    const treatmentFileData = file
+      ? {
+          treatmentFile: {
+            name: file?.originalName || '',
+            objectKey: file?.key || '',
+          },
+        }
+      : {};
     const registrationParams = {
       menuId: initialTreatmentValues?.menuId,
       reservationId: router?.query?.reservationId,
       customerName: res?.customerInfo?.name || '',
     };
 
-    handleReservationCompleted(
+    handleReservationChange(
       {
-        ...params,
+        menuId: initialTreatmentValues?.menuId,
         ...priceParams,
-        treatmentFile: {
-          name: file?.originalName || '',
-          objectKey: file?.key || '',
-        },
+        treatmentInfo: initialTreatmentValues?.treatmentInfo,
+        ...treatmentFileData,
       },
       {
         onSuccess: () => {
-          callback();
-          router.push(
-            `${Helper.parseURLByParams(
-              registrationParams,
-              `/my-page/reservation/complete-payment`,
-            )}`,
+          handleReservationCompleted(
+            {
+              menuId: initialTreatmentValues?.menuId,
+              treatmentInfo: initialTreatmentValues?.treatmentInfo,
+              ...treatmentFileData,
+            },
+            {
+              onSuccess: () => {
+                callback();
+                router.push(
+                  `${Helper.parseURLByParams(
+                    registrationParams,
+                    `/my-page/reservation/complete-payment`,
+                  )}`,
+                );
+              },
+            },
           );
         },
       },
@@ -211,7 +241,7 @@ const Form = () => {
             initialTreatmentValues={initialTreatmentValues}
             onBackTreatmentForm={handleBackTreatmentForm}
             treatmentData={treatmentData}
-            isSubmitLoading={isSubmitLoading}
+            isSubmitLoading={isSubmitLoading || isBookingChangeLoading}
             couponList={couponList}
             ticketList={ticketList}
             isLoading={isCouponLoading || isTicketLoading}

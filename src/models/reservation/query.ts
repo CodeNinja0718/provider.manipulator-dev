@@ -13,9 +13,14 @@ const reservationQuery = {
     queryKey: ['reservation-detail', id],
     enabled: !!id,
   }),
+  reservationChange: (reservationId: string | any) => ({
+    apiUrl: `/reservation/manipulator/reservations/${reservationId}/change-booking`,
+    method: 'post',
+    enabled: !!reservationId,
+  }),
   reservationComplete: (reservationId: string | any) => ({
-    apiUrl: `/reservation/manipulator/reservations/${reservationId}/complete`,
-    method: 'put',
+    apiUrl: `/reservation/manipulator/reservations/${reservationId}/complete-booking`,
+    method: 'post',
     successMessage: '編集メニュー成功',
     enabled: !!reservationId,
   }),
