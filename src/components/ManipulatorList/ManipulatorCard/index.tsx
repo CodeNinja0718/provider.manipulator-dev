@@ -43,7 +43,7 @@ const ManipulatorCard = ({ data }: ManipulatorCardProps) => {
           }}
         >
           <Typography component={'h3'} noWrap={true} title={'DSDS'}>
-            {data.nameKana}
+            {data.name}
           </Typography>
           <Box display="flex" alignItems="center" sx={styles.deleteBtn}>
             <DeleteIcon width={17} height={17} />
