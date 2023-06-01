@@ -37,7 +37,7 @@ const ManipulatorList = () => {
     enabled: true,
     staleTime: 0,
   });
-  
+
   return (
     <Stack
       alignItems="center"
