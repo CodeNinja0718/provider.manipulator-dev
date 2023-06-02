@@ -15,7 +15,7 @@ import { useList, useUser } from 'hooks';
 import { isEmpty } from 'lodash';
 import type { IMenu, IMenuManipulator } from 'models/menu/interface';
 import menuQuery from 'models/menu/query';
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import api from 'utils/api';
 import queryClient from 'utils/queryClient';
 
@@ -31,34 +31,56 @@ const MenuList = () => {
   const { list: manipulatorRes } = useList<IMenuManipulator | any>(
     menuQuery.getManiplators(salonList?.[0]?.salonId),
   );
+  const [selectedManipulator, setSelectedManipulator] = useState<
+    string | undefined
+  >('');
 
-  const [selectedManipulator, setSelectedManipulator] = useState('');
+  useEffect(() => {
+    if (data) {
+      setSelectedManipulator(data._id);
+      // setSelectedManipulator('6458a8f57caf402e7c150ee6')
+    }
+  }, [data]);
 
   const [publicMenus, setPublicMenus] = useState<IMenu[]>([]);
   const [privateMenus, setPrivateMenus] = useState<IMenu[]>([]);
-
-  const fetchMenuData = async (isPublic = true) => {
-    const { data: result } = await api.get(`salon/${salonId}/menu/list`, {
-      params: {
-        page: 1,
-        limit: 100,
-        sort: 'order.asc_updateAt.desc',
-        status: isPublic ? 'public' : 'private',
-        manipulatorId: selectedManipulator,
-      },
-    });
-    return result?.docs || [];
-  };
 
   const currentSalonId = useMemo(() => {
     return salonList?.[0]?.salonId || '';
   }, [salonList]);
 
+  const fetchMenuData = useCallback(
+    async (isPublic = true) => {
+      if (salonId && selectedManipulator) {
+        const { data: result } = await api.get(`salon/${salonId}/menu/list`, {
+          params: {
+            page: 1,
+            limit: 100,
+            sort: 'order.asc_updateAt.desc',
+            status: isPublic ? 'public' : 'private',
+            manipulatorId: selectedManipulator,
+          },
+        });
+        return result?.docs || [];
+      }
+
+      return [];
+    },
+    [selectedManipulator, salonId],
+  );
+
+  const loadMenuData = useCallback(async () => {
+    setPublicMenus(await fetchMenuData());
+    setPrivateMenus(await fetchMenuData(false));
+  }, [fetchMenuData]);
+
+  useEffect(() => {
+    loadMenuData();
+  }, [loadMenuData]);
+
   const handleChange = async (event: any) => {
     setLoading(true);
     setSelectedManipulator(event.target.value);
-    setPublicMenus(await fetchMenuData());
-    setPrivateMenus(await fetchMenuData(false));
     setLoading(false);
   };
 
@@ -68,7 +90,7 @@ const MenuList = () => {
       name: item.nameKana,
     }));
   }, [manipulatorRes]);
-
+  // console.log('manipulatorList', manipulatorList)
   // Re-fetch list
   const handleRefetchList = () => {
     queryClient.prefetchQuery({
@@ -101,7 +123,10 @@ const MenuList = () => {
                     : () => <Box sx={styles.placeholder}>整体師</Box>
                 }
                 IconComponent={(iconProps) => {
-                  if (isEmpty(selectedManipulator.toString())) {
+                  if (
+                    selectedManipulator === '' &&
+                    isEmpty(selectedManipulator.toString())
+                  ) {
                     return (
                       <IconButton {...iconProps}>
                         <ArrowDownSvg />
