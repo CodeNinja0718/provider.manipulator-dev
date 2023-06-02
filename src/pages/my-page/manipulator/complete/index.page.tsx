@@ -16,9 +16,14 @@ const ProfileCompletionPage = () => {
   }, [salonList]);
   const router = useRouter();
 
+  const manipulator = router.query.manipulator as string;
+
   const goRegisterMenuScreen = () => {
     router.push({
       pathname: `/my-page/menu/register/${currentSalonId}`,
+      query: {
+        availableStaff: [manipulator],
+      },
     });
   };
 
