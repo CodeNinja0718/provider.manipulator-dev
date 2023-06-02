@@ -1,11 +1,10 @@
 export interface ISalonScheduleItem {
-  manipulatorId: string;
-  manipulatorName: string;
-  manipulatorNameKana: string;
-  availableTimeSlots: string[];
-  reservations: IReservationItem[];
+  _id: string;
+  name: string;
+  nameKana: string;
+  type: string;
+  schedule: IWorkingTime;
 }
-
 export interface IReservationItem {
   slots: string[];
   startTime: string;
@@ -22,4 +21,9 @@ export interface IWorkingTime {
     },
   ];
   isDayOff: boolean;
+  isEmpty?: boolean;
+  availableTime?: {
+    startTime: string;
+    endTime: string;
+  }[];
 }

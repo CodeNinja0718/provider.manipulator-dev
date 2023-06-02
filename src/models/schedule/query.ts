@@ -1,6 +1,6 @@
 const scheduleQuery = {
-  salonSchedule: ({ salonId, ...params }: Record<string, unknown>) => ({
-    apiUrl: `/schedule/${salonId}/daily-schedules`,
+  salonSchedule: ({ ...params }: Record<string, unknown>) => ({
+    apiUrl: `/schedule/manipulator/daily-schedules`,
     queryKey: ['schedule'],
     customParams: params,
   }),
