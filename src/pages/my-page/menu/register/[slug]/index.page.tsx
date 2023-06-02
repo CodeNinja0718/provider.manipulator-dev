@@ -64,12 +64,12 @@ const RegisterMenuPage = () => {
   return (
     <>
       {isConfirm ? (
-        <MenuReview menuData={menuData} staffs={staffsList} />
+        <MenuReview menuData={menuData} staffs={staffsList || []} />
       ) : (
         <MenuForm
           onSubmit={viewConfirmScreen}
           defaultValues={menuData}
-          staffs={staffsList}
+          staffs={staffsList || []}
         />
       )}
     </>
