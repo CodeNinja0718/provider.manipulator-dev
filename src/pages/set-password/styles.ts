@@ -15,6 +15,21 @@ const styles: Record<string, SxProps> = {
     width: '100%',
     marginTop: 32,
   },
+  passwordTextRule: {
+    width: '100%',
+    '& li': {
+      paddingBlock: '0px',
+      '& span': {
+        fontSize: '14px',
+      },
+    },
+    '& li::before': {
+      content: '"\\2022"',
+      fontSize: '1rem',
+      marginRight: '0.5rem',
+      paddingBottom: '0.4em',
+    },
+  },
 };
 
 export default styles;
