@@ -29,7 +29,7 @@ const MenuList = () => {
   const [isLoading, setLoading] = useState(false);
 
   const { list: manipulatorRes } = useList<IMenuManipulator | any>(
-    menuQuery.getManiplators(salonList?.[0]?.salonId),
+    menuQuery.getManiplators(salonList?.[0]?.salonId, !isOwner),
   );
   const [selectedManipulator, setSelectedManipulator] = useState<
     string | undefined
@@ -69,8 +69,10 @@ const MenuList = () => {
   );
 
   const loadMenuData = useCallback(async () => {
+    setLoading(true);
     setPublicMenus(await fetchMenuData());
     setPrivateMenus(await fetchMenuData(false));
+    setLoading(false);
   }, [fetchMenuData]);
 
   useEffect(() => {
@@ -78,9 +80,7 @@ const MenuList = () => {
   }, [loadMenuData]);
 
   const handleChange = async (event: any) => {
-    setLoading(true);
     setSelectedManipulator(event.target.value);
-    setLoading(false);
   };
 
   const manipulatorList = useMemo(() => {
@@ -89,7 +89,7 @@ const MenuList = () => {
       name: item.nameKana,
     }));
   }, [manipulatorRes]);
-
+  // Re-fetch list
   const handleRefetchList = () => {
     queryClient.prefetchQuery({
       queryKey: ['menu', 'list', 'salonId', salonList?.[0]?.salonId],
@@ -105,7 +105,7 @@ const MenuList = () => {
 
       <Box display="flex" mt={40} flexDirection="column" gap={40}>
         <Box display="flex" flexDirection={'column'} p={{ xs: 20, tablet: 0 }}>
-          {(publicMenus || privateMenus) && (
+          {(publicMenus || privateMenus) && isOwner && (
             <>
               <Typography component={'h3'} sx={styles.labelText}>
                 整体師で絞り込む

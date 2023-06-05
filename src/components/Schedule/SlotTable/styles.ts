@@ -5,12 +5,19 @@ const styles: Record<string, SxProps> = {
     position: 'relative',
   },
   manipulatorName: {
+    position: 'relative',
     backgroundColor: 'secondary.main',
     color: 'white',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 4,
+
+    '&.evenItem': {
+      position: 'relative',
+      backgroundColor: 'dollarBill',
+    },
+
     '.MuiTypography-root': {
       fontSize: 12,
       overflow: 'hidden',
@@ -24,6 +31,16 @@ const styles: Record<string, SxProps> = {
     '& a': {
       textDecoration: 'none',
       color: 'white',
+    },
+    '& .triangleIcon': {
+      position: 'absolute',
+      right: 5,
+      bottom: 5,
+      width: 0,
+      height: 0,
+      borderLeft: '9px solid transparent',
+      borderRight: '0 solid transparent',
+      borderBottom: '9px solid white',
     },
   },
   slotColumn: {

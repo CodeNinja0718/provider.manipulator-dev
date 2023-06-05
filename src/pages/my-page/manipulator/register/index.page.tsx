@@ -116,10 +116,15 @@ const ManipulatorRegisterPage = () => {
         salonId,
       },
       {
-        onSuccess: () => {
-          router.push('/my-page/manipulator/complete', undefined, {
-            shallow: true,
-          });
+        onSuccess: (res: any) => {
+          const manipulatorId = res?._id;
+          router.push(
+            `/my-page/manipulator/complete?manipulator=${manipulatorId}`,
+            undefined,
+            {
+              shallow: true,
+            },
+          );
           window.scrollTo({
             top: 0,
             behavior: 'smooth',

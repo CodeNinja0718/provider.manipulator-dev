@@ -350,3 +350,4 @@ export const USER_ROLES = {
   NORMAL: 'Normal',
   OWNER: 'Owner',
 };
+export const SCHEDULE_DURATION = 30;

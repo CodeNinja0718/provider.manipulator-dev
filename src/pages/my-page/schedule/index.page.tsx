@@ -51,7 +51,7 @@ const SchedulePage = () => {
         previousHref={{
           href: router.pathname,
           query: {
-            page: 1,
+            page: router?.query?.page || 1,
             date: previousDay,
           },
         }}
@@ -59,7 +59,7 @@ const SchedulePage = () => {
         nextHref={{
           href: router.pathname,
           query: {
-            page: 1,
+            page: router?.query?.page || 1,
             date: nextDay,
           },
         }}
@@ -74,7 +74,7 @@ const SchedulePage = () => {
                 {
                   href: router.pathname,
                   query: {
-                    page: 1,
+                    page: router?.query?.page || 1,
                     date: valueDate.format(DATE_FORMAT),
                   },
                 },
@@ -115,7 +115,7 @@ const SchedulePage = () => {
             previousHref={{
               href: router.pathname,
               query: {
-                page: 1,
+                page: router?.query?.page || 1,
                 date: previousDay,
               },
             }}
@@ -123,7 +123,7 @@ const SchedulePage = () => {
             nextHref={{
               href: router.pathname,
               query: {
-                page: 1,
+                page: router?.query?.page || 1,
                 date: nextDay,
               },
             }}
@@ -161,7 +161,7 @@ const SchedulePage = () => {
             previousHref={{
               href: router.pathname,
               query: {
-                page: 1,
+                page: router?.query?.page || 1,
                 date: previousDay,
               },
             }}
@@ -169,7 +169,7 @@ const SchedulePage = () => {
             nextHref={{
               href: router.pathname,
               query: {
-                page: 1,
+                page: router?.query?.page || 1,
                 date: nextDay,
               },
             }}

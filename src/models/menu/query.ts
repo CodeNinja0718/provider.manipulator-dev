@@ -10,11 +10,11 @@ const menuQuery = {
       sort: 'order.asc_updateAt.desc',
     },
   }),
-  getManiplators: (salonId: string | any) => ({
+  getManiplators: (salonId: string | any, disabledToFetch?: boolean) => ({
     queryKey: ['menu', 'list', 'salonId', salonId],
     apiUrl: `salon/salons/${salonId}/manipulators`,
     useUrlQuery: false,
-    enabled: !!salonId,
+    enabled: !!salonId && !disabledToFetch,
     customParams: {
       page: 1,
       limit: 100,
