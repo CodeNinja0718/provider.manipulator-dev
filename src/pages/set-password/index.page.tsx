@@ -1,10 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import ArrowRight from '@icons/arrow-right.svg';
 import { LoadingButton } from '@mui/lab';
-import { Stack, Typography } from '@mui/material';
+import { List, ListItem, ListItemText, Stack, Typography } from '@mui/material';
 import { TextField } from 'components/Form';
+import HelperText from 'components/Form/HelperText';
 import Layout from 'components/Layout';
 import { useMutate } from 'hooks';
+import { isEmpty } from 'lodash';
 import authQuery from 'models/auth/query';
 import type { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
@@ -39,7 +41,11 @@ const SetPasswordPage = ({
       token: string;
     }>(authQuery.setPassword);
 
-  const { control, handleSubmit } = useForm<SetPasswordFormValues>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SetPasswordFormValues>({
     resolver: yupResolver(schema),
     mode: 'onBlur',
   });
@@ -97,6 +103,35 @@ const SetPasswordPage = ({
         placeholder="新しいパスワード（確認）を入力"
         type="password"
       />
+      {isEmpty(errors) && (
+        <List sx={styles.passwordTextRule}>
+          <ListItem>
+            <ListItemText primary="最低8文字" />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="小文字と大文字ともに1文字以上" />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="数字か記号のどちからを1文字以上" />
+          </ListItem>
+        </List>
+      )}
+      <List sx={styles.passwordTextRule}>
+        {errors?.password?.message
+          ? errors.password.message.split('\n').map((str, index) => (
+              <ListItem key={`paddword-error-${index}`}>
+                <HelperText error={str} fixed={!!str} />
+              </ListItem>
+            ))
+          : errors?.confirmPassword?.message &&
+            errors.confirmPassword.message
+              .split('\n')
+              .map((confirmStr, index) => (
+                <ListItem key={`passwordConfirm-error-${index}`}>
+                  <HelperText error={confirmStr} fixed={!!confirmStr} />
+                </ListItem>
+              ))}
+      </List>
       <LoadingButton
         size="medium"
         color="primary"

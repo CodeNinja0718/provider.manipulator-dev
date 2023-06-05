@@ -38,7 +38,6 @@ const MenuList = () => {
   useEffect(() => {
     if (data) {
       setSelectedManipulator(data._id);
-      // setSelectedManipulator('6458a8f57caf402e7c150ee6')
     }
   }, [data]);
 
@@ -90,8 +89,7 @@ const MenuList = () => {
       name: item.nameKana,
     }));
   }, [manipulatorRes]);
-  // console.log('manipulatorList', manipulatorList)
-  // Re-fetch list
+
   const handleRefetchList = () => {
     queryClient.prefetchQuery({
       queryKey: ['menu', 'list', 'salonId', salonList?.[0]?.salonId],
