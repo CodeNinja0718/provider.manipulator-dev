@@ -93,6 +93,7 @@ const MenuList = () => {
   const handleRefetchList = () => {
     queryClient.prefetchQuery({
       queryKey: ['menu', 'list', 'salonId', salonList?.[0]?.salonId],
+      queryFn: loadMenuData,
     });
   };
 

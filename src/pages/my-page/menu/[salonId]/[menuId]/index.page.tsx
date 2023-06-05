@@ -34,12 +34,12 @@ const MenuDetailPage = () => {
         'name',
         'order',
         'estimatedTime',
-        'price',
         'menuTypes',
         'status',
         'currency',
         'timeDisplay',
       ]),
+      ...(params.menuTypes?.includes('one_time') && { price: params.price }),
       ticket: {
         price: params?.ticketPrice || 0,
         numberOfTicket: params?.ticketMount || 0,
@@ -73,7 +73,7 @@ const MenuDetailPage = () => {
       <MenuForm
         onSubmit={handleSubmit}
         defaultValues={defaultFormData}
-        staffs={staffsList}
+        staffs={staffsList || []}
       />
     );
   }
