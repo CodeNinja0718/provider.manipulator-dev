@@ -13,6 +13,9 @@ const StaffSection: React.FC<IMenuStaffProps> = ({ control, staffs }) => {
   });
 
   const listItems = useMemo(() => {
+    if (!staffs || !staffs.length) {
+      return [];
+    }
     return staffs.map((staff) => ({ ...staff, id: staff._id })).reverse();
   }, [staffs]);
 
