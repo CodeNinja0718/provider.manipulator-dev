@@ -103,8 +103,7 @@ const TextField = <TFormValues extends FieldValues>({
         inputProps={{ maxLength, ...props.inputProps }}
         endAdornment={renderEndAdornment()}
       />
-
-      {showError && (
+      {type !== 'password' && showError && (
         <HelperText error={error?.message} fixed={fixedHelperText} />
       )}
     </FormControl>
