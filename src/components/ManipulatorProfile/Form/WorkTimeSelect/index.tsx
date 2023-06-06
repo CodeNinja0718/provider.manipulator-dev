@@ -1,4 +1,6 @@
-import { Box, Stack, Typography } from '@mui/material';
+import PlusSvg from '@icons/icon_plus.svg';
+import TrashBoxSvg from '@icons/icon_trashbox.svg';
+import { Box, Button, IconButton, Stack, Typography } from '@mui/material';
 import { Select } from 'components/Form';
 import CheckboxBase from 'components/Form/CheckBox/CheckboxBase';
 import HelperText from 'components/Form/HelperText';
@@ -26,14 +28,14 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
   handleChange,
   handleCheckHoliday,
 }) => {
-  const { fields } = useFieldArray<ManipulatorProfileValues>({
+  const { fields, append, remove } = useFieldArray<ManipulatorProfileValues>({
     control,
     name: `businessHours.${weekDayId}.hours`,
   });
 
   const watchBusinessHours = useWatch({ name: 'businessHours', control });
 
-  const businessHour = watchBusinessHours[weekDayId];
+  const businessHour = watchBusinessHours?.[weekDayId];
 
   const startTimeOptions = useMemo(() => {
     return WORK_TIMES.map((time) => ({
@@ -43,7 +45,7 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
   }, []);
 
   return (
-    <Stack sx={styles.WorkTimeSelectWrapper}>
+    <Stack sx={styles.WorkTimeSelectWrapper} gap={10}>
       {fields.map((field, index) => {
         return (
           <Stack
@@ -88,24 +90,53 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
               }}
               disabled={businessHour?.isHoliday}
             />
-            <Stack direction="row" flexWrap="wrap">
-              <Box
-                component="label"
-                sx={styles.holiydayCheckboxWrapper}
-                data-checked={businessHour?.isHoliday}
+            {index > 0 && (
+              <IconButton
+                sx={{
+                  width: 40,
+                  height: 40,
+                  mt: 4,
+                }}
+                onClick={() => remove(index)}
+                disabled={businessHour?.isHoliday}
               >
-                <CheckboxBase
-                  checked={businessHour?.isHoliday}
-                  sx={styles.checkbox}
-                  onChange={handleCheckHoliday}
-                />
-                休み
-              </Box>
-            </Stack>
+                <TrashBoxSvg />
+              </IconButton>
+            )}
           </Stack>
         );
       })}
       <HelperText error={errorMessage} fixed={false} />
+      <Stack direction="row" flexWrap="wrap" gap={10}>
+        <Button
+          sx={{
+            width: 156,
+            gap: 8,
+            padding: 8,
+          }}
+          onClick={() => {
+            if (fields.length < 2) append({ startTime: '', endTime: '' });
+          }}
+          disabled={businessHour?.isHoliday || fields.length > 1}
+          variant="outlined"
+          size="small"
+        >
+          <PlusSvg width={15} height={15} />
+          時間帯を追加
+        </Button>
+        <Box
+          component="label"
+          sx={styles.holiydayCheckboxWrapper}
+          data-checked={businessHour?.isHoliday}
+        >
+          <CheckboxBase
+            checked={businessHour?.isHoliday}
+            sx={styles.checkbox}
+            onChange={handleCheckHoliday}
+          />
+          休み
+        </Box>
+      </Stack>
     </Stack>
   );
 };
