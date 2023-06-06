@@ -86,9 +86,10 @@ const MenuList = () => {
   const manipulatorList = useMemo(() => {
     return manipulatorRes?.map((item) => ({
       id: item._id,
-      name: item.nameKana,
+      name: item.name,
     }));
   }, [manipulatorRes]);
+
   // Re-fetch list
   const handleRefetchList = () => {
     queryClient.prefetchQuery({
