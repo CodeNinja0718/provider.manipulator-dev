@@ -3,7 +3,6 @@ import ArrowChange from '@icons/arrow_change.svg';
 import ArrowDownSvg from '@icons/arrow-down.svg';
 import ArrowLeft from '@icons/arrow-left.svg';
 import ArrowRight from '@icons/arrow-right.svg';
-import CloseIcon from '@icons/close.svg';
 import { LoadingButton } from '@mui/lab';
 import {
   Box,
@@ -19,12 +18,11 @@ import {
 } from '@mui/material';
 import CommonSection from 'components/CommonSection';
 import { useList, useUser } from 'hooks';
-import { isEmpty } from 'lodash';
 import _get from 'lodash/get';
 import type { IMenuManipulator } from 'models/menu/interface';
 import menuQuery from 'models/menu/query';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
@@ -39,12 +37,20 @@ interface WorkingTimeFormProps {
   initialValues: WorkingTimeFormValues | any;
   loading?: boolean;
   disabled?: boolean;
+  isOwner?: boolean;
 }
+
+interface IManipulator {
+  id: string;
+  name: string;
+}
+
 const WorkingTime = ({
   onSubmit,
   initialValues,
   loading,
   disabled,
+  isOwner,
 }: WorkingTimeFormProps) => {
   const {
     control,
@@ -66,9 +72,13 @@ const WorkingTime = ({
   const { data } = useUser();
   const salonList = data?.salon;
   const [isLoading, setLoading] = useState(false);
+  const [manipulatorList, setManipulatorList] = useState<IManipulator[]>([]);
 
   const { list: manipulatorRes } = useList<IMenuManipulator | any>(
-    menuQuery.getManiplators(salonList?.[0]?.salonId),
+    menuQuery.getManiplators(
+      salonList?.[0]?.salonId,
+      !isOwner || manipulatorList?.length > 0,
+    ),
   );
 
   const manipulatorId = (router.query.manipulator as string) || '';
@@ -87,11 +97,12 @@ const WorkingTime = ({
     setIsDayoff(initialValues?.isDayOff || false);
   }, [initialValues?.isDayOff]);
 
-  const manipulatorList = useMemo(() => {
-    return manipulatorRes?.map((item) => ({
+  useEffect(() => {
+    const temp = manipulatorRes?.map((item) => ({
       id: item._id,
       name: item.nameKana,
     }));
+    if (temp?.length) setManipulatorList(temp);
   }, [manipulatorRes]);
 
   const handleChange = async (event: any) => {
@@ -125,75 +136,54 @@ const WorkingTime = ({
       <Box display="flex" mt={40} flexDirection="column" gap={40} width="100%">
         <ChangeDate />
         <CommonSection title="掲載中のメニュー一覧">
-          <Box
-            display="flex"
-            flexDirection={'column'}
-            p={{ xs: 20, tablet: 0 }}
-            width={'100%'}
-            mt={23}
-            mb={10}
-          >
-            <Typography component={'h3'} sx={styles.labelText}>
-              整体師で絞り込む
-            </Typography>
-            <Select
-              value={selectedManipulator}
-              onChange={handleChange}
-              sx={styles.nameSelect}
-              displayEmpty
-              renderValue={
-                selectedManipulator !== ''
-                  ? undefined
-                  : () => <Box sx={styles.placeholder}>整体師</Box>
-              }
-              IconComponent={(iconProps) => {
-                if (isEmpty(selectedManipulator.toString())) {
+          {isOwner && manipulatorId && (
+            <Box
+              display="flex"
+              flexDirection={'column'}
+              p={{ xs: 20, tablet: 0 }}
+              width={'100%'}
+              mt={23}
+              mb={10}
+            >
+              <Typography component={'h3'} sx={styles.labelText}>
+                整体師で絞り込む
+              </Typography>
+              <Select
+                value={selectedManipulator}
+                onChange={handleChange}
+                sx={styles.nameSelect}
+                displayEmpty
+                renderValue={
+                  selectedManipulator !== ''
+                    ? undefined
+                    : () => <Box sx={styles.placeholder}>整体師</Box>
+                }
+                IconComponent={(iconProps) => {
                   return (
                     <IconButton {...iconProps}>
                       <ArrowDownSvg />
                     </IconButton>
                   );
-                }
-                return (
-                  <IconButton
-                    onClick={() => {
-                      setSelectedManipulator('');
-                      router.push(
-                        {
-                          href: router.pathname,
-                          query: {
-                            page: 1,
-                          },
-                        },
-                        undefined,
-                        {
-                          shallow: true,
-                        },
-                      );
-                    }}
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                );
-              }}
-            >
-              <MenuItem key="none" value="" disabled>
-                <Box sx={styles.placeholder}>整体師</Box>
-              </MenuItem>
-              {manipulatorList?.map((salon) => (
-                <MenuItem key={salon.id} value={salon.id}>
-                  {salon.name}
+                }}
+              >
+                <MenuItem key="none" value="" disabled>
+                  <Box sx={styles.placeholder}>整体師</Box>
                 </MenuItem>
-              ))}
-            </Select>
-            <Box pt={10}>
-              ※基本勤務時間を変更する場合、<Link href="/">整体師編集</Link>
-              で変更ください。
+                {manipulatorList?.map((salon) => (
+                  <MenuItem key={salon.id} value={salon.id}>
+                    {salon.name}
+                  </MenuItem>
+                ))}
+              </Select>
+              <Box pt={10}>
+                ※基本勤務時間を変更する場合、<Link href="/">整体師編集</Link>
+                で変更ください。
+              </Box>
+              <Box mt={10}>
+                <Divider />
+              </Box>
             </Box>
-            <Box mt={10}>
-              <Divider />
-            </Box>
-          </Box>
+          )}
           {initialValues && !isLoading ? (
             <Box
               width="100%"

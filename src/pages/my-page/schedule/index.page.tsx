@@ -22,7 +22,7 @@ const SchedulePage = () => {
   const router = useRouter();
   const { page, date } = router.query;
   const validDate = helpers.getValidDate(date);
-  const { data } = useUser();
+  const { data, isOwner } = useUser();
   const {
     list,
     isLoading,
@@ -130,30 +130,32 @@ const SchedulePage = () => {
             nextDisabled={isLoading}
             sx={styles.navRow}
           />
-          <NavigateControl
-            previousHref={{
-              href: router.pathname,
-              query: {
-                page: currentPage - 1,
-                date: validDate,
-              },
-            }}
-            previousDisabled={currentPage <= 1 || isLoading}
-            previousText="前の5名へ"
-            nextHref={{
-              href: router.pathname,
-              query: {
-                page: currentPage + 1,
-                date: validDate,
-              },
-            }}
-            nextText="次の5名へ"
-            nextDisabled={currentPage >= totalPages || isLoading}
-            sx={{
-              ...styles.navRow,
-              border: 0,
-            }}
-          />
+          {isOwner && (
+            <NavigateControl
+              previousHref={{
+                href: router.pathname,
+                query: {
+                  page: currentPage - 1,
+                  date: validDate,
+                },
+              }}
+              previousDisabled={currentPage <= 1 || isLoading}
+              previousText="前の5名へ"
+              nextHref={{
+                href: router.pathname,
+                query: {
+                  page: currentPage + 1,
+                  date: validDate,
+                },
+              }}
+              nextText="次の5名へ"
+              nextDisabled={currentPage >= totalPages || isLoading}
+              sx={{
+                ...styles.navRow,
+                border: 0,
+              }}
+            />
+          )}
 
           <SlotTable list={list} date={validDate} loading={isLoading} />
 
@@ -176,30 +178,32 @@ const SchedulePage = () => {
             nextDisabled={isLoading}
             sx={styles.navRow}
           />
-          <NavigateControl
-            previousHref={{
-              href: router.pathname,
-              query: {
-                page: currentPage - 1,
-                date: validDate,
-              },
-            }}
-            previousDisabled={currentPage <= 1 || isLoading}
-            previousText="前の5名へ"
-            nextHref={{
-              href: router.pathname,
-              query: {
-                page: currentPage + 1,
-                date: validDate,
-              },
-            }}
-            nextText="次の5名へ"
-            nextDisabled={currentPage >= totalPages || isLoading}
-            sx={{
-              ...styles.navRow,
-              border: 0,
-            }}
-          />
+          {isOwner && (
+            <NavigateControl
+              previousHref={{
+                href: router.pathname,
+                query: {
+                  page: currentPage - 1,
+                  date: validDate,
+                },
+              }}
+              previousDisabled={currentPage <= 1 || isLoading}
+              previousText="前の5名へ"
+              nextHref={{
+                href: router.pathname,
+                query: {
+                  page: currentPage + 1,
+                  date: validDate,
+                },
+              }}
+              nextText="次の5名へ"
+              nextDisabled={currentPage >= totalPages || isLoading}
+              sx={{
+                ...styles.navRow,
+                border: 0,
+              }}
+            />
+          )}
         </Stack>
       </CommonSection>
     </Stack>
