@@ -1,5 +1,5 @@
 import AttachmentSvg from '@icons/icon_attachment.svg';
-import { Box, Divider, Link, Stack, Typography } from '@mui/material';
+import { Box, Link, Stack, Typography } from '@mui/material';
 import type { TreatmentFormValues } from 'components/Reservation/ReservationTreatment/models/schema';
 import React from 'react';
 
@@ -16,11 +16,6 @@ const TreatmentDetail: React.FC<ITreatmentDetail> = ({
 
   return (
     <Stack spacing={18} mt={20}>
-      {!!file && !!initialTreatmentValues?.treatmentInfo ? (
-        <></>
-      ) : (
-        <Divider flexItem />
-      )}
       {file ? (
         <Box>
           <Typography sx={styles.label}>

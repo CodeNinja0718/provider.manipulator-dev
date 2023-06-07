@@ -8,13 +8,13 @@ export const convertManipulatorProfile = (detailData: IManipulatorItem) => {
     name,
     nameKana,
     email,
-    photos,
-    defaultShifts,
+    photos = [],
+    defaultShifts = [],
     careerStart,
     profile,
     pr,
-    supportedSymptoms,
-    nationalLicenses,
+    supportedSymptoms = [],
+    nationalLicenses = [],
     verifyEmail,
   } = detailData;
 
