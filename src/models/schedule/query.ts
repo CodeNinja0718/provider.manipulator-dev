@@ -23,6 +23,36 @@ const scheduleQuery = {
     enabled: enabledRequest,
     successMessage: '編集スケジュール成功',
   }),
+  getWorkingTimeByMani: (
+    date: string | any,
+    salonId: string | any,
+    manipulatorId: string | any,
+    enabledRequest: boolean,
+  ) => ({
+    queryKey: ['schedule', 'working-time', 'salonId', 'manipulatorId', date],
+    apiUrl: `schedule/${salonId}/schedules-within-date/${manipulatorId}?date=${date}`,
+    useUrlQuery: false,
+    enabled: enabledRequest,
+    cacheTime: 0,
+  }),
+  updateWorkingTimeByMani: (
+    salonId: string | any,
+    manipulatorId: string | any,
+    enabledRequest: boolean,
+  ) => ({
+    queryKey: [
+      'schedule',
+      'working-time',
+      'salonId',
+      'manipulatorId',
+      'update',
+    ],
+    apiUrl: `schedule/${salonId}/schedules-within-date/${manipulatorId}`,
+    useUrlQuery: false,
+    method: 'put',
+    enabled: enabledRequest,
+    successMessage: '編集スケジュール成功',
+  }),
 };
 
 export default scheduleQuery;
