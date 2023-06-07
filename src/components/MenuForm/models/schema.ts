@@ -35,8 +35,8 @@ const schema = object({
     .when('menuTypes', (menuTypes, s) =>
       menuTypes.includes(MENU_TYPE[1]?.id)
         ? s
-            .min(1, 'Coupon expiration date must be between 1 and 12')
-            .max(12, 'Coupon expiration date must be between 1 and 12')
+            .min(1, 'Coupon expiration months must be more than 0')
+            .max(6, 'Coupon expiration months must not be greater than 6')
         : s,
     ),
   status: string().required(),
