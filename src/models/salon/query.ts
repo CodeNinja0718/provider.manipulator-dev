@@ -2,7 +2,7 @@ const salonQuery = {
   createSalon: {
     apiUrl: '/salon/salons',
     method: 'post',
-    successMessage: 'お支払い方法を削除しました',
+    successMessage: '完了しました',
   },
   getSalonDetail: ({
     salonId = '',
@@ -16,7 +16,7 @@ const salonQuery = {
     apiUrl: (params: Record<string, unknown>) =>
       `/salon/salons/${params.salonId}`,
     method: 'put',
-    successMessage: 'お支払い方法を削除しました',
+    successMessage: '完了しました',
     omitKeys: ['salonId'],
   },
   getManipulatorBySalon: ({
