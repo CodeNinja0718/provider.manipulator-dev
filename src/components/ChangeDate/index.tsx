@@ -11,7 +11,7 @@ import styles from './styles';
 
 const ChangeDate = () => {
   const router = useRouter();
-  const { date } = router.query;
+  const { date, manipulator } = router.query;
   const validDate = Helper.getValidDate(date);
   const nextDay = Helper.getValidDate(validDate, 1);
   const previousDay = Helper.getValidDate(validDate, -1);
@@ -22,16 +22,16 @@ const ChangeDate = () => {
       <NavigateControl
         previousHref={{
           href: router.pathname,
-          query: {
-            date: previousDay,
-          },
+          query: !manipulator
+            ? { date: previousDay }
+            : { date: previousDay, manipulator },
         }}
         previousDisabled={isLoading}
         nextHref={{
           href: router.pathname,
-          query: {
-            date: nextDay,
-          },
+          query: !manipulator
+            ? { date: nextDay }
+            : { date: nextDay, manipulator },
         }}
         nextDisabled={isLoading}
       >
@@ -43,10 +43,13 @@ const ChangeDate = () => {
               router.push(
                 {
                   href: router.pathname,
-                  query: {
-                    page: 1,
-                    date: valueDate.format(DATE_FORMAT),
-                  },
+                  query: !manipulator
+                    ? { page: 1, date: valueDate.format(DATE_FORMAT) }
+                    : {
+                        page: 1,
+                        date: valueDate.format(DATE_FORMAT),
+                        manipulator,
+                      },
                 },
                 undefined,
                 {

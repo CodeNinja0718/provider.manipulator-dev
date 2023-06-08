@@ -9,7 +9,13 @@ import process from 'process';
 import type { ToastContent, ToastOptions } from 'react-toastify';
 import { toast } from 'react-toastify';
 
-import { DATE_FORMAT, DOCUMENT_TYPES, FILE_TYPES } from './const';
+import {
+  DATE_FORMAT,
+  DATE_LONG_FORMAT,
+  DOCUMENT_TYPES,
+  FILE_TYPES,
+  GTM_JP,
+} from './const';
 
 const Helper = {
   getWebCookie: (
@@ -180,6 +186,19 @@ const Helper = {
       return currentDate.format(DATE_FORMAT);
     }
     return dayjs().format(DATE_FORMAT);
+  },
+
+  parseTimeIsoString: (value: string, date: string) => {
+    const splitValue = value.split(':');
+    const result = new Date(date).setHours(
+      Number(splitValue[0]) || 0,
+      Number(splitValue[1]) || 0,
+      0,
+    );
+
+    return new Date(
+      `${dayjs(result).format(DATE_LONG_FORMAT)} ${GTM_JP}`,
+    ).toISOString();
   },
 };
 
