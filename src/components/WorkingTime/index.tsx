@@ -131,7 +131,7 @@ const WorkingTime = ({
         <ArrowLeft />
         変更せずに戻る
       </Box>
-      <Typography variant="title">営業時間変更</Typography>
+      <Typography variant="title">勤務時間変更</Typography>
 
       <Box display="flex" mt={40} flexDirection="column" gap={40} width="100%">
         <ChangeDate />
