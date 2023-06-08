@@ -79,7 +79,7 @@ const RegisterPage = () => {
         新規登録
       </Typography>
       <TextField
-        label="電話番号で登録"
+        label="メールアドレスを入力"
         name="email"
         control={control}
         placeholder="sample@service.com"

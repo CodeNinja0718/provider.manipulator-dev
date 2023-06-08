@@ -9,12 +9,16 @@ const schema = object({
     .min(1, 'Order must be between 1 and 100')
     .max(100, 'Order must be between 1 and 100'),
   estimatedTime: number()
-    .required()
+    .required('目安時間は必須です')
     .min(30, 'Duration must be between 30 and 240')
     .max(240, 'Duration must be between 30 and 240'),
   timeDisplay: boolean(),
-  menuTypes: array().min(1, 'Please select at least 1 menu type'),
-  price: number().required().min(0, 'Price must be 0 or greater'),
+  menuTypes: array()
+    .required('メニュー種別は必須です。')
+    .min(1, 'Please select at least 1 menu type'),
+  price: number()
+    .required('単発料金は必須です。')
+    .min(0, 'Price must be 0 or greater'),
   ticketMount: number()
     .required()
     // min validation when 'coupon' options is checked
@@ -31,7 +35,7 @@ const schema = object({
         : s,
     ),
   couponExpirationDate: number()
-    .required()
+    .required('回数券の有効期限は必須です。')
     .when('menuTypes', (menuTypes, s) =>
       menuTypes.includes(MENU_TYPE[1]?.id)
         ? s
