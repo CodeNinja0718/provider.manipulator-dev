@@ -1,11 +1,9 @@
 import ArrowRight from '@icons/arrow-right.svg';
-import SwitchIcon from '@icons/icon_switch.svg';
 import DeleteIcon from '@icons/icon_trashbox.svg';
 import { Box, Button, Typography } from '@mui/material';
 import type { IManipulator } from 'models/manipulator/interface';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { MANIPULATOR_STATUS } from 'utils/const';
 
 import styles from './styles';
 
@@ -63,7 +61,7 @@ const ManipulatorCard = ({ data }: ManipulatorCardProps) => {
               />
             </Box>
           </Box>
-          <Box
+          {/* <Box
             display="flex"
             width="100%"
             justifyContent="space-between"
@@ -98,8 +96,8 @@ const ManipulatorCard = ({ data }: ManipulatorCardProps) => {
                   掲載再開
                 </Typography>
               </Box>
-            </Box>
-            {/* <Box
+            </Box> */}
+          {/* <Box
               sx={{
                 svg: { width: 18, height: 18, top: 2 },
               }}
@@ -142,10 +140,10 @@ const ManipulatorCard = ({ data }: ManipulatorCardProps) => {
                 999件
               </Typography>
             </Box> */}
-            <Box fontSize={16} fontWeight="bold" sx={styles.statusBox}>
+          {/* <Box fontSize={16} fontWeight="bold" sx={styles.statusBox}>
               審査中
             </Box>
-          </Box>
+          </Box> */}
         </Box>
         <Box display="flex" justifyContent="center" mt={10}>
           <Button
