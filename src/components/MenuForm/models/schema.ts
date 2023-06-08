@@ -16,9 +16,11 @@ const schema = object({
   menuTypes: array()
     .required('メニュー種別は必須です。')
     .min(1, 'Please select at least 1 menu type'),
-  price: number()
-    .required('単発料金は必須です。')
-    .min(0, 'Price must be 0 or greater'),
+  price: number().when('menuTypes', (menuTypes, s) =>
+    menuTypes.includes(MENU_TYPE[0]?.id)
+      ? s.required('単発料金は必須です。').min(0, 'Price must be 0 or greater')
+      : s,
+  ),
   ticketMount: number()
     .required()
     // min validation when 'coupon' options is checked
