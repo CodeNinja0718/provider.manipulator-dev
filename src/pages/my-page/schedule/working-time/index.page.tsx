@@ -1,11 +1,13 @@
 import Layout from 'components/Layout';
 import WorkingTime from 'components/WorkingTime';
 import type { WorkingTimeFormValues } from 'components/WorkingTime/schema';
-import { useFetch, useMutate, useUser } from 'hooks';
-import type { IWorkingTime } from 'models/schedule/interface';
+import dayjs from 'dayjs';
+import { useList, useMutate, useUser } from 'hooks';
+import type { ISalonScheduleItem } from 'models/schedule/interface';
 import scheduleQuery from 'models/schedule/query';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { DateFormat } from 'utils/const';
 import helpers from 'utils/helpers';
 import queryClient from 'utils/queryClient';
 
@@ -18,46 +20,45 @@ const WorkingTimePage = () => {
   const [disabled, setDisabled] = useState(false);
   const salonInfo = currentUserData?.salon[0];
 
-  const manipulatorId = (router.query.manipulator as string) || '';
+  const manipulatorIdParam = (router.query.manipulator as string) || '';
+  const manipulatorId = !isOwner
+    ? currentUserData?._id
+    : manipulatorIdParam || currentUserData?._id;
 
   const enabledRequest =
-    !!validDate && !!(salonInfo?.salonId || '') && isOwner && !manipulatorId;
-  const enabledRequestByMani =
-    !!validDate && !!(salonInfo?.salonId || '') && !isOwner;
+    !!validDate && !!(salonInfo?.salonId || '') && !!manipulatorId;
 
-  const { data: res } = useFetch<IWorkingTime>(
-    scheduleQuery.getWorkingTime(validDate, salonInfo?.salonId, enabledRequest),
+  const { list, isLoading: loadingWorkingTime } = useList<ISalonScheduleItem>({
+    ...scheduleQuery.salonSchedule({
+      salonId: salonInfo?.salonId,
+      manipulatorId,
+      date: validDate,
+      page: 1,
+      limit: 1,
+    }),
+    enabled: enabledRequest,
+    staleTime: 1000 * 60 * 2,
+  });
+
+  const { mutateAsync: handleUpdate, isLoading: loadingUpdate } = useMutate(
+    scheduleQuery.updateWorkingTimeSchedule(manipulatorId, enabledRequest),
   );
 
-  const { data: resByMani, refetch } = useFetch<IWorkingTime>(
-    scheduleQuery.getWorkingTimeByMani(
-      validDate,
-      salonInfo?.salonId,
-      !isOwner ? currentUserData?._id : manipulatorId,
-      enabledRequestByMani,
-    ),
-  );
-
-  const { mutateAsync: handleUpdateMenu, isLoading } = useMutate(
-    scheduleQuery.updateWorkingTime(salonInfo?.salonId, enabledRequest),
-  );
-
-  const {
-    mutateAsync: handleUpdateMenuByMani,
-    isLoading: isLoadingUpdateMenuByMani,
-  } = useMutate(
-    scheduleQuery.updateWorkingTimeByMani(
-      salonInfo?.salonId,
-      !isOwner ? currentUserData?._id : manipulatorId,
-      enabledRequestByMani,
-    ),
-  );
-
-  useEffect(() => {
-    if (manipulatorId) {
-      refetch();
-    }
-  }, [manipulatorId, refetch]);
+  const dataLoad = useMemo(() => {
+    if (!list || !list.length || !list[0]?.schedule) return null;
+    const dataConvert = {
+      ...list[0].schedule,
+      date: dayjs
+        .utc(list[0].schedule.date)
+        .tz()
+        .format(DateFormat.YEAR_MONTH_DATE_DASH),
+      workingTime: list[0].schedule.workingTime.map((item) => ({
+        startTime: dayjs.utc(item.startTime).tz().format(DateFormat.TIME),
+        endTime: dayjs.utc(item.endTime).tz().format(DateFormat.TIME),
+      })),
+    };
+    return dataConvert;
+  }, [list]);
 
   const handleSuccess = () => {
     queryClient.invalidateQueries({
@@ -73,32 +74,25 @@ const WorkingTimePage = () => {
   };
 
   const handleSubmit = (values: WorkingTimeFormValues) => {
-    if (isOwner && !manipulatorId) {
-      handleUpdateMenu(
-        {
-          ...values,
-        },
-        {
-          onSuccess: handleSuccess,
-        },
-      );
-    } else {
-      handleUpdateMenuByMani(
-        {
-          ...values,
-        },
-        {
-          onSuccess: handleSuccess,
-        },
-      );
-    }
+    const dataUpdate = {
+      ...values,
+      workingTime: values.workingTime?.map((item) => ({
+        startTime: helpers.parseTimeIsoString(item.startTime, values.date),
+        endTime: helpers.parseTimeIsoString(item.endTime, values.date),
+      })),
+      date: validDate,
+    };
+
+    handleUpdate(dataUpdate, {
+      onSuccess: handleSuccess,
+    });
   };
 
   return (
     <WorkingTime
       onSubmit={handleSubmit}
-      initialValues={isOwner && !manipulatorId ? res : resByMani}
-      loading={isLoading || isLoadingUpdateMenuByMani}
+      initialValues={dataLoad}
+      loading={loadingUpdate || loadingWorkingTime}
       disabled={disabled}
       isOwner={isOwner}
     />

@@ -157,7 +157,7 @@ const SchedulePage = () => {
             />
           )}
 
-          <SlotTable list={list} date={validDate} loading={isLoading} />
+          <SlotTable list={list || []} date={validDate} loading={isLoading} />
 
           <NavigateControl
             previousHref={{

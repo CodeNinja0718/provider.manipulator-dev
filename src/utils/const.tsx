@@ -54,6 +54,7 @@ export enum DateFormat {
   JP_HOUR_MINUTE = 'HH時mm分',
   DOT_YEAR_MONTH_DATE = 'YYYY.MM.DD',
   YEAR_MONTH_DATE_AND_TIME = 'YYYY/MM/DD | HH:mm',
+  TIME = 'HH:mm',
 }
 
 export const GENDER_TEXT = {
