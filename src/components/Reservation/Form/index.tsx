@@ -29,7 +29,7 @@ const Form = () => {
   const { data: res } = useFetch<IReservationItem | any>(
     reservationQuery.reservationDetail({
       id: router?.query?.reservationId,
-      manipulator: user?._id,
+      manipulatorId: user?._id,
       salonId: user?.salon[0]?.salonId,
     }),
   );
