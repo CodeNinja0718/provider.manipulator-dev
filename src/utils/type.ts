@@ -42,3 +42,7 @@ export interface NavigationItem {
   children?: INavigation[];
   notAllowNormal?: boolean;
 }
+
+export interface PageProps {
+  isOwnerSsr: boolean;
+}

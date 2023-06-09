@@ -9,6 +9,7 @@ import reservationQuery from 'models/reservation/query';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import helpers from 'utils/helpers';
+import type { PageProps } from 'utils/type';
 
 import styles from './styles';
 
@@ -53,9 +54,9 @@ const ReservationPage = () => {
     </Box>
   );
 };
-ReservationPage.getLayout = (page: React.ReactNode) => {
+ReservationPage.getLayout = (page: React.ReactNode, pageProps: PageProps) => {
   return (
-    <Layout isCardLayout withSideMenu>
+    <Layout isCardLayout withSideMenu {...pageProps}>
       {page}
     </Layout>
   );

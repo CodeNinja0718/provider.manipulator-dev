@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import Layout from 'components/Layout';
 import Registration from 'components/Reservation/Registration';
+import type { PageProps } from 'utils/type';
 
 import styles from './styles';
 
@@ -17,9 +18,12 @@ const ReservationRegistrationPage = () => {
     </Box>
   );
 };
-ReservationRegistrationPage.getLayout = (page: React.ReactNode) => {
+ReservationRegistrationPage.getLayout = (
+  page: React.ReactNode,
+  pageProps: PageProps,
+) => {
   return (
-    <Layout isCardLayout withSideMenu>
+    <Layout isCardLayout withSideMenu {...pageProps}>
       {page}
     </Layout>
   );

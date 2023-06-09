@@ -1,9 +1,8 @@
 import { ArrowUpward } from '@mui/icons-material';
 import { Box, Card, IconButton, Stack } from '@mui/material';
 import { useScroll } from 'framer-motion';
-import useUser from 'hooks/useUser';
 import type { ReactNode } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PROVIDER_NAVIGATION } from 'utils/const';
 
 import Drawer from './CommonDrawer';
@@ -16,10 +15,12 @@ export default function Layout({
   children,
   isCardLayout = false,
   withSideMenu = false,
+  isOwnerSsr,
 }: {
   children: ReactNode;
   isCardLayout?: boolean;
   withSideMenu?: boolean;
+  isOwnerSsr?: boolean;
 }) {
   const pageHeight =
     typeof document !== 'undefined' ? document.body.scrollHeight : 0;
@@ -28,12 +29,10 @@ export default function Layout({
   const { scrollY } = useScroll({
     offset: ['0px start', `${pageHeight - 67}px end`],
   });
-  const { isOwner } = useUser();
 
-  const menus = useMemo(() => {
-    if (isOwner) return PROVIDER_NAVIGATION;
-    return PROVIDER_NAVIGATION.filter((item) => !item.notAllowNormal);
-  }, [isOwner]);
+  const menus = isOwnerSsr
+    ? PROVIDER_NAVIGATION
+    : PROVIDER_NAVIGATION.filter((item) => !item.notAllowNormal);
 
   useEffect(() => {
     return scrollY.onChange((latest) => {

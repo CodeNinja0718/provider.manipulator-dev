@@ -45,8 +45,11 @@ const Helper = {
             maxAge: 86400,
           }),
     }),
+  setRole: (isOwner: boolean) => setCookie('isOwner', isOwner),
+  getRole: () => getCookie('isOwner'),
   removeWebCookie: (): void => {
     deleteCookie(`${process.env.PROJECT_NAME}-web-cookie`, { path: '/' });
+    deleteCookie(`isOwner`, { path: '/' });
   },
   convertObjectToOptions: (obj: Record<string, string>): IListItem[] => {
     return Object.keys(obj).map((key) => ({
