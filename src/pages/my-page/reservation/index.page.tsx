@@ -2,7 +2,7 @@ import { Box, CircularProgress, Stack, Typography } from '@mui/material';
 import ChangeDate from 'components/ChangeDate';
 import Layout from 'components/Layout';
 import Reservation from 'components/Reservation';
-import { useFetch } from 'hooks';
+import { useFetch, useUser } from 'hooks';
 import { groupBy, values } from 'lodash';
 import type { IReservationItem } from 'models/reservation/interface';
 import reservationQuery from 'models/reservation/query';
@@ -17,8 +17,14 @@ const ReservationPage = () => {
   const router = useRouter();
   const { date } = router.query;
   const validDate = helpers.getValidDate(date);
+  const { data: userData } = useUser();
+
   const { data: res } = useFetch<IReservationItem | any>(
-    reservationQuery.getReservationList(validDate),
+    reservationQuery.getReservationList({
+      date: validDate,
+      manipulatorId: userData?._id,
+      salonId: userData?.salon[0]?.salonId,
+    }),
   );
 
   const reservationList = useMemo(() => {

@@ -1,17 +1,25 @@
 const reservationQuery = {
-  getReservationList: (date: string) => ({
-    apiUrl: `/reservation/manipulator/reservations?date=${date}`,
+  getReservationList: ({
+    date,
+    manipulatorId,
+    salonId,
+  }: Record<string, unknown>) => ({
+    apiUrl: `/reservation/manipulator/reservations`,
     queryKey: ['reservation-list', date],
-    enabled: !!date,
+    enabled: !!date && !!manipulatorId && !!salonId,
     customParams: {
+      date,
+      manipulatorId,
+      salonId,
       page: 1,
       limit: 1000,
     },
   }),
-  reservationDetail: (id: string | any) => ({
+  reservationDetail: ({ id, ...params }: Record<string, unknown>) => ({
     apiUrl: `/reservation/manipulator/reservations/${id}`,
     queryKey: ['reservation-detail', id],
     enabled: !!id,
+    customParams: params,
   }),
   reservationChange: (reservationId: string | any) => ({
     apiUrl: `/reservation/manipulator/reservations/${reservationId}/change-booking`,
