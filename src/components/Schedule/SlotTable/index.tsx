@@ -17,12 +17,18 @@ interface SlotTableProps {
   list: ISalonScheduleItem[];
   date: string;
   loading?: boolean;
+  salonId: string;
 }
 
-const SlotTable: React.FC<SlotTableProps> = ({ list, date, loading }) => {
+const SlotTable: React.FC<SlotTableProps> = ({
+  list,
+  date,
+  loading,
+  salonId,
+}) => {
   const scrollContainer = useScrollContainer();
   const { data: res } = useFetch<IReservationItem | any>(
-    reservationQuery.getReservationList(date),
+    reservationQuery.getReservationList({ date, salonId }),
   );
 
   const reservations = useMemo(() => {

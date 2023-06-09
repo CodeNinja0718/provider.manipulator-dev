@@ -158,7 +158,12 @@ const SchedulePage = ({ isOwnerSsr }: PageProps) => {
             />
           )}
 
-          <SlotTable list={list || []} date={validDate} loading={isLoading} />
+          <SlotTable
+            list={list || []}
+            date={validDate}
+            loading={isLoading}
+            salonId={get(data, 'salon[0].salonId') ?? ''}
+          />
 
           <NavigateControl
             previousHref={{
