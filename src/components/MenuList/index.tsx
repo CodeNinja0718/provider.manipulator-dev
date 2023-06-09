@@ -32,6 +32,7 @@ const MenuList = ({ isOwnerSsr }: PageProps) => {
   const { list: manipulatorRes } = useList<IMenuManipulator | any>(
     menuQuery.getManiplators(salonList?.[0]?.salonId, !isOwnerSsr),
   );
+
   const [selectedManipulator, setSelectedManipulator] = useState<
     string | undefined
   >('');
