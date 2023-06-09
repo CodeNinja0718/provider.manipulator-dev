@@ -22,7 +22,11 @@ const useUser = (options?: Options<IProvider>) => {
     staleTime: Infinity,
     ...otherOptions,
   });
-  const isOwner = data?.type === USER_ROLES.OWNER;
+  const role = Helper.getRole();
+  const isOwner =
+    typeof role !== 'boolean' ? data?.type === USER_ROLES.OWNER : role;
+
+  if (typeof role !== 'boolean' && data) Helper.setRole(isOwner);
 
   return {
     data,

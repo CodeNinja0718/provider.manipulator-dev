@@ -9,6 +9,7 @@ import menuQuery from 'models/menu/query';
 import type { IStaff } from 'models/salon/interface';
 import salonQuery from 'models/salon/query';
 import { useRouter } from 'next/router';
+import type { PageProps } from 'utils/type';
 
 import styles from './styles';
 
@@ -85,9 +86,9 @@ const MenuDetailPage = () => {
   );
 };
 
-MenuDetailPage.getLayout = (page: React.ReactNode) => {
+MenuDetailPage.getLayout = (page: React.ReactNode, pageProps: PageProps) => {
   return (
-    <Layout isCardLayout withSideMenu>
+    <Layout isCardLayout withSideMenu {...pageProps}>
       {page}
     </Layout>
   );

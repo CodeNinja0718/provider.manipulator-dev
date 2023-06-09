@@ -18,18 +18,19 @@ import menuQuery from 'models/menu/query';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import api from 'utils/api';
 import queryClient from 'utils/queryClient';
+import type { PageProps } from 'utils/type';
 
 import PublishedMenu from './PublishedMenu';
 import styles from './styles';
 
-const MenuList = () => {
-  const { data, isOwner } = useUser();
+const MenuList = ({ isOwnerSsr }: PageProps) => {
+  const { data } = useUser();
   const salonList = data?.salon;
   const salonId = salonList?.[0]?.salonId;
   const [isLoading, setLoading] = useState(false);
 
   const { list: manipulatorRes } = useList<IMenuManipulator | any>(
-    menuQuery.getManiplators(salonList?.[0]?.salonId, !isOwner),
+    menuQuery.getManiplators(salonList?.[0]?.salonId, !isOwnerSsr),
   );
   const [selectedManipulator, setSelectedManipulator] = useState<
     string | undefined
@@ -103,11 +104,11 @@ const MenuList = () => {
       <Box display="flex" justifyContent="center">
         <Typography variant="title">メニュー管理</Typography>
       </Box>
-      {isOwner && <DirectRegisterMenu currentSalonId={currentSalonId} />}
+      {isOwnerSsr && <DirectRegisterMenu currentSalonId={currentSalonId} />}
 
       <Box display="flex" mt={40} flexDirection="column" gap={40}>
         <Box display="flex" flexDirection={'column'} p={{ xs: 20, tablet: 0 }}>
-          {(publicMenus || privateMenus) && isOwner && (
+          {(publicMenus || privateMenus) && isOwnerSsr && (
             <>
               <Typography component={'h3'} sx={styles.labelText}>
                 整体師で絞り込む
@@ -163,13 +164,13 @@ const MenuList = () => {
             <PublishedMenu
               menus={publicMenus}
               currentSalonId={currentSalonId}
-              isDisableAction={!isOwner}
+              isDisableAction={!isOwnerSsr}
               onRefetchList={handleRefetchList}
             />
             <UnpublishedMenu
               menus={privateMenus}
               currentSalonId={currentSalonId}
-              isDisableAction={!isOwner}
+              isDisableAction={!isOwnerSsr}
               onRefetchList={handleRefetchList}
             />
           </>

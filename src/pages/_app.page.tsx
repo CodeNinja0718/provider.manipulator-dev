@@ -14,11 +14,12 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import ConfirmModal from 'components/ConfirmModal';
 import DataProvider from 'components/DataProvider';
 import NextNProgress from 'components/ProgressBar';
+import { getCookie } from 'cookies-next';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import type { NextPage } from 'next';
-import type { AppProps } from 'next/app';
+import type { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 import type { ReactElement, ReactNode } from 'react';
 import { useState } from 'react';
@@ -32,7 +33,7 @@ dayjs.extend(timezone);
 dayjs.tz.setDefault('Asia/Tokyo');
 
 type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: ReactElement) => ReactNode;
+  getLayout?: (page: ReactElement, pageProps: P) => ReactNode;
   auth?: {
     roles: string[];
   };
@@ -76,7 +77,7 @@ function MyApp(
             <DataProvider />
             <NextNProgress />
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
-              {getLayout(<Component {...pageProps} />)}
+              {getLayout(<Component {...pageProps} />, pageProps)}
               <ConfirmModal />
             </LocalizationProvider>
           </Hydrate>
@@ -86,5 +87,8 @@ function MyApp(
     </CacheProvider>
   );
 }
-
+MyApp.getInitialProps = async (appContext: AppContext) => {
+  const isOwner = getCookie('isOwner', appContext.ctx);
+  return { pageProps: { isOwnerSsr: isOwner } };
+};
 export default MyApp;

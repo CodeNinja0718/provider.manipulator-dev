@@ -208,9 +208,12 @@ const ManipulatorRegisterPage = ({ editMyProfile = false }: PageProps) => {
   );
 };
 
-ManipulatorRegisterPage.getLayout = (page: React.ReactNode) => {
+ManipulatorRegisterPage.getLayout = (
+  page: React.ReactNode,
+  pageProps: PageProps,
+) => {
   return (
-    <Layout isCardLayout withSideMenu>
+    <Layout isCardLayout withSideMenu {...pageProps}>
       {page}
     </Layout>
   );

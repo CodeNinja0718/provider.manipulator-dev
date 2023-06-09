@@ -8,6 +8,7 @@ import type { IStaff } from 'models/salon/interface';
 import salonQuery from 'models/salon/query';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import type { PageProps } from 'utils/type';
 
 import useInitValue from '../../hook/useInitValue';
 
@@ -76,9 +77,9 @@ const RegisterMenuPage = () => {
   );
 };
 
-RegisterMenuPage.getLayout = (page: React.ReactNode) => {
+RegisterMenuPage.getLayout = (page: React.ReactNode, pageProps: PageProps) => {
   return (
-    <Layout isCardLayout withSideMenu>
+    <Layout isCardLayout withSideMenu {...pageProps}>
       {page}
     </Layout>
   );

@@ -15,14 +15,15 @@ import scheduleQuery from 'models/schedule/query';
 import { useRouter } from 'next/router';
 import { DATE_FORMAT } from 'utils/const';
 import helpers from 'utils/helpers';
+import type { PageProps } from 'utils/type';
 
 import styles from './styles';
 
-const SchedulePage = () => {
+const SchedulePage = ({ isOwnerSsr }: PageProps) => {
   const router = useRouter();
   const { page, date } = router.query;
   const validDate = helpers.getValidDate(date);
-  const { data, isOwner } = useUser();
+  const { data } = useUser();
   const {
     list,
     isLoading,
@@ -130,7 +131,7 @@ const SchedulePage = () => {
             nextDisabled={isLoading}
             sx={styles.navRow}
           />
-          {isOwner && (
+          {isOwnerSsr && (
             <NavigateControl
               previousHref={{
                 href: router.pathname,
@@ -178,7 +179,7 @@ const SchedulePage = () => {
             nextDisabled={isLoading}
             sx={styles.navRow}
           />
-          {isOwner && (
+          {isOwnerSsr && (
             <NavigateControl
               previousHref={{
                 href: router.pathname,
@@ -210,9 +211,9 @@ const SchedulePage = () => {
   );
 };
 
-SchedulePage.getLayout = (page: React.ReactNode) => {
+SchedulePage.getLayout = (page: React.ReactNode, pageProps: PageProps) => {
   return (
-    <Layout isCardLayout withSideMenu>
+    <Layout isCardLayout withSideMenu {...pageProps}>
       {page}
     </Layout>
   );
