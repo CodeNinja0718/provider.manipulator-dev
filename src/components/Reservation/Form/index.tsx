@@ -4,7 +4,7 @@ import BackButton from 'components/BackButton';
 import CustomerDetail from 'components/Reservation/ReservationDetail/CustomerDetail';
 import type { TreatmentFormValues } from 'components/Reservation/ReservationTreatment/models/schema';
 import schema from 'components/Reservation/ReservationTreatment/models/schema';
-import { useFetch, useList, useMutate } from 'hooks';
+import { useFetch, useList, useMutate, useUser } from 'hooks';
 import type { IReservationItem } from 'models/reservation/interface';
 import reservationQuery from 'models/reservation/query';
 import type { ICoupon, ICouponTicket } from 'models/tickets/interface';
@@ -25,8 +25,13 @@ const Form = () => {
   );
 
   const router = useRouter();
+  const { data: user } = useUser();
   const { data: res } = useFetch<IReservationItem | any>(
-    reservationQuery.reservationDetail(router?.query?.reservationId),
+    reservationQuery.reservationDetail({
+      id: router?.query?.reservationId,
+      manipulator: user?._id,
+      salonId: user?.salon[0]?.salonId,
+    }),
   );
 
   const { list: couponList, isLoading: isCouponLoading } = useList<ICoupon>(
