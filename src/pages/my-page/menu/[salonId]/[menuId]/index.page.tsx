@@ -46,7 +46,7 @@ const MenuDetailPage = () => {
         numberOfTicket: params?.ticketMount || 0,
         expiryMonth: params?.couponExpirationDate || 1,
       },
-      manipulatorIds: res?.manipulatorIds,
+      manipulatorIds: params.availableStaff,
     };
 
     handleUpdateMenu(
