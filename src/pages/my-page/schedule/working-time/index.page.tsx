@@ -10,10 +10,11 @@ import { useMemo, useState } from 'react';
 import { DateFormat } from 'utils/const';
 import helpers from 'utils/helpers';
 import queryClient from 'utils/queryClient';
+import type { PageProps } from 'utils/type';
 
-const WorkingTimePage = () => {
+const WorkingTimePage = ({ isOwnerSsr }: PageProps) => {
   const router = useRouter();
-  const { data: currentUserData, isOwner } = useUser();
+  const { data: currentUserData } = useUser();
 
   const { date } = router.query;
   const validDate = helpers.getValidDate(date);
@@ -21,7 +22,7 @@ const WorkingTimePage = () => {
   const salonInfo = currentUserData?.salon[0];
 
   const manipulatorIdParam = (router.query.manipulator as string) || '';
-  const manipulatorId = !isOwner
+  const manipulatorId = !isOwnerSsr
     ? currentUserData?._id
     : manipulatorIdParam || currentUserData?._id;
 
@@ -94,14 +95,14 @@ const WorkingTimePage = () => {
       initialValues={dataLoad}
       loading={loadingUpdate || loadingWorkingTime}
       disabled={disabled}
-      isOwner={isOwner}
+      isOwner={isOwnerSsr}
     />
   );
 };
 
-WorkingTimePage.getLayout = (page: React.ReactNode) => {
+WorkingTimePage.getLayout = (page: React.ReactNode, pageProps: PageProps) => {
   return (
-    <Layout isCardLayout withSideMenu>
+    <Layout isCardLayout withSideMenu {...pageProps}>
       {page}
     </Layout>
   );

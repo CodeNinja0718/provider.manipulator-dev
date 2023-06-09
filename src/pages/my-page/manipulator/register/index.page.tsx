@@ -11,6 +11,7 @@ import manipulatorQuery from 'models/manipulator/query';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { QUALIFICATION } from 'utils/const';
+import type { PageProps } from 'utils/type';
 
 const ManipulatorRegisterPage = () => {
   const { data } = useUser();
@@ -174,9 +175,12 @@ const ManipulatorRegisterPage = () => {
   );
 };
 
-ManipulatorRegisterPage.getLayout = (page: React.ReactNode) => {
+ManipulatorRegisterPage.getLayout = (
+  page: React.ReactNode,
+  pageProps: PageProps,
+) => {
   return (
-    <Layout isCardLayout withSideMenu>
+    <Layout isCardLayout withSideMenu {...pageProps}>
       {page}
     </Layout>
   );

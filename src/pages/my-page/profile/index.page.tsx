@@ -16,15 +16,16 @@ import salonQuery from 'models/salon/query';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { FEATURES_DATA } from 'utils/const';
+import type { PageProps } from 'utils/type';
 
-const ProfilePage = () => {
-  const { data, isOwner } = useUser();
+const ProfilePage = ({ isOwnerSsr }: PageProps) => {
+  const { data } = useUser();
   const router = useRouter();
   const { editing } = router.query;
   const isEditting = typeof editing === 'string' && editing === 'true';
   const salonId = data?.salon[0]?.salonId || '';
   const { data: salonDetail, refetch } = useFetch<ISalonDetail>(
-    salonQuery.getSalonDetail({ salonId, disabledToFetch: !isOwner }),
+    salonQuery.getSalonDetail({ salonId, disabledToFetch: !isOwnerSsr }),
   );
 
   const { mutateAsync: handleUpdateSalon, isLoading } = useMutate(
@@ -60,12 +61,12 @@ const ProfilePage = () => {
   );
 
   useEffect(() => {
-    if (data && !isOwner) {
+    if (data && !isOwnerSsr) {
       const detailData: IManipulatorItem = { ...(data as any) };
       const newValues = convertManipulatorProfile(detailData);
       setProfileData(newValues);
     }
-  }, [isOwner, data]);
+  }, [isOwnerSsr, data]);
 
   const initialValues: ProfileFormValues = useMemo(() => {
     const addresses = salonDetail?.addresses[0];
@@ -201,7 +202,7 @@ const ProfilePage = () => {
         />
       ) : (
         <>
-          {isOwner ? (
+          {isOwnerSsr ? (
             <SalonProfile
               data={initialValues}
               handleConfirm={() => {
@@ -238,9 +239,9 @@ const ProfilePage = () => {
   );
 };
 
-ProfilePage.getLayout = (page: React.ReactNode) => {
+ProfilePage.getLayout = (page: React.ReactNode, pageProps: PageProps) => {
   return (
-    <Layout isCardLayout withSideMenu>
+    <Layout isCardLayout withSideMenu {...pageProps}>
       {page}
     </Layout>
   );
