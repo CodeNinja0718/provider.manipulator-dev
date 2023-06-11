@@ -11,9 +11,20 @@ const Common = {
 
     if (
       Number(dayjs(value).tz().format('mm')) > 0 &&
-      Number(dayjs(value).tz().format('mm')) < SCHEDULE_DURATION
+      (Number(dayjs(value).tz().format('mm')) < SCHEDULE_DURATION ||
+        Number(dayjs(value).tz().format('mm')) < SCHEDULE_DURATION * 2)
     ) {
-      result = dayjs(value).minute(SCHEDULE_DURATION);
+      let duration = SCHEDULE_DURATION;
+
+      if (Number(dayjs(value).tz().format('mm')) < SCHEDULE_DURATION)
+        duration = SCHEDULE_DURATION;
+      if (
+        Number(dayjs(value).tz().format('mm')) > SCHEDULE_DURATION &&
+        Number(dayjs(value).tz().format('mm')) < SCHEDULE_DURATION * 2
+      )
+        duration = SCHEDULE_DURATION * 2;
+
+      result = dayjs(value).minute(duration);
     }
     return result;
   },

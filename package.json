@@ -5,7 +5,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "test -f .husky/commit-msg && next dev || yarn generate-config-commit && next dev",
+    "install": "husky install",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "build-stats": "cross-env ANALYZE=true npm run build",
@@ -16,7 +17,7 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "test": "jest --watch",
-    "prepare": "husky install",
+    "prepare": "yarn generate-config-commit",
     "convert-svg": "npx @svgr/cli --out-dir dist --ignore-existing -- icons",
     "generate-config-commit": "yarn husky add .husky/commit-msg \"yarn commitlint --edit $1\""
   },

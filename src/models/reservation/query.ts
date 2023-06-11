@@ -6,7 +6,7 @@ const reservationQuery = {
   }: Record<string, unknown>) => ({
     apiUrl: `/reservation/manipulator/reservations`,
     queryKey: ['reservation-list', date, manipulatorId, salonId],
-    enabled: !!date && !!manipulatorId && !!salonId,
+    enabled: !!date && (!!manipulatorId || !!salonId),
     customParams: {
       date,
       manipulatorId,
