@@ -5,6 +5,7 @@ import Layout from 'components/Layout';
 import { useUser } from 'hooks';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
+import type { PageProps } from 'utils/type';
 
 import styles from './styles';
 
@@ -94,9 +95,12 @@ const ProfileCompletionPage = () => {
   );
 };
 
-ProfileCompletionPage.getLayout = (page: React.ReactNode) => {
+ProfileCompletionPage.getLayout = (
+  page: React.ReactNode,
+  pageProps: PageProps,
+) => {
   return (
-    <Layout withSideMenu isCardLayout>
+    <Layout withSideMenu isCardLayout {...pageProps}>
       {page}
     </Layout>
   );
