@@ -51,7 +51,7 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
           <Stack
             direction="row"
             gap={10}
-            alignItems="center"
+            alignItems="start"
             key={field.id}
             flexWrap={'wrap'}
           >
@@ -72,7 +72,9 @@ const WorkTimeSelect: React.FC<WorkTimeSelectProps> = ({
               }}
               disabled={businessHour?.isHoliday}
             />
-            <Typography color="black">～</Typography>
+            <Typography color="black" sx={styles.WorkTimeHash}>
+              ～
+            </Typography>
             <Select
               control={control}
               placeholder="時間"
