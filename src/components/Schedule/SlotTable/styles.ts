@@ -46,7 +46,6 @@ const styles: Record<string, SxProps> = {
   slotColumn: {
     flex: '1',
     width: '100%',
-    maxWidth: 'calc((100vw - 82px) / 5)',
     '&:nth-of-type(2n)': {
       backgroundColor: '#f9f2ed',
     },
