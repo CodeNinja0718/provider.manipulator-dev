@@ -163,6 +163,7 @@ const SchedulePage = ({ isOwnerSsr }: PageProps) => {
             date={validDate}
             loading={isLoading}
             salonId={get(data, 'salon[0].salonId') ?? ''}
+            isOwner={isOwnerSsr}
           />
 
           <NavigateControl

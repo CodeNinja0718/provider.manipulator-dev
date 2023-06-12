@@ -18,6 +18,7 @@ interface SlotTableProps {
   date: string;
   loading?: boolean;
   salonId: string;
+  isOwner: boolean;
 }
 
 const SlotTable: React.FC<SlotTableProps> = ({
@@ -25,6 +26,7 @@ const SlotTable: React.FC<SlotTableProps> = ({
   date,
   loading,
   salonId,
+  isOwner,
 }) => {
   const scrollContainer = useScrollContainer();
   const { data: res } = useFetch<IReservationItem | any>(
@@ -62,6 +64,7 @@ const SlotTable: React.FC<SlotTableProps> = ({
                 date={date}
                 reservations={reservations || []}
                 slotIndex={index}
+                isOwner={isOwner}
               />
             );
           })}

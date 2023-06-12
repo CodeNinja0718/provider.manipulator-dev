@@ -16,6 +16,7 @@ interface SlotColumnProps {
   data: ISalonScheduleItem;
   date: string;
   reservations: IReservationItem[];
+  isOwner?: boolean;
 }
 
 const DATE_TIME_FORMAT = DateFormat.YEAR_MONTH_DATE_HOUR_DASH;
@@ -25,6 +26,7 @@ const SlotColumn: React.FC<SlotColumnProps> = ({
   date,
   reservations,
   slotIndex,
+  isOwner,
 }) => {
   const WORK_TIME_RANGE = useMemo(() => {
     return Common.renderWorkingTimeRange(data, date);
@@ -58,7 +60,12 @@ const SlotColumn: React.FC<SlotColumnProps> = ({
   }, [data, reservations]);
 
   return (
-    <Stack sx={styles.slotColumn}>
+    <Stack
+      sx={{
+        ...styles.slotColumn,
+        maxWidth: !isOwner ? 'initial' : 'calc((100vw - 82px) / 5)',
+      }}
+    >
       <Box
         sx={styles.manipulatorName}
         height={50}
