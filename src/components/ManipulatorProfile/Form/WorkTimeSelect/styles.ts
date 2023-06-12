@@ -27,6 +27,10 @@ const styles: Record<string, SxProps> = {
   checkbox: {
     padding: 0,
   },
+  WorkTimeHash: {
+    marginTop: '25px',
+    transform: 'translate(0px, -50%)',
+  },
 };
 
 export default styles;
