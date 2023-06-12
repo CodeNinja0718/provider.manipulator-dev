@@ -23,7 +23,7 @@ const styles: Record<string, SxProps> = {
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       display: '-webkit-box',
-      wordBreak: 'keep-all',
+      wordBreak: 'break-word',
       WebkitLineClamp: '2',
       WebkitBoxOrient: 'vertical',
       textAlign: 'center',
@@ -46,6 +46,7 @@ const styles: Record<string, SxProps> = {
   slotColumn: {
     flex: '1',
     width: '100%',
+    maxWidth: 'calc((100vw - 82px) / 5)',
     '&:nth-of-type(2n)': {
       backgroundColor: '#f9f2ed',
     },
