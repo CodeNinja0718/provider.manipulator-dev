@@ -136,6 +136,14 @@ const styles = {
     fontWeight: 400,
     ml: 7,
   },
+  selectWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    mb: 24,
+    '.MuiSelect-icon': {
+      padding: 6,
+    },
+  },
 } as Record<string, SxProps<Theme>>;
 
 export default styles;
