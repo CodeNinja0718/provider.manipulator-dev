@@ -27,7 +27,7 @@ const getRedirecttUrl = ({
         (!userData?.isNewRegistration || userData?.type !== 'Owner') &&
         nextUrl === '/complete-profile'
       ) {
-        return '/';
+        return '/register/complete';
       }
     }
     return undefined;

@@ -209,7 +209,7 @@ const SalonProfile: React.FC<SalonProfileProps> = ({
         </Stack>
       </CommonSection>
       <Stack sx={styles.actionBtnGroup} gap={20} mt={40}>
-        {handleConfirm && (
+        {!!handleConfirm && (
           <LoadingButton
             variant="contained"
             fullWidth
@@ -220,7 +220,7 @@ const SalonProfile: React.FC<SalonProfileProps> = ({
             {confirmText}
           </LoadingButton>
         )}
-        {handleCancel && (
+        {!!handleCancel && (
           <LoadingButton
             variant="outlined"
             fullWidth
