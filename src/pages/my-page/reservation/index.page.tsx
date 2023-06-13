@@ -84,51 +84,55 @@ const ReservationPage = ({ isOwnerSsr }: PageProps) => {
       <Box display="flex" mt={40} flexDirection="column" gap={40}>
         <ChangeDate />
         <Box display="flex" flexDirection={'column'} p={{ xs: 20, tablet: 0 }}>
-          <Typography component={'h3'} sx={styles.labelText}>
-            整体師で絞り込む
-          </Typography>
-          <Select
-            value={selectedManipulator}
-            onChange={handleChange}
-            sx={styles.nameSelect}
-            displayEmpty
-            renderValue={
-              selectedManipulator !== ''
-                ? undefined
-                : () => <Box sx={styles.placeholder}>整体師</Box>
-            }
-            IconComponent={(iconProps) => {
-              if (
-                selectedManipulator === '' &&
-                isEmpty(selectedManipulator.toString())
-              ) {
-                return (
-                  <IconButton {...iconProps}>
-                    <ArrowDownSvg />
-                  </IconButton>
-                );
-              }
-              return (
-                <IconButton
-                  onClick={() => {
-                    setSelectedManipulator(userData?._id);
-                    // setSelectedManipulator('');
-                  }}
-                >
-                  <CloseIcon />
-                </IconButton>
-              );
-            }}
-          >
-            <MenuItem key="none" value="" disabled>
-              <Box sx={styles.placeholder}>整体師</Box>
-            </MenuItem>
-            {manipulatorList?.map((salon) => (
-              <MenuItem key={salon.id} value={salon.id}>
-                {salon.name}
-              </MenuItem>
-            ))}
-          </Select>
+          {userData?.type === 'Owner' ? (
+            <>
+              <Typography component={'h3'} sx={styles.labelText}>
+                整体師で絞り込む
+              </Typography>
+              <Select
+                value={selectedManipulator}
+                onChange={handleChange}
+                sx={styles.nameSelect}
+                displayEmpty
+                renderValue={
+                  selectedManipulator !== ''
+                    ? undefined
+                    : () => <Box sx={styles.placeholder}>整体師</Box>
+                }
+                IconComponent={(iconProps) => {
+                  if (
+                    selectedManipulator === '' &&
+                    isEmpty(selectedManipulator.toString())
+                  ) {
+                    return (
+                      <IconButton {...iconProps}>
+                        <ArrowDownSvg />
+                      </IconButton>
+                    );
+                  }
+                  return (
+                    <IconButton
+                      onClick={() => {
+                        setSelectedManipulator(userData?._id);
+                        // setSelectedManipulator('');
+                      }}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  );
+                }}
+              >
+                <MenuItem key="none" value="" disabled>
+                  <Box sx={styles.placeholder}>整体師</Box>
+                </MenuItem>
+                {manipulatorList?.map((salon) => (
+                  <MenuItem key={salon.id} value={salon.id}>
+                    {salon.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </>
+          ) : null}
 
           {res ? (
             <Reservation res={res} reservationList={reservationList} />
