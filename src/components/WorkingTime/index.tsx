@@ -100,7 +100,7 @@ const WorkingTime = ({
   useEffect(() => {
     const temp = manipulatorRes?.map((item) => ({
       id: item._id,
-      name: item.nameKana,
+      name: item.name,
     }));
     if (temp?.length) setManipulatorList(temp);
   }, [manipulatorRes]);
@@ -169,9 +169,9 @@ const WorkingTime = ({
                 <MenuItem key="none" value="" disabled>
                   <Box sx={styles.placeholder}>整体師</Box>
                 </MenuItem>
-                {manipulatorList?.map((salon) => (
-                  <MenuItem key={salon.id} value={salon.id}>
-                    {salon.name}
+                {manipulatorList?.map((mani) => (
+                  <MenuItem key={mani.id} value={mani.id}>
+                    {mani.name}
                   </MenuItem>
                 ))}
               </Select>
