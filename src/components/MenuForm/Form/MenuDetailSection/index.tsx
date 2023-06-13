@@ -2,13 +2,19 @@ import CheckedIcon from '@icons/checked.svg';
 import UnCheckedIcon from '@icons/uncheck.svg';
 import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import CommonSection from 'components/CommonSection';
-import { CheckBox, Radio, TextField } from 'components/Form';
+import { CheckBox, Radio, Select, TextField } from 'components/Form';
 import Label from 'components/Form/Label';
 import NumberField from 'components/Form/NumberField';
 import type { IMenuFormProps } from 'components/MenuForm/models/interface';
 import styles from 'components/MenuForm/styles';
 import { useWatch } from 'react-hook-form';
-import { MENU_INFO, MENU_STATUS_LIST, MENU_TYPE, UNIT } from 'utils/const';
+import {
+  COUPON_EXPIRATION,
+  MENU_INFO,
+  MENU_STATUS_LIST,
+  MENU_TYPE,
+  UNIT,
+} from 'utils/const';
 
 const MenuDetailSection: React.FC<IMenuFormProps> = ({
   control,
@@ -151,19 +157,25 @@ const MenuDetailSection: React.FC<IMenuFormProps> = ({
               <Box mb={10}>
                 <Label label={MENU_INFO.EXPIRATION_COUPON_DATE} required />
               </Box>
-              <Box>
-                <NumberField
+              <Box sx={styles.selectWrapper}>
+                <Select
                   name="couponExpirationDate"
                   control={control}
-                  showEndAdornment={true}
-                  className="maxHeight"
-                  sx={styles.numberField}
-                  unitLabel={
-                    <Typography sx={{ ...styles.unitLabel, mx: 9 }}>
-                      {UNIT.MONTH}
-                    </Typography>
-                  }
+                  data={COUPON_EXPIRATION}
+                  clearable={false}
+                  hideEmptyOption={true}
+                  showError={false}
+                  value={1}
+                  formControlProps={{
+                    style: {
+                      maxWidth: 70,
+                    },
+                  }}
+                  sx={{ maxHeight: 50 }}
                 />
+                <Typography sx={{ ...styles.unitLabel, mx: 9 }}>
+                  {UNIT.MONTH}
+                </Typography>
               </Box>
             </Box>
           </Box>

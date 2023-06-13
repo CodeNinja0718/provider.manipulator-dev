@@ -28,6 +28,7 @@ interface SelectFieldProps<TFormValues extends FieldValues>
   handleChange?: (e?: SelectChangeEvent<unknown>) => void;
   menuListProps?: SxProps<Theme>;
   menuItemSx?: SxProps<Theme>;
+  hideEmptyOption?: boolean;
 }
 
 const Select = <TFormValues extends FieldValues>({
@@ -46,6 +47,7 @@ const Select = <TFormValues extends FieldValues>({
   handleChange,
   menuListProps,
   menuItemSx,
+  hideEmptyOption = false,
   ...props
 }: SelectFieldProps<TFormValues>) => {
   const {
@@ -113,16 +115,18 @@ const Select = <TFormValues extends FieldValues>({
           );
         }}
       >
-        <MenuItem
-          key="none"
-          value=""
-          disabled={required}
-          sx={{
-            ...menuItemSx,
-          }}
-        >
-          <Box sx={styles.placeholder}>{placeholder}</Box>
-        </MenuItem>
+        {!hideEmptyOption && (
+          <MenuItem
+            key="none"
+            value=""
+            disabled={required}
+            sx={{
+              ...menuItemSx,
+            }}
+          >
+            <Box sx={styles.placeholder}>{placeholder}</Box>
+          </MenuItem>
+        )}
         {data.map((item) => (
           <MenuItem
             key={item.id}
