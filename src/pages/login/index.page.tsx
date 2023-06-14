@@ -22,7 +22,7 @@ const LoginPage = () => {
     resolver: yupResolver(schema),
     mode: 'onTouched',
   });
-  const { replace } = useRouter();
+  const router = useRouter();
   const { refetch: refetchUser } = useUser({ enabled: false });
   const { mutateAsync: login, isLoading } = useMutate<
     {
@@ -39,16 +39,16 @@ const LoginPage = () => {
     login(
       { ...values, identity: values.email.toLowerCase() },
       {
-        onSuccess: (data) => {
-          Helper.setToken(
+        onSuccess: async (data) => {
+          await Helper.setToken(
             {
               ...data,
               rememberLogin: remember ? 'true' : 'false',
             },
             remember,
           );
-          refetchUser();
-          replace('/');
+          await refetchUser();
+          router.push('/my-page/reservation');
         },
       },
     );

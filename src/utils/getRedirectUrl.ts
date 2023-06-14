@@ -13,7 +13,7 @@ const getRedirecttUrl = ({
 }): string | undefined => {
   if (token) {
     if (NON_LOGIN_ROUTE.includes(nextUrl)) {
-      return '/';
+      return '/my-page/reservation';
     }
     if (userData) {
       if (

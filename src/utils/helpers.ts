@@ -34,8 +34,8 @@ const Helper = {
     const webCookie = Helper.getWebCookie();
     return get(webCookie, 'role');
   },
-  setToken: (data: Record<string, string>, remember?: boolean): void =>
-    setCookie(`${process.env.PROJECT_NAME}-web-cookie`, data, {
+  setToken: async (data: Record<string, string>, remember?: boolean) => {
+    await setCookie(`${process.env.PROJECT_NAME}-web-cookie`, data, {
       path: '/',
       ...(remember
         ? {
@@ -44,7 +44,8 @@ const Helper = {
         : {
             maxAge: 86400,
           }),
-    }),
+    });
+  },
   setRole: (isOwner: boolean) => setCookie('isOwner', isOwner),
   getRole: () => getCookie('isOwner'),
   removeWebCookie: (): void => {
