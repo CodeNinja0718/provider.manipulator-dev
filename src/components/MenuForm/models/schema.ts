@@ -18,7 +18,9 @@ const schema = object({
     .min(1, 'Please select at least 1 menu type'),
   price: number().when('menuTypes', (menuTypes, s) =>
     menuTypes.includes(MENU_TYPE[0]?.id)
-      ? s.required('単発料金は必須です。').min(0, 'Price must be 0 or greater')
+      ? s
+          .required('単発料金は必須です。')
+          .min(1, 'Price must be greater than 0')
       : s,
   ),
   ticketMount: number()
