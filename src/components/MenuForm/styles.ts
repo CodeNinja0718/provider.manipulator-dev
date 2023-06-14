@@ -63,7 +63,7 @@ const styles = {
     },
     '& label.checkboxControlWrapper': {
       position: 'absolute',
-      left: 110,
+      left: 120,
       top: '50%',
       m: 0,
       p: 0,
