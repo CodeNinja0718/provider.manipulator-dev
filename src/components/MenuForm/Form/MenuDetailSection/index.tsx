@@ -10,6 +10,7 @@ import styles from 'components/MenuForm/styles';
 import { useWatch } from 'react-hook-form';
 import {
   COUPON_EXPIRATION,
+  MENU_DURATION,
   MENU_INFO,
   MENU_STATUS_LIST,
   MENU_TYPE,
@@ -49,19 +50,25 @@ const MenuDetailSection: React.FC<IMenuFormProps> = ({
           required
           sx={styles.numberField}
         />
-        <Box display="flex" alignItems="center" position="relative">
-          <NumberField
+        <Box mb={10}>
+          <Label label={MENU_INFO.ESTIMATED_TIME} required />
+        </Box>
+        <Box display="flex" alignItems="center" position="relative" mb={24}>
+          <Select
             name="estimatedTime"
             control={control}
-            label={MENU_INFO.ESTIMATED_TIME}
-            showEndAdornment={true}
-            required
-            sx={styles.numberField}
-            className="estimatedTimeLabel"
-            unitLabel={
-              <Typography sx={styles.unitLabel}>{UNIT.MINUTE}</Typography>
-            }
+            data={MENU_DURATION}
+            clearable={false}
+            hideEmptyOption={true}
+            showError={false}
+            formControlProps={{
+              style: {
+                maxWidth: 90,
+              },
+            }}
+            sx={{ maxHeight: 50 }}
           />
+          <Typography sx={styles.unitLabel}>{UNIT.MINUTE}</Typography>
           <FormControlLabel
             className="checkboxControlWrapper"
             label={MENU_INFO.DISPLAY_TIME}

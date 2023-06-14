@@ -10,7 +10,7 @@ const useInitValue = () => {
       order: router?.query?.order ? Number(router?.query?.order) : 0,
       estimatedTime: router?.query?.estimatedTime
         ? Number(router?.query?.estimatedTime)
-        : 0,
+        : 30,
       menuTypes: router?.query?.menuTypes
         ? String(router?.query?.menuTypes).split(',')
         : [MENU_TYPE[0]?.id],

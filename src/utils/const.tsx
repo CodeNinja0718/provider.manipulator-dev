@@ -379,3 +379,38 @@ export const COUPON_EXPIRATION = [
     name: '6',
   },
 ];
+
+export const MENU_DURATION = [
+  {
+    id: 30,
+    name: '30',
+  },
+  {
+    id: 60,
+    name: '60',
+  },
+  {
+    id: 90,
+    name: '90',
+  },
+  {
+    id: 120,
+    name: '120',
+  },
+  {
+    id: 150,
+    name: '150',
+  },
+  {
+    id: 180,
+    name: '180',
+  },
+  {
+    id: 210,
+    name: '210',
+  },
+  {
+    id: 240,
+    name: '240',
+  },
+];
