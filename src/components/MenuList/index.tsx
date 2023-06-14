@@ -52,7 +52,8 @@ const MenuList = ({ isOwnerSsr }: PageProps) => {
 
   const fetchMenuData = useCallback(
     async (isPublic = true) => {
-      if (salonId && selectedManipulator) {
+      // if (salonId && selectedManipulator) {
+      if (salonId) {
         const { data: result } = await api.get(`salon/${salonId}/menu/list`, {
           params: {
             page: 1,
@@ -122,7 +123,7 @@ const MenuList = ({ isOwnerSsr }: PageProps) => {
                 renderValue={
                   selectedManipulator !== ''
                     ? undefined
-                    : () => <Box sx={styles.placeholder}>整体師</Box>
+                    : () => <Box>全ての整体師</Box>
                 }
                 IconComponent={(iconProps) => {
                   if (
@@ -148,8 +149,8 @@ const MenuList = ({ isOwnerSsr }: PageProps) => {
                   );
                 }}
               >
-                <MenuItem key="none" value="" disabled>
-                  <Box sx={styles.placeholder}>整体師</Box>
+                <MenuItem key="none" value="">
+                  <Box>全ての整体師</Box>
                 </MenuItem>
                 {manipulatorList?.map((salon) => (
                   <MenuItem key={salon.id} value={salon.id}>
