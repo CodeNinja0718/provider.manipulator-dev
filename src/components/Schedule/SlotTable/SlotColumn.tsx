@@ -5,6 +5,7 @@ import type {
   ISalonScheduleItem,
 } from 'models/schedule/interface';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { DateFormat } from 'utils/const';
 
@@ -26,6 +27,7 @@ const SlotColumn: React.FC<SlotColumnProps> = ({
   reservations,
   slotIndex,
 }) => {
+  const router = useRouter();
   const WORK_TIME_RANGE = useMemo(() => {
     return Common.renderWorkingTimeRange(data, date);
   }, [data, date]);
@@ -82,7 +84,8 @@ const SlotColumn: React.FC<SlotColumnProps> = ({
           <Button
             key={index}
             sx={styles.slotCell}
-            disabled={!isAvailable || isBooked}
+            // disabled={!isAvailable || isBooked}
+            disabled={isBooked}
             data-available={isAvailable}
           >
             {reservation && (
@@ -94,6 +97,7 @@ const SlotColumn: React.FC<SlotColumnProps> = ({
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
+                  router.push(`reservation/${reservation?.id}`);
                 }}
               >
                 予約
