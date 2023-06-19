@@ -7,7 +7,7 @@ import type {
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
-import { DateFormat } from 'utils/const';
+import { DateFormat, WORK_TIMES } from 'utils/const';
 
 import Common from './common';
 import styles from './styles';
@@ -29,7 +29,28 @@ const SlotColumn: React.FC<SlotColumnProps> = ({
 }) => {
   const router = useRouter();
   const WORK_TIME_RANGE = useMemo(() => {
-    return Common.renderWorkingTimeRange(data, date);
+    const workingTimeRangeReturn: string[][] = [];
+    const workingTimeRange = Common.renderWorkingTimeRange(data, date);
+    const workingTimeOnDate = WORK_TIMES.map(
+      (item) =>
+        `${dayjs
+          .utc(date)
+          .tz()
+          .format(DateFormat.YEAR_MONTH_DATE_DASH)} ${item}`,
+    );
+    workingTimeOnDate.pop();
+    workingTimeOnDate.forEach((item) => {
+      const checkTimeAvailableIndex = workingTimeRange.findIndex(
+        (timeRange) => timeRange[0] === item,
+      );
+      if (checkTimeAvailableIndex >= 0) {
+        workingTimeRangeReturn.push(workingTimeRange[checkTimeAvailableIndex]!);
+      } else {
+        workingTimeRangeReturn.push([]);
+      }
+    });
+
+    return workingTimeRangeReturn;
   }, [data, date]);
 
   const availableTimeSlots = useMemo(() => {
@@ -40,18 +61,21 @@ const SlotColumn: React.FC<SlotColumnProps> = ({
     const list = reservations || [];
     let timeBooked: string[] = [];
     let startSlot: Record<string, IReservationItem> = {};
-    list.forEach((item: any) => {
-      if (item.manipulatorId === data._id) {
-        startSlot[dayjs.utc(item.startTime).tz().format(DATE_TIME_FORMAT)] =
-          item;
-        item.slots.forEach((slot: string) =>
+
+    const reservationMatch = list.filter(
+      (item: any) => item.manipulatorId === data._id,
+    );
+    if (reservationMatch && reservationMatch.length) {
+      reservationMatch.forEach((rs) => {
+        startSlot[dayjs.utc(rs.startTime).tz().format(DATE_TIME_FORMAT)] = rs;
+        rs.slots.forEach((slot: string) =>
           timeBooked.push(dayjs.utc(slot).tz().format(DATE_TIME_FORMAT)),
         );
-      } else {
-        startSlot = {};
-        timeBooked = [];
-      }
-    });
+      });
+    } else {
+      startSlot = {};
+      timeBooked = [];
+    }
 
     return {
       timeBooked,
@@ -73,6 +97,7 @@ const SlotColumn: React.FC<SlotColumnProps> = ({
           <span className="triangleIcon"></span>
         </Link>
       </Box>
+
       {WORK_TIME_RANGE.map((range, index) => {
         const isAvailable = availableTimeSlots?.includes(range[0] || '');
         const isBooked = reservationList?.timeBooked?.includes(range[0] || '');
@@ -84,8 +109,8 @@ const SlotColumn: React.FC<SlotColumnProps> = ({
           <Button
             key={index}
             sx={styles.slotCell}
-            // disabled={!isAvailable || isBooked}
-            disabled={isBooked}
+            disabled={!isAvailable || isBooked}
+            // disabled={isBooked}
             data-available={isAvailable}
           >
             {reservation && (
