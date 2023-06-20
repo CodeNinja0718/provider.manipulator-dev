@@ -76,6 +76,7 @@ const MenuList = ({ isOwnerSsr }: PageProps) => {
     setPublicMenus(await fetchMenuData());
     setPrivateMenus(await fetchMenuData(false));
     setLoading(false);
+    return [];
   }, [fetchMenuData]);
 
   useEffect(() => {
