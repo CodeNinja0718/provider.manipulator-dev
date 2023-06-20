@@ -15,16 +15,11 @@ const reservationQuery = {
       limit: 1000,
     },
   }),
-  reservationDetail: ({
-    id,
-    salonId,
-    manipulatorId,
-  }: Record<string, unknown>) => ({
+  reservationDetail: ({ id, salonId }: Record<string, unknown>) => ({
     apiUrl: `/reservation/manipulator/reservations/${id}`,
-    queryKey: ['reservation-detail', id, salonId, manipulatorId],
-    enabled: !!id && !!salonId && !!manipulatorId,
+    queryKey: ['reservation-detail', id, salonId],
+    enabled: !!id && !!salonId,
     customParams: {
-      manipulatorId,
       salonId,
     },
   }),

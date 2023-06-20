@@ -150,19 +150,25 @@ const Common = {
     });
 
     if (!isEmpty(availableTime)) {
-      const availableIndex = Object.assign([], availableTime?.[0]).map(
-        (item: any) => WORK_TIMES.indexOf(item.split(' ')?.[1]),
-      );
+      let currentAvailables: string[] = [];
 
-      const currentAvailable = WORK_TIMES.filter(
-        (_item, index) =>
-          index >= (availableIndex?.[0] || 0) &&
-          index <= (availableIndex?.[1] || WORK_TIMES.length - 1),
-      );
+      availableTime?.forEach((availableTimeItem) => {
+        const availableIndex = Object.assign([], availableTimeItem).map(
+          (item: any) => WORK_TIMES.indexOf(item.split(' ')?.[1]),
+        );
 
-      const currentAvailableSlot = currentAvailable.map((_item, index) => {
+        const currentAvailable = WORK_TIMES.filter(
+          (_item, index) =>
+            index >= (availableIndex?.[0] || 0) &&
+            index <= (availableIndex?.[1] || WORK_TIMES.length - 1),
+        );
+
+        currentAvailables = [...currentAvailables, ...currentAvailable];
+      });
+
+      const currentAvailableSlot = currentAvailables.map((_item, index) => {
         return dayjs(
-          `${date} ${currentAvailable[index]}`,
+          `${date} ${currentAvailables[index]}`,
           DATE_TIME_FORMAT,
         ).format(DATE_TIME_FORMAT);
       });
