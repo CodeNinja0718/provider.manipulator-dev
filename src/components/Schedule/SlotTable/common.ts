@@ -125,17 +125,22 @@ const Common = {
     });
 
     if (!isEmpty(workingTime)) {
-      const workingTimeIndex = Object.assign([], workingTime?.[0]).map(
-        (item: any) => WORK_TIMES.indexOf(item.split(' ')?.[1]),
-      );
+      let workingTimes: string[] = [];
+      workingTime?.forEach((workingTimeItem) => {
+        const workingTimeIndex = Object.assign([], workingTimeItem).map(
+          (item: any) => WORK_TIMES.indexOf(item.split(' ')?.[1]),
+        );
 
-      const currentWorkingTime = WORK_TIMES.filter(
-        (_item, index) =>
-          index >= (workingTimeIndex?.[0] || 0) &&
-          index <= (workingTimeIndex?.[1] || WORK_TIMES.length - 1),
-      );
+        const currentWorkingTime = WORK_TIMES.filter(
+          (_item, index) =>
+            index >= (workingTimeIndex?.[0] || 0) &&
+            index <= (workingTimeIndex?.[1] || WORK_TIMES.length - 1),
+        );
 
-      return Common.getTimeRange(date, currentWorkingTime);
+        workingTimes = [...workingTimes, ...currentWorkingTime];
+      });
+
+      return Common.getTimeRange(date, workingTimes);
     }
     return Common.getTimeRange(date);
   },
